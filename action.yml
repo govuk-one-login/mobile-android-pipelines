@@ -20,6 +20,10 @@ runs:
       with:
         lfs: 'true'
         fetch-depth: 0
+        
+    - name: 'Detect architecture'
+      id: detect-arch
+      uses: $RUNNER_TEMP/mobile-android-pipelines/actions/detect-arch
 
     - name: 'Run code analysis'
       run: |
