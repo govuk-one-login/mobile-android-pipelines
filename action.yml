@@ -23,7 +23,7 @@ runs:
         
     - name: 'Detect architecture'
       id: detect-arch
-      uses: $RUNNER_TEMP/mobile-android-pipelines/actions/detect-arch
+      uses: govuk-one-login/mobile-android-pipelines/actions/detect-arch@main
 
     - name: 'Run code analysis'
       run: |
