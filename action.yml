@@ -4,8 +4,11 @@ icon: 'check-circle'
 color: 'blue'
 inputs:
   GITHUB_TOKEN:
-    description: ''
+    description: 'A GitHub API token that is automatically created by the workflow. This is required for release workflows to upload new release artefacts.'
     required: false
+  SONAR_TOKEN:
+    description: 'A token for SonarCloud to enable the workflow to read and upload new quality reports.'
+    required: true
 runs:
   using: "composite"
   steps:
@@ -25,11 +28,13 @@ runs:
       id: detect-arch
       uses: govuk-one-login/mobile-android-pipelines/actions/detect-arch@main
 
+    - name: Setup GitHub Runner workflow
+      uses: govuk-one-login/mobile-android-pipelines/actions/setup-runner@main
+
     - name: 'Run code analysis'
       run: |
         echo 'analyse code'
       shell: bash
-      
     
     - name: 'Release package'
       if: ${{ github.event_name != 'pull_request' }}
@@ -37,3 +42,12 @@ runs:
         echo 'perform release'
       shell: bash
       
+    - name: SonarQube quality gate check
+      if: ${{ github.event_name == 'pull_request' }}
+      uses: sonarsource/sonarqube-quality-gate-action@d304d050d930b02a896b0f85935344f023928496 # pin@v1.1.0
+        # Force to fail step after specific time.
+      timeout-minutes: 5
+      env:
+        SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}
+      with:
+        scanMetadataReportFile: ${{ github.workspace }}/build/sonar/report-task.txt
