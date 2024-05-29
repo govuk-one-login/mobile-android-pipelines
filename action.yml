@@ -1,0 +1,27 @@
+name: 'Android pipelines'
+description: 'Run pipelines to validate code before merge and deploy afterwards'
+icon: 'check-circle'
+color: 'blue'
+inputs:
+  GITHUB_TOKEN:
+    description: ''
+    required: false
+runs:
+  using: "composite"
+  steps:
+    - name: 'Checkout pipeline scripts'
+      uses: actions/checkout@v4
+      with:
+        repository: 'govuk-one-login/mobile-android-pipelines'
+        path: $RUNNER_TEMP/mobile-android-pipelines
+
+    - name: 'Run code analysis'
+      run: |
+        echo 'analyse code'
+      
+    
+    - name: 'Release package'
+      if: ${{ github.event_name != 'pull_request' }}
+      run: |
+        echo 'perform release'
+      
