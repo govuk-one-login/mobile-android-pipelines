@@ -28,10 +28,12 @@ runs:
     - name: 'Run code analysis'
       run: |
         echo 'analyse code'
+      shell: bash
       
     
     - name: 'Release package'
       if: ${{ github.event_name != 'pull_request' }}
       run: |
         echo 'perform release'
+      shell: bash
       
