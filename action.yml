@@ -23,7 +23,10 @@ runs:
       with:
         lfs: 'true'
         fetch-depth: 0
-        
+
+    - name: Clean workspace
+      uses: govuk-one-login/mobile-android-pipelines/actions/clean-workspace@main
+
     - name: 'Detect architecture'
       id: detect-arch
       uses: govuk-one-login/mobile-android-pipelines/actions/detect-arch@main
