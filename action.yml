@@ -49,7 +49,6 @@ runs:
       id: sonarqube-quality-gate-check
       if: ${{ github.event_name == 'pull_request' }}
       uses: sonarsource/sonarqube-quality-gate-action@d304d050d930b02a896b0f85935344f023928496 # pin@v1.1.0
-      # Force to fail step after specific time.
       timeout-minutes: 5
       env:
         SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}
