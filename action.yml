@@ -41,7 +41,7 @@ runs:
       uses: ./mobile-android-pipelines/actions/setup-runner
       
     - name: Verify Conventional commit standards against latest git tag
-      run: cog check
+      run: cog check -l
       shell: bash
       
     - name: Lint script files
