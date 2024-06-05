@@ -11,5 +11,5 @@ runs:
       shell: bash
     - name: Stop all emulators
       run: |
-        .sh/stopAllEmulators.sh
+        ./mobile-android-pipelines/scripts/stopAllEmulators.sh
       shell: bash
