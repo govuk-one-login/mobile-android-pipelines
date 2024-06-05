@@ -67,15 +67,15 @@ runs:
         SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}
       with:
         scanMetadataReportFile: ${{ github.workspace }}/build/sonar/report-task.txt
-
-    - name: Bundle reports folder
-      uses: ./mobile-android-pipelines/actions/bundle-reports
-
-    - name: Clean workspace
-      uses: ./mobile-android-pipelines/actions/clean-workspace
         
     - name: 'Release package'
       if: ${{ github.event_name != 'pull_request' }}
       run: |
         echo 'perform release'
       shell: bash
+
+    - name: Bundle reports folder
+      uses: ./mobile-android-pipelines/actions/bundle-reports
+
+    - name: Clean workspace
+      uses: ./mobile-android-pipelines/actions/clean-workspace
