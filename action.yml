@@ -39,10 +39,17 @@ runs:
 
     - name: Setup GitHub Runner workflow
       uses: ./mobile-android-pipelines/actions/setup-runner
-
-    - name: 'Run code analysis'
-      run: |
-        echo 'analyse code'
+      
+    - name: Verify Conventional commit standards against latest git tag
+      run: cog check
+      shell: bash
+      
+    - name: Lint script files
+      run: ./.sh/lintProject.sh "" ""
+      shell: bash
+    
+    - name: Run gradle testing suite
+      run: ./.sh/runTestingSuite.sh
       shell: bash
     
     - name: 'Release package'
