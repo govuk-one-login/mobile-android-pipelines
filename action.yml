@@ -9,6 +9,11 @@ inputs:
   SONAR_TOKEN:
     description: 'A token for SonarCloud to enable the workflow to read and upload new quality reports.'
     required: true
+  action_ref:
+    description: 'The gitref of this action that should be used when running the pipeline'
+    required: false
+    default: 'main'
+
 runs:
   using: "composite"
   steps:
@@ -23,6 +28,7 @@ runs:
       with:
         repository: 'govuk-one-login/mobile-android-pipelines'
         path: mobile-android-pipelines
+        ref: ${{ inputs.action_ref }}
 
     - name: Clean workspace
       uses: ./mobile-android-pipelines/actions/clean-workspace
