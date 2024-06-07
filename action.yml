@@ -9,45 +9,73 @@ inputs:
   SONAR_TOKEN:
     description: 'A token for SonarCloud to enable the workflow to read and upload new quality reports.'
     required: true
+  action_ref:
+    description: 'The gitref of this action that should be used when running the pipeline'
+    required: false
+    default: 'main'
+
 runs:
   using: "composite"
   steps:
-    - name: 'Checkout pipeline scripts'
-      uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
-      with:
-        repository: 'govuk-one-login/mobile-android-pipelines'
-        path: $RUNNER_TEMP/mobile-android-pipelines
-        
     - name: 'Checkout codebase'
       uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
       with:
         lfs: 'true'
         fetch-depth: 0
         
+    - name: 'Checkout pipeline scripts'
+      uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+      with:
+        repository: 'govuk-one-login/mobile-android-pipelines'
+        path: mobile-android-pipelines
+        ref: ${{ inputs.action_ref }}
+
+    - name: Clean workspace
+      uses: ./mobile-android-pipelines/actions/clean-workspace
+
     - name: 'Detect architecture'
       id: detect-arch
-      uses: govuk-one-login/mobile-android-pipelines/actions/detect-arch@main
+      uses: ./mobile-android-pipelines/actions/detect-arch
 
     - name: Setup GitHub Runner workflow
-      uses: govuk-one-login/mobile-android-pipelines/actions/setup-runner@main
-
-    - name: 'Run code analysis'
-      run: |
-        echo 'analyse code'
+      uses: ./mobile-android-pipelines/actions/setup-runner
+      
+    - name: Verify Conventional commit standards against latest git tag
+      run: cog check -l
+      shell: bash
+      
+    - name: Lint script files
+      run: ./mobile-android-pipelines/scripts/lintProject.sh "" ""
       shell: bash
     
+    - name: Run gradle testing suite
+      run: ./mobile-android-pipelines/scripts/runTestingSuite.sh
+      shell: bash
+    
+    - name: Upload results to sonarcloud
+      env:
+        SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}
+      run: |
+        ./mobile-android-pipelines/scripts/uploadToSonar.sh "PR" ${{ github.head_ref || github.ref_name }} ${{ github.event.number }}
+      shell: bash
+
+    - name: SonarQube Quality Gate check
+      id: sonarqube-quality-gate-check
+      if: ${{ github.event_name == 'pull_request' }}
+      uses: sonarsource/sonarqube-quality-gate-action@d304d050d930b02a896b0f85935344f023928496 # pin@v1.1.0
+      env:
+        SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}
+      with:
+        scanMetadataReportFile: ${{ github.workspace }}/build/sonar/report-task.txt
+        
     - name: 'Release package'
       if: ${{ github.event_name != 'pull_request' }}
       run: |
         echo 'perform release'
       shell: bash
-      
-    - name: SonarQube quality gate check
-      if: ${{ github.event_name == 'pull_request' }}
-      uses: sonarsource/sonarqube-quality-gate-action@d304d050d930b02a896b0f85935344f023928496 # pin@v1.1.0
-        # Force to fail step after specific time.
-      timeout-minutes: 5
-      env:
-        SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}
-      with:
-        scanMetadataReportFile: ${{ github.workspace }}/build/sonar/report-task.txt
+
+    - name: Bundle reports folder
+      uses: ./mobile-android-pipelines/actions/bundle-reports
+
+    - name: Clean workspace
+      uses: ./mobile-android-pipelines/actions/clean-workspace
