@@ -82,6 +82,7 @@ runs:
       shell: bash
       
     - name: Increment the release version using Conventional Commits
+      id: versioning
       if: ${{ github.event_name != 'pull_request' }}
       run: |
         git config user.name github-actions
@@ -97,26 +98,30 @@ runs:
       shell: bash
       
     - name: Publish the release
-      if: ${{ github.event_name != 'pull_request' }} && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version
+      if: ${{ github.event_name != 'pull_request'
+        && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
       run: |
         git push --follow-tags && git push --tags
       shell: bash
 
     - name: Publish package
-      if: ${{ github.event_name != 'pull_request' }} && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version
+      if: ${{ github.event_name != 'pull_request'
+        && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
       uses: ./mobile-android-pipelines/actions/maven-publish
       with:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
         GITHUB_ACTOR: ${{ github.actor }}
         
     - name: Generate Changelog
-      if: ${{ github.event_name != 'pull_request' }} && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version
+      if: ${{ github.event_name != 'pull_request'
+        && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
       run: |
         cog changelog --at v$(cog -v get-version) > CHANGELOG.md
       shell: bash
 
     - name: Upload Changelog
-      if: ${{ github.event_name != 'pull_request' }} && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version
+      if: ${{ github.event_name != 'pull_request'
+        && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
       id: uploadBuildReports
       uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
       with:
