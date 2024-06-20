@@ -21,14 +21,9 @@ runs:
       uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
       with:
         lfs: 'true'
+        submodules: 'true'
         fetch-depth: 0
-        
-    - name: 'Checkout pipeline scripts'
-      uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
-      with:
-        repository: 'govuk-one-login/mobile-android-pipelines'
-        path: mobile-android-pipelines
-        ref: ${{ inputs.action_ref }}
+        fetch-tags: true
 
     - name: Clean workspace
       uses: ./mobile-android-pipelines/actions/clean-workspace
@@ -77,14 +72,64 @@ runs:
       with:
         scanMetadataReportFile: ${{ github.workspace }}/build/sonar/report-task.txt
         
-    - name: 'Release package'
-      if: ${{ github.event_name != 'pull_request' }}
-      run: |
-        echo 'perform release'
-      shell: bash
-
     - name: Bundle reports folder
       uses: ./mobile-android-pipelines/actions/bundle-reports
+        
+    - name: Build artefact for release
+      if: ${{ github.event_name != 'pull_request' }}
+      run: |
+        ./gradlew assemble
+      shell: bash
+      
+    - name: Increment the release version using Conventional Commits
+      id: versioning
+      if: ${{ github.event_name != 'pull_request' }}
+      run: |
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+          
+        current_version=$(cog -v get-version)
+        echo "current_version=$current_version" >> $GITHUB_OUTPUT
+          
+        cog bump --auto
+          
+        new_version=$(cog -v get-version)
+        echo "new_version=$new_version" >> $GITHUB_OUTPUT
+      shell: bash
+      
+    - name: Publish the release
+      if: ${{ github.event_name != 'pull_request'
+        && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
+      run: |
+        git push --follow-tags && git push --tags
+      shell: bash
+
+    - name: Publish package
+      if: ${{ github.event_name != 'pull_request'
+        && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
+      uses: ./mobile-android-pipelines/actions/maven-publish
+      with:
+        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+        GITHUB_ACTOR: ${{ github.actor }}
+        
+    - name: Generate Changelog
+      if: ${{ github.event_name != 'pull_request'
+        && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
+      run: |
+        cog changelog --at v$(cog -v get-version) > CHANGELOG.md
+      shell: bash
+
+    - name: Upload Changelog
+      if: ${{ github.event_name != 'pull_request'
+        && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
+      id: uploadBuildReports
+      uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+      with:
+        name: CHANGELOG.md
+        retention-days: 1
+        if-no-files-found: error
+        path: |
+          CHANGELOG.md
 
     - name: Clean workspace
       uses: ./mobile-android-pipelines/actions/clean-workspace
