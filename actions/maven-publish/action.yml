@@ -15,10 +15,7 @@ runs:
     - name: Publish API package
       id: maven-publish
       run: |
-        ./gradlew \
-          :modules:api:publish \
-          :modules:impl:publish \
-          :modules:testdouble:publish
+        ./gradlew publish
       shell: bash
       env:
         CI: true
