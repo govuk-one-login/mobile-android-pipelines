@@ -3,7 +3,7 @@ package uk.gov.publishing
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.model.ObjectFactory
-import uk.gov.logging.extensions.ProjectExtensions.infoLog
+import uk.gov.pipelines.extensions.ProjectExtensions.infoLog
 import uk.gov.publishing.handlers.MavenPublishingConfigHandler
 import javax.inject.Inject
 

@@ -12,6 +12,7 @@ import org.gradle.kotlin.dsl.invoke
 import org.gradle.kotlin.dsl.maybeCreate
 import org.gradle.kotlin.dsl.provideDelegate
 import org.gradle.kotlin.dsl.register
+import uk.gov.pipelines.config.ApkConfig
 import uk.gov.pipelines.emulator.SystemImageSource
 import uk.gov.pipelines.extensions.ProjectExtensions.versionCode
 import uk.gov.pipelines.extensions.ProjectExtensions.versionName
@@ -122,13 +123,12 @@ object BaseExtensions {
     }
     
     private fun BaseExtension.configureDefaultConfig(project: Project) {
-        val application: String by project.rootProject.extra
+        val apkConfig: ApkConfig by project.rootProject.extra
 
-        compileSdkVersion(ApkConfig.COMPILE_SDK_VERSION)
-        project.extra.get()
+        compileSdkVersion(apkConfig.sdkVersions.compile)
         defaultConfig {
-            minSdk = ApkConfig.MINIMUM_SDK_VERSION
-            targetSdk = ApkConfig.TARGET_SDK_VERSION
+            minSdk = apkConfig.sdkVersions.minimum
+            targetSdk = apkConfig.sdkVersions.target
             versionCode = project.versionCode
             versionName = project.versionName
 

@@ -8,7 +8,6 @@ import org.gradle.api.publish.maven.MavenPomDeveloperSpec
 import org.gradle.api.publish.maven.MavenPomLicense
 import org.gradle.api.publish.maven.MavenPomLicenseSpec
 import org.gradle.api.publish.maven.MavenPomScm
-import uk.gov.logging.config.ApkConfig
 import javax.inject.Inject
 
 /**
@@ -52,7 +51,7 @@ constructor(
     }
 
     private fun setPropertyConventions() {
-        artifactGroupId.convention(ApkConfig.APPLICATION_ID)
+        artifactGroupId.convention("uk.gov.logging")
 
         url.convention(
             "https://github.com/govuk-one-login/mobile-android-logging"

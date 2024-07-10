@@ -11,7 +11,7 @@ import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.register
 import uk.gov.config.AgpAwarePluginConfiguration
 import uk.gov.config.PluginConfiguration
-import uk.gov.logging.extensions.ProjectExtensions.versionName
+import uk.gov.pipelines.extensions.ProjectExtensions.versionName
 import uk.gov.publishing.MavenPublishingConfigExtension
 import uk.gov.publishing.MavenPublishingConfigPlugin
 import uk.gov.publishing.handlers.MavenPublishingConfigHandler
