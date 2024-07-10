@@ -28,7 +28,14 @@ jobs:
           lfs: 'true'
           fetch-depth: 0
 
-      - name: Run pull request workflow
+      - name: Lint scripts
         run: |
           # Lint all files in the .sh folder / sub-folders
           find ./scripts -type f -exec shellcheck {} +
+
+      - name: Lint build logic
+        run: |
+          cd buildLogic
+          ./gradlew \
+            :plugins:detekt \
+            :plugins:ktlintCheck

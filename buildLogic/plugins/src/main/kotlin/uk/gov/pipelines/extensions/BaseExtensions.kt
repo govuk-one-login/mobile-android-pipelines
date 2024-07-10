@@ -121,7 +121,7 @@ object BaseExtensions {
     fun BaseExtension.baseAndroidConfig(target: Project) {
         configureDefaultConfig(target)
     }
-    
+
     private fun BaseExtension.configureDefaultConfig(project: Project) {
         val apkConfig: ApkConfig by project.rootProject.extra
 
