@@ -67,7 +67,10 @@ configure<SonarExtension> {
         testFolders = moduleSourceFolder.testFolders
     }
 
+    val projectKey: String by project.rootProject.extra
     projectSonarProperties = mapOf<String, Any>(
+        "sonar.projectKey" to projectKey,
+        "sonar.projectName" to projectKey,
         "sonar.sources" to sourceFolders,
         "sonar.tests" to testFolders,
         "sonar.exclusions" to sonarExclusions,
