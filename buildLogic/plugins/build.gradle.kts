@@ -26,8 +26,6 @@ dependencies {
     }
 }
 
-kotlin { jvmToolchain(17) }
-
 ktlint {
     filter {
         exclude { it.file.absolutePath.contains("/build/") }

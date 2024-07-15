@@ -22,9 +22,11 @@ dependencyResolutionManagement {
     }
     versionCatalogs {
         val versionCatalogPath = "../../gradle/libs.versions.toml"
-        if (file(versionCatalogPath).exists()) {
-            create("libs") {
+        create("libs") {
+            if (file(versionCatalogPath).exists()) {
                 from(files(versionCatalogPath))
+            } else {
+                from(files("libs.versions.toml"))
             }
         }
     }
@@ -32,6 +34,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "buildLogic"
 
-include(
-    ":plugins"
-)
+include(":plugins")

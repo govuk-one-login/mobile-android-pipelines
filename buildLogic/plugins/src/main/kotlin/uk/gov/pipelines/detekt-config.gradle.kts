@@ -9,7 +9,6 @@ configure<DetektExtension>(setupDetekt())
 fun setupDetekt(): DetektExtension.() -> Unit = {
     val configDir = "${project.rootProject.projectDir}/config"
     logger.info("Detekt configuration: Using config directory: $configDir")
-
     val detektToolVersion = "1.23.1"
 
     allRules = true

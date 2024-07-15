@@ -23,7 +23,8 @@ open class MavenPublishingConfigExtension @Inject constructor(
      */
     val mavenConfigBlock: MavenPublishingConfigHandler = objects.newInstance(
         MavenPublishingConfigHandler::class.java,
-        projectKey, projectId
+        projectKey,
+        projectId
     )
 
     /**
@@ -61,7 +62,8 @@ open class MavenPublishingConfigExtension @Inject constructor(
             } ?: this.extensions.create(
                 "mavenPublishingConfig",
                 MavenPublishingConfigExtension::class.java,
-                projectKey, projectId
+                projectKey,
+                projectId
             )
     }
 }

@@ -3,8 +3,6 @@ package uk.gov.publishing
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
-import org.gradle.kotlin.dsl.extra
-import org.gradle.kotlin.dsl.provideDelegate
 import uk.gov.publishing.MavenPublishingConfigExtension.Companion.mavenPublishingConfig
 import uk.gov.publishing.defaults.MavenPublishingConfigDefaults
 
