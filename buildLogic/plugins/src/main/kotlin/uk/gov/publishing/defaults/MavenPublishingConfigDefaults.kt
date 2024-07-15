@@ -7,7 +7,9 @@ import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPom
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.extra
 import org.gradle.kotlin.dsl.get
+import org.gradle.kotlin.dsl.provideDelegate
 import org.gradle.kotlin.dsl.register
 import uk.gov.config.AgpAwarePluginConfiguration
 import uk.gov.config.PluginConfiguration
@@ -103,11 +105,13 @@ object MavenPublishingConfigDefaults {
      *   to the GitHub packages registry.
      */
     private fun RepositoryHandler.configureMavenRepositoriesToPublishTo(project: Project) {
+        val projectKey: String by project.rootProject.extra
+
         maven {
             name = "GitHubPackages"
             url =
                 URI.create(
-                    "https://maven.pkg.github.com/govuk-one-login/mobile-android-logging"
+                    "https://maven.pkg.github.com/govuk-one-login/$projectKey"
                 )
             credentials {
                 username = System.getenv("GITHUB_ACTOR")
@@ -139,7 +143,7 @@ object MavenPublishingConfigDefaults {
     private fun MavenPom.defaultPomSetup(extension: MavenPublishingConfigHandler) {
         this.name.set(extension.name)
         this.description.set(extension.description)
-        this.url.set(extension.url)
+
         this.licenses {
             this.license {
                 this.name.set(extension.license.name)

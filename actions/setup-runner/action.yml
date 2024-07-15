@@ -1,5 +1,5 @@
 name: 'Setup Runner'
-description: 'Set up GitHub Runner environment for building the Android Logging Modules'
+description: 'Set up GitHub Runner environment for building the Android Modules'
 inputs:
   jdk-version:
     description: 'The Java Development Kit (JDK) version to use'
