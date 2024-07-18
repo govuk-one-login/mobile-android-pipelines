@@ -51,7 +51,7 @@ abstract class BaseJacocoTaskGenerator(
     abstract val testTaskName: String
 
     /**
-     * The list of exclusion patterns to ignore when generating the jacoco report.
+     * The list of exclusion patterns to ignore when generating the Jacoco report.
      */
     abstract val excludes: List<String>
 
