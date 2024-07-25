@@ -15,9 +15,7 @@ TEST_RUNNER_MODE="$1"
 SHOULD_RUN_DEPENDENCY_CHECKER="$2"
 
 ./gradlew \
-  :buildLogic:plugins:detekt \
   detekt \
-  :buildLogic:plugins:ktlintCheck \
   ktlintCheck \
   vale
 
