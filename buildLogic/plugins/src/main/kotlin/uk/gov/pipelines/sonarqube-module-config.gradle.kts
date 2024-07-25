@@ -49,7 +49,8 @@ val sonarExclusions by project.extra(
     listOf(
         Filters.androidInstrumentationTests,
         Filters.sonar,
-        Filters.testSourceSets
+        Filters.testSourceSets,
+        Filters.developer
     ).flatten().joinToString(separator = ",")
 )
 
