@@ -1,0 +1,8 @@
+config:
+  validation: true
+  warningsAsErrors: true
+
+naming:
+  FunctionNaming:
+    # https://detekt.dev/docs/introduction/compose/#functionnaming-for-compose
+    functionPattern: '[a-zA-Z][a-zA-Z0-9]*'
