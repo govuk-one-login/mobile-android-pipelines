@@ -3,7 +3,7 @@ description: 'Run pipelines to validate code before merge and deploy afterwards'
 icon: 'check-circle'
 color: 'blue'
 inputs:
-  GITHUB_TOKEN:
+  github-token:
     description: 'A GitHub API token that is automatically created by the workflow. This is required for release workflows to upload new release artefacts.'
     required: false
   SONAR_TOKEN:
@@ -44,6 +44,8 @@ runs:
       shell: bash
     
     - name: Run gradle testing suite
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
       run: ./mobile-android-pipelines/scripts/runTestingSuite.sh
       shell: bash
       
