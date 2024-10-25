@@ -13,6 +13,7 @@ import org.gradle.kotlin.dsl.maybeCreate
 import org.gradle.kotlin.dsl.provideDelegate
 import org.gradle.kotlin.dsl.register
 import uk.gov.pipelines.config.ApkConfig
+import uk.gov.pipelines.config.buildLogicDir
 import uk.gov.pipelines.emulator.SystemImageSource
 import uk.gov.pipelines.extensions.ProjectExtensions.versionCode
 import uk.gov.pipelines.extensions.ProjectExtensions.versionName
@@ -34,7 +35,7 @@ object BaseExtensions {
     ) = project.tasks.register("getHardwareProfiles", Exec::class) {
         commandLine(
             "bash",
-            "${project.rootProject.rootDir}/scripts/getAllHardwareProfileNames",
+            "${project.buildLogicDir}/scripts/getAllHardwareProfileNames",
             hardwareProfilesOutput.absolutePath
         )
         onlyIf("The output file doesn't exist") {

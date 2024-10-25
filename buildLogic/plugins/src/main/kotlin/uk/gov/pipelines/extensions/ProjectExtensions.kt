@@ -5,6 +5,7 @@ import org.gradle.api.artifacts.VersionCatalog
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.process.ExecSpec
+import uk.gov.pipelines.config.buildLogicDir
 import uk.gov.pipelines.output.OutputStreamGroup
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
@@ -26,7 +27,7 @@ object ProjectExtensions {
         get() = prop("versionCode", Integer.MAX_VALUE).toInt()
     val Project.versionName
         get() = execWithOutput {
-            workingDir = rootProject.file("scripts")
+            workingDir = buildLogicDir.resolve("./scripts")
             executable = "bash"
             standardOutput = OutputStream.nullOutputStream()
             args = listOf(
