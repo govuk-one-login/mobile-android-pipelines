@@ -48,8 +48,8 @@ runs:
 
     - name: Run gradle testing suite
       env:
-        GITHUB_TOKEN: ${{ inputs.github-token }}
-        GITHUB_ACTOR: ${{ inputs.github-actor }}
+        TOKEN: ${{ inputs.github-token }}
+        USERNAME: ${{ inputs.github-actor }}
       run: ./mobile-android-pipelines/scripts/runTestingSuite.sh
       shell: bash
 
@@ -115,8 +115,8 @@ runs:
         && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
       uses: ./mobile-android-pipelines/actions/maven-publish
       with:
-        GITHUB_TOKEN: ${{ inputs.github-token }}
-        GITHUB_ACTOR: ${{ github.actor }}
+        TOKEN: ${{ inputs.github-token }}
+        USERNAME: ${{ inputs.github-actor }}
 
     - name: Generate Changelog
       if: ${{ github.event_name != 'pull_request'
