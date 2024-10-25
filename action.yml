@@ -6,6 +6,9 @@ inputs:
   github-token:
     description: 'A GitHub API token that is automatically created by the workflow. This is required for release workflows to upload new release artefacts.'
     required: false
+  github-actor:
+    description: 'Service account username that allows publishing packages'
+    required: false
   SONAR_TOKEN:
     description: 'A token for SonarCloud to enable the workflow to read and upload new quality reports.'
     required: true
@@ -34,21 +37,22 @@ runs:
 
     - name: Setup GitHub Runner workflow
       uses: ./mobile-android-pipelines/actions/setup-runner
-      
+
     - name: Verify Conventional commit standards against latest git tag
       run: cog check -l
       shell: bash
-      
+
     - name: Lint script files
       run: ./mobile-android-pipelines/scripts/lintProject.sh "" ""
       shell: bash
-    
+
     - name: Run gradle testing suite
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
+        GITHUB_ACTOR: ${{ inputs.github-actor }}
       run: ./mobile-android-pipelines/scripts/runTestingSuite.sh
       shell: bash
-      
+
     - name: Upload results to sonarcloud (merge)
       if: ${{ github.event_name != 'pull_request' }}
       env:
@@ -56,7 +60,7 @@ runs:
       run: |
         ./mobile-android-pipelines/scripts/sonar/scan "BRANCH" ${{ github.ref_name }}
       shell: bash
-    
+
     - name: Upload results to sonarcloud (pull request)
       if: ${{ github.event_name == 'pull_request' }}
       env:
@@ -73,32 +77,32 @@ runs:
         SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}
       with:
         scanMetadataReportFile: ${{ github.workspace }}/build/sonar/report-task.txt
-        
+
     - name: Bundle reports folder
       uses: ./mobile-android-pipelines/actions/bundle-reports
-        
+
     - name: Build artefact for release
       if: ${{ github.event_name != 'pull_request' }}
       run: |
         ./gradlew assemble
       shell: bash
-      
+
     - name: Increment the release version using Conventional Commits
       id: versioning
       if: ${{ github.event_name != 'pull_request' }}
       run: |
         git config user.name github-actions
         git config user.email github-actions@github.com
-          
+        
         current_version=$(cog -v get-version)
         echo "current_version=$current_version" >> $GITHUB_OUTPUT
-          
+        
         cog bump --auto
-          
+        
         new_version=$(cog -v get-version)
         echo "new_version=$new_version" >> $GITHUB_OUTPUT
       shell: bash
-      
+
     - name: Publish the release
       if: ${{ github.event_name != 'pull_request'
         && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
@@ -111,9 +115,9 @@ runs:
         && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
       uses: ./mobile-android-pipelines/actions/maven-publish
       with:
-        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ inputs.github-token }}
         GITHUB_ACTOR: ${{ github.actor }}
-        
+
     - name: Generate Changelog
       if: ${{ github.event_name != 'pull_request'
         && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
