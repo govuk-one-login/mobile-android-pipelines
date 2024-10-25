@@ -49,7 +49,7 @@ runs:
     - name: Run gradle testing suite
       env:
         TOKEN: ${{ inputs.github-token }}
-        USERNAME: ${{ inputs.github-actor }}
+        USERNAME: 'test'
       run: ./mobile-android-pipelines/scripts/runTestingSuite.sh
       shell: bash
 
