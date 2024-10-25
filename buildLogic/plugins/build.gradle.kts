@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.ktlint)
 }
 
+group = "uk.gov.pipelines"
+
 gradlePlugin {
     plugins {
         register("uk.gov.publishing.config") {
