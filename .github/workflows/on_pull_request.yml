@@ -8,7 +8,6 @@ on:
       - opened
       - reopened
       - synchronize
-      - ready_for_review
   merge_group:
   workflow_dispatch:
 
@@ -17,11 +16,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  onPullRequestJob:
-    name: Verify code base when pull request is published/updated
+  check-scripts:
+    name: Check scripts
     runs-on: ubuntu-latest
-    #    runs-on: ubuntu-20.04-16core # Larger github runner, with KVM acceleration
     steps:
+
       - name: 'Checkout codebase'
         uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
         with:
@@ -33,9 +32,47 @@ jobs:
           # Lint all files in the .sh folder / sub-folders
           find ./scripts -type f -exec shellcheck {} +
 
+  check-build-logic:
+    name: Check build logic
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: 'Checkout codebase'
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+        with:
+          lfs: 'true'
+          fetch-depth: 0
+
       - name: Lint build logic
         run: |
           cd buildLogic
           ./gradlew \
             :plugins:detekt \
             :plugins:ktlintCheck
+
+  check-test-project:
+    name: Check test project
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: 'Checkout codebase'
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+        with:
+          lfs: 'true'
+          fetch-depth: 0
+
+      - name: Setup runner
+        uses: ./actions/setup-runner
+        with:
+          jdk-version: 21
+
+      - name: Check test project
+        run: |
+          cd test-project
+          ./gradlew check
+
+      - name: Run test project instrumentation tests
+        run: |
+          cd test-project
+          ./gradlew googleAtdPixelXLApi33Check
+
