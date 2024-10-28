@@ -1,0 +1,13 @@
+[versions]
+junit = "4.13.2"
+androidXTestJUnit = "1.2.1"
+androidXTestCore = "1.6.1"
+androidXTestRunner = "1.6.2"
+androidXTestOrchestrator = "1.5.1"
+
+[libraries]
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidXTestJUnit" }
+androidx-test-core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "androidXTestCore" }
+androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidXTestRunner" }
+androidx-test-orchestrator = { module = "androidx.test:orchestrator", version.ref = "androidXTestOrchestrator" }
