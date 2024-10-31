@@ -16,13 +16,8 @@ dependencyResolutionManagement {
         mavenCentral()
     }
     versionCatalogs {
-        val versionCatalogPath = "../../gradle/libs.versions.toml"
         create("libs") {
-            if (file(versionCatalogPath).exists()) {
-                from(files(versionCatalogPath))
-            } else {
-                from(files("libs.versions.toml"))
-            }
+            from(files("libs.versions.toml"))
         }
     }
 }
