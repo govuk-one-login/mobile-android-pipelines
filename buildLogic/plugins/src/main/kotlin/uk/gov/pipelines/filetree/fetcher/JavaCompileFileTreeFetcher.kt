@@ -19,32 +19,30 @@ import uk.gov.pipelines.extensions.ProjectExtensions.debugLog
 class JavaCompileFileTreeFetcher(
     project: Project,
     variant: String,
-    capitalisedVariantFlavorName: String
+    capitalisedVariantFlavorName: String,
 ) : BaseFileTreeFetcher(
-    project,
-    variant,
-    capitalisedVariantFlavorName
-) {
-
+        project,
+        variant,
+        capitalisedVariantFlavorName,
+    ) {
     override fun getBaseFileTree(): Provider<FileTree> {
         return project.provider {
             getJavaCompileFileTree(
-                "compile${capitalisedVariantName}JavaWithJavac"
+                "compile${capitalisedVariantName}JavaWithJavac",
             ) ?: getJavaCompileFileTree(
-                "compile${capitalisedVariantFlavorName}JavaWithJavac"
+                "compile${capitalisedVariantFlavorName}JavaWithJavac",
             ) ?: project.fileTree(
-                "${project.buildDir}/intermediates/javac/$variant/classes"
+                "${project.buildDir}/intermediates/javac/$variant/classes",
             )
         }.also {
             project.debugLog(
-                "JavaCompileFileTreeFetcher: ${it.get().files}"
+                "JavaCompileFileTreeFetcher: ${it.get().files}",
             )
         }
     }
 
-    private fun getJavaCompileFileTree(
-        name: String
-    ): FileTree? = performOnFoundTask<JavaCompile, FileTree>(name) {
-        it.destinationDirectory.asFileTree
-    }
+    private fun getJavaCompileFileTree(name: String): FileTree? =
+        performOnFoundTask<JavaCompile, FileTree>(name) {
+            it.destinationDirectory.asFileTree
+        }
 }

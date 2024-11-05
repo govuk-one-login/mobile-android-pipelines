@@ -13,6 +13,6 @@ fun interface PluginConfiguration<ExtensionConfig : Any> {
      */
     fun applyConfig(
         project: Project,
-        extension: ExtensionConfig
+        extension: ExtensionConfig,
     )
 }

@@ -11,7 +11,6 @@ import java.io.File
  * @param project The Gradle [Project] that contain source set folders within `./src`.
  */
 class SourceSetFolder(private val project: Project) {
-
     /**
      * The expected location of a Gradle module's source code folder.
      */
@@ -21,14 +20,15 @@ class SourceSetFolder(private val project: Project) {
      * The production code source set folders, provided as a comma-delimited string.
      */
     val sourceFolders: String
-        get() = (
-            src.listFiles(Filters.sourceFilenameFilter)
-                ?.filterNotNull()
-                ?.joinToString(separator = ",") { it.absolutePath }
-                ?: ""
+        get() =
+            (
+                src.listFiles(Filters.sourceFilenameFilter)
+                    ?.filterNotNull()
+                    ?.joinToString(separator = ",") { it.absolutePath }
+                    ?: ""
             ).also {
-            project.debugLog("SourceSetFolder: Source folders: $it")
-        }
+                project.debugLog("SourceSetFolder: Source folders: $it")
+            }
 
     /**
      * The production code source set folders, provided as a File collection.
@@ -44,14 +44,15 @@ class SourceSetFolder(private val project: Project) {
      * The test code source set folders, provided as a comma-delimited string.
      */
     val testFolders: String
-        get() = (
-            src.listFiles(Filters.testFilenameFilter)
-                ?.filterNotNull()
-                ?.joinToString(separator = ",") { it.absolutePath }
-                ?: ""
+        get() =
+            (
+                src.listFiles(Filters.testFilenameFilter)
+                    ?.filterNotNull()
+                    ?.joinToString(separator = ",") { it.absolutePath }
+                    ?: ""
             ).also {
-            project.debugLog("SourceSetFolder: Test folders: $it")
-        }
+                project.debugLog("SourceSetFolder: Test folders: $it")
+            }
 
     /**
      * Checks to see whether the [source][src] folder exists within the [project].

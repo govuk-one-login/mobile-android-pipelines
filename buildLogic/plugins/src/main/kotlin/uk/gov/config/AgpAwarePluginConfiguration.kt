@@ -13,11 +13,11 @@ import org.gradle.api.Project
  */
 data class AgpAwarePluginConfiguration<ExtensionConfig : Any>(
     private val appPluginConfiguration: PluginConfiguration<ExtensionConfig>,
-    private val libraryPluginConfiguration: PluginConfiguration<ExtensionConfig>
+    private val libraryPluginConfiguration: PluginConfiguration<ExtensionConfig>,
 ) : PluginConfiguration<ExtensionConfig> {
     override fun applyConfig(
         project: Project,
-        extension: ExtensionConfig
+        extension: ExtensionConfig,
     ) {
         if (
             project.pluginManager.hasPlugin("com.android.application")

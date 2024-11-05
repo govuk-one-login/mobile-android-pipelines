@@ -9,7 +9,6 @@ import org.gradle.testing.jacoco.tasks.JacocoReport
  * @property configuration The properties for generating a [JacocoReport] Gradle task.
  */
 fun interface JacocoTaskGenerator {
-
     /**
      * Registers a [JacocoReport] Gradle task to a given project.
      */

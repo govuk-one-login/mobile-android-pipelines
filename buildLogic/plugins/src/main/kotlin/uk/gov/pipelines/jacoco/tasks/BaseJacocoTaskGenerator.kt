@@ -20,9 +20,8 @@ abstract class BaseJacocoTaskGenerator(
     project: Project,
     protected val variant: String,
     val configuration: JacocoCustomConfig,
-    protected val reportsDirectoryPrefix: String = "${project.buildDir}/reports/jacoco"
+    protected val reportsDirectoryPrefix: String = "${project.buildDir}/reports/jacoco",
 ) : JacocoTaskGenerator {
-
     /**
      * TitleCase representation of the Android app or library's build variant.
      */
@@ -63,7 +62,7 @@ abstract class BaseJacocoTaskGenerator(
             excludes = excludes,
             dependencies = listOf(testTaskName, androidCoverageTaskName),
             description = description,
-            reportOutputDir = reportsBaseDirectory
+            reportOutputDir = reportsBaseDirectory,
         )
     }
 }

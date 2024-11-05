@@ -31,12 +31,12 @@ object BaseExtensions {
      */
     fun BaseExtension.generateGetHardwareProfilesTask(
         project: Project,
-        hardwareProfilesOutput: File
+        hardwareProfilesOutput: File,
     ) = project.tasks.register("getHardwareProfiles", Exec::class) {
         commandLine(
             "bash",
             "${project.buildLogicDir}/scripts/getAllHardwareProfileNames",
-            hardwareProfilesOutput.absolutePath
+            hardwareProfilesOutput.absolutePath,
         )
         onlyIf("The output file doesn't exist") {
             !hardwareProfilesOutput.exists()
@@ -53,7 +53,7 @@ object BaseExtensions {
     private fun BaseExtension.generateManagedDeviceConfiguration(
         hardwareProfile: String,
         apiLevel: Int,
-        source: SystemImageSource
+        source: SystemImageSource,
     ) {
         val managedDeviceName = generateDeviceName(hardwareProfile, source, apiLevel)
 
@@ -67,7 +67,7 @@ object BaseExtensions {
             managedDevices {
                 devices {
                     maybeCreate<ManagedVirtualDevice>(
-                        managedDeviceName
+                        managedDeviceName,
                     ).apply {
                         // Use device profiles you typically see in Android Studio.
                         this.device = hardwareProfile
@@ -84,12 +84,13 @@ object BaseExtensions {
     private fun generateDeviceName(
         hardwareProfile: String,
         source: SystemImageSource,
-        apiLevel: Int
+        apiLevel: Int,
     ): String {
-        val hardwareProfileTaskSegment = hardwareProfile.replace(
-            filter,
-            ""
-        ).proseToUpperCamelCase()
+        val hardwareProfileTaskSegment =
+            hardwareProfile.replace(
+                filter,
+                "",
+            ).proseToUpperCamelCase()
 
         val systemImageSourceTaskSegment = source.sanitise()
 
@@ -104,7 +105,7 @@ object BaseExtensions {
     fun BaseExtension.generateDeviceConfigurations(
         hardwareProfileStrings: Collection<String>,
         apiLevelRange: IntRange,
-        systemImageSources: Collection<SystemImageSource> = SystemImageSource.values().asList()
+        systemImageSources: Collection<SystemImageSource> = SystemImageSource.values().asList(),
     ) {
         hardwareProfileStrings.forEach { hardwareProfileString ->
             apiLevelRange.forEach { apiLevel ->
@@ -112,7 +113,7 @@ object BaseExtensions {
                     generateManagedDeviceConfiguration(
                         hardwareProfile = hardwareProfileString,
                         apiLevel = apiLevel,
-                        source = systemImageSource
+                        source = systemImageSource,
                     )
                 }
             }
@@ -134,7 +135,7 @@ object BaseExtensions {
             versionName = project.versionName
 
             consumerProguardFiles(
-                "consumer-rules.pro"
+                "consumer-rules.pro",
             )
 
             packagingOptions {

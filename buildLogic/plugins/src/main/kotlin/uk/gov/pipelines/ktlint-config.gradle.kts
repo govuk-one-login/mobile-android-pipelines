@@ -4,11 +4,11 @@ import org.jlleitschuh.gradle.ktlint.KtlintExtension
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 project.plugins.apply(
-    "org.jlleitschuh.gradle.ktlint"
+    "org.jlleitschuh.gradle.ktlint",
 )
 
 configure<KtlintExtension> {
-    version.set("0.48.2")
+    version.set("0.50.0")
     debug.set(true)
     verbose.set(true)
     android.set(true)

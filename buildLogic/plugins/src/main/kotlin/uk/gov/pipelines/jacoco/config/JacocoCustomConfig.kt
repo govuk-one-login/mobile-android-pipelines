@@ -22,9 +22,8 @@ abstract class JacocoCustomConfig(
     private val project: Project,
     private val classDirectoryFetcher: FileTreeFetcher,
     private val name: String,
-    val testTaskName: String? = null
+    val testTaskName: String? = null,
 ) {
-
     /**
      * Obtain the Jacoco `.exec` or `.ec` execution files to analyse, dependent on the test type.
      */
@@ -60,53 +59,54 @@ abstract class JacocoCustomConfig(
         dependencies: Iterable<*>,
         description: String,
         reportOutputDir: String,
-        group: String = "Jacoco"
+        group: String = "Jacoco",
     ): TaskProvider<JacocoReport> {
         val sourceSetFolder = SourceSetFolder(project)
 
         val classDirectoriesTree = classDirectoryFetcher.getProvider(excludes)
 
-        _createdTask = if (project.tasks.findByName(name) != null) {
-            project.tasks.withType(JacocoReport::class.java).named(name)
-        } else {
-            project.tasks.register(
-                name,
-                JacocoReport::class.java
-            ) {
-                this.dependsOn(dependencies)
-                this.description = description
-                this.group = group
+        _createdTask =
+            if (project.tasks.findByName(name) != null) {
+                project.tasks.withType(JacocoReport::class.java).named(name)
+            } else {
+                project.tasks.register(
+                    name,
+                    JacocoReport::class.java,
+                ) {
+                    this.dependsOn(dependencies)
+                    this.description = description
+                    this.group = group
 
-                this.additionalSourceDirs.from(
-                    sourceSetFolder.sourceFiles
-                ).also {
-                    project.debugLog(
-                        "$name: Configured additional source directories: " +
-                            "${it.files}"
-                    )
-                }
-                this.classDirectories.from(classDirectoriesTree).also {
-                    project.debugLog(
-                        "$name: Configured class directories: " +
-                            "${it.files}"
-                    )
-                }
-                this.executionData.from(this@JacocoCustomConfig.getExecutionData()).also {
-                    project.debugLog(
-                        "$name: Configured execution data: " +
-                            "${it.files}"
-                    )
-                }
-                this.sourceDirectories.from(sourceSetFolder.sourceFiles).also {
-                    project.debugLog(
-                        "$name: Configured source directories: " +
-                            "${it.files}"
-                    )
-                }
+                    this.additionalSourceDirs.from(
+                        sourceSetFolder.sourceFiles,
+                    ).also {
+                        project.debugLog(
+                            "$name: Configured additional source directories: " +
+                                "${it.files}",
+                        )
+                    }
+                    this.classDirectories.from(classDirectoriesTree).also {
+                        project.debugLog(
+                            "$name: Configured class directories: " +
+                                "${it.files}",
+                        )
+                    }
+                    this.executionData.from(this@JacocoCustomConfig.getExecutionData()).also {
+                        project.debugLog(
+                            "$name: Configured execution data: " +
+                                "${it.files}",
+                        )
+                    }
+                    this.sourceDirectories.from(sourceSetFolder.sourceFiles).also {
+                        project.debugLog(
+                            "$name: Configured source directories: " +
+                                "${it.files}",
+                        )
+                    }
 
-                this.setupReportDirectories(project, reportOutputDir)
+                    this.setupReportDirectories(project, reportOutputDir)
+                }
             }
-        }
 
         testTaskName?.let {
             project.tasks.findByName(it)?.finalizedBy(createdTask)

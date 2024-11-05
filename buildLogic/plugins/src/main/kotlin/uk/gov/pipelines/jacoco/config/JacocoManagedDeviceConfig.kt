@@ -20,29 +20,29 @@ class JacocoManagedDeviceConfig(
     private val project: Project,
     classDirectoryFetcher: FileTreeFetcher,
     name: String,
-    testTaskName: String
+    testTaskName: String,
 ) : JacocoCustomConfig(
-    project,
-    classDirectoryFetcher,
-    name,
-    testTaskName
-) {
-
+        project,
+        classDirectoryFetcher,
+        name,
+        testTaskName,
+    ) {
     override fun getExecutionData(): FileTree {
         val managedDeviceTestTask: TaskProvider<ManagedDeviceInstrumentationTestTask> =
             project.tasks.named(
                 testTaskName!!,
-                ManagedDeviceInstrumentationTestTask::class
+                ManagedDeviceInstrumentationTestTask::class,
             )
 
-        val executionDirectory = managedDeviceTestTask.flatMap { connectedTask ->
-            project.provider {
-                connectedTask.getCoverageDirectory()
-                    .asFile
-                    .get()
-                    .absolutePath
+        val executionDirectory =
+            managedDeviceTestTask.flatMap { connectedTask ->
+                project.provider {
+                    connectedTask.getCoverageDirectory()
+                        .asFile
+                        .get()
+                        .absolutePath
+                }
             }
-        }
 
         return project.fileTree(executionDirectory) {
             setIncludes(listOf("**/*.ec"))

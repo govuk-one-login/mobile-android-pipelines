@@ -12,31 +12,29 @@ import uk.gov.pipelines.jacoco.tasks.JacocoManagedDeviceTaskGenerator
 import uk.gov.pipelines.jacoco.tasks.JacocoTaskGenerator
 import uk.gov.pipelines.jacoco.tasks.JacocoUnitTestTaskGenerator
 
-fun LibraryVariant.generateDebugJacocoTasks(
-    project: Project
-) {
-    val capitalisedFlavorName = flavorName?.capitalized() ?: error(
-        "The library variant has no flavor name!"
-    )
+fun LibraryVariant.generateDebugJacocoTasks(project: Project) {
+    val capitalisedFlavorName =
+        flavorName?.capitalized() ?: error(
+            "The library variant has no flavor name!",
+        )
     generateJacocoTasks(
         project,
         buildType.name,
         name,
-        capitalisedFlavorName
+        capitalisedFlavorName,
     )
 }
 
-fun ApplicationVariant.generateDebugJacocoTasks(
-    project: Project
-) {
-    val capitalisedFlavorName = flavorName?.capitalized() ?: error(
-        "The application variant has no flavor name!"
-    )
+fun ApplicationVariant.generateDebugJacocoTasks(project: Project) {
+    val capitalisedFlavorName =
+        flavorName?.capitalized() ?: error(
+            "The application variant has no flavor name!",
+        )
     generateJacocoTasks(
         project,
         buildType.name,
         name,
-        capitalisedFlavorName
+        capitalisedFlavorName,
     )
 }
 
@@ -44,36 +42,40 @@ private fun generateJacocoTasks(
     project: Project,
     buildType: String?,
     name: String,
-    capitalisedFlavorName: String
+    capitalisedFlavorName: String,
 ) {
     if (buildType == "debug") {
-        val classDirectoriesFetcher = generateClassDirectoriesFetcher(
-            project,
-            name,
-            capitalisedFlavorName
-        )
+        val classDirectoriesFetcher =
+            generateClassDirectoriesFetcher(
+                project,
+                name,
+                capitalisedFlavorName,
+            )
 
-        val unitTestReportGenerator = JacocoUnitTestTaskGenerator(
-            project,
-            classDirectoriesFetcher,
-            name
-        )
+        val unitTestReportGenerator =
+            JacocoUnitTestTaskGenerator(
+                project,
+                classDirectoriesFetcher,
+                name,
+            )
 
-        val connectedTestReportGenerator = JacocoConnectedTestTaskGenerator(
-            project,
-            classDirectoriesFetcher,
-            name
-        )
+        val connectedTestReportGenerator =
+            JacocoConnectedTestTaskGenerator(
+                project,
+                classDirectoriesFetcher,
+                name,
+            )
 
-        val managedDeviceTestReportGenerator = JacocoManagedDeviceTaskGenerator(
-            project,
-            classDirectoriesFetcher
-        )
+        val managedDeviceTestReportGenerator =
+            JacocoManagedDeviceTaskGenerator(
+                project,
+                classDirectoriesFetcher,
+            )
 
         listOf(
             unitTestReportGenerator,
             connectedTestReportGenerator,
-            managedDeviceTestReportGenerator
+            managedDeviceTestReportGenerator,
         ).forEach(JacocoTaskGenerator::generate)
     }
 }
@@ -81,22 +83,23 @@ private fun generateJacocoTasks(
 private fun generateClassDirectoriesFetcher(
     project: Project,
     name: String,
-    capitalisedFlavorName: String
-): FileTreesFetcher = FileTreesFetcher(
-    project,
-    KotlinCompileFileTreeFetcher(
+    capitalisedFlavorName: String,
+): FileTreesFetcher =
+    FileTreesFetcher(
         project,
-        name,
-        capitalisedFlavorName
-    ),
+        KotlinCompileFileTreeFetcher(
+            project,
+            name,
+            capitalisedFlavorName,
+        ),
 //    AsmFileTreeFetcher(
 //        project,
 //        name,
 //        capitalisedFlavorName,
 //    ),
-    JavaCompileFileTreeFetcher(
-        project,
-        name,
-        capitalisedFlavorName
+        JavaCompileFileTreeFetcher(
+            project,
+            name,
+            capitalisedFlavorName,
+        ),
     )
-)
