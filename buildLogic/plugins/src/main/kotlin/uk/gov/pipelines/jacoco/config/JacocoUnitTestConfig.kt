@@ -24,26 +24,27 @@ class JacocoUnitTestConfig(
     private val classDirectoryFetcher: FileTreeFetcher,
     private val capitalisedVariantName: String,
     name: String,
-    testTaskName: String = "test${capitalisedVariantName}UnitTest"
+    testTaskName: String = "test${capitalisedVariantName}UnitTest",
 ) : JacocoCustomConfig(
-    project,
-    classDirectoryFetcher,
-    name,
-    testTaskName
-) {
-
+        project,
+        classDirectoryFetcher,
+        name,
+        testTaskName,
+    ) {
     override fun getExecutionData(): FileTree {
-        val unitTestTask = project.tasks.named(
-            testTaskName!!,
-            AndroidUnitTest::class
-        )
-        val unitTestExecutionDataFile = unitTestTask.flatMap { utTask ->
-            project.provider {
-                utTask.jacocoCoverageOutputFile.get().asFile
-                    .parentFile
-                    .absolutePath
+        val unitTestTask =
+            project.tasks.named(
+                testTaskName!!,
+                AndroidUnitTest::class,
+            )
+        val unitTestExecutionDataFile =
+            unitTestTask.flatMap { utTask ->
+                project.provider {
+                    utTask.jacocoCoverageOutputFile.get().asFile
+                        .parentFile
+                        .absolutePath
+                }
             }
-        }
         return project.fileTree(unitTestExecutionDataFile) {
             setIncludes(listOf("${unitTestTask.name}.exec"))
         }

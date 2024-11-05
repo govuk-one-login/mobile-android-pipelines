@@ -26,16 +26,21 @@ object ProjectExtensions {
     val Project.versionCode
         get() = prop("versionCode", Integer.MAX_VALUE).toInt()
     val Project.versionName
-        get() = execWithOutput {
-            workingDir = buildLogicDir.resolve("./scripts")
-            executable = "bash"
-            standardOutput = OutputStream.nullOutputStream()
-            args = listOf(
-                "./getCurrentVersion"
-            )
-        }
+        get() =
+            execWithOutput {
+                workingDir = buildLogicDir.resolve("./scripts")
+                executable = "bash"
+                standardOutput = OutputStream.nullOutputStream()
+                args =
+                    listOf(
+                        "./getCurrentVersion",
+                    )
+            }
 
-    private fun Project.prop(key: String, default: Any): String {
+    private fun Project.prop(
+        key: String,
+        default: Any,
+    ): String {
         return providers.gradleProperty(key).getOrElse(default.toString())
     }
 

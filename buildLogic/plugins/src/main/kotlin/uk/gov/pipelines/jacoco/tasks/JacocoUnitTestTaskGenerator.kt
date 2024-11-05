@@ -22,18 +22,18 @@ class JacocoUnitTestTaskGenerator(
     private val classDirectoriesFetcher: FileTreeFetcher,
     variant: String,
     private val name: String = "jacoco${variant.capitalized()}UnitTestReport",
-    configuration: JacocoCustomConfig = JacocoUnitTestConfig(
-        project,
-        classDirectoriesFetcher,
-        variant.capitalized(),
-        name
-    )
+    configuration: JacocoCustomConfig =
+        JacocoUnitTestConfig(
+            project,
+            classDirectoriesFetcher,
+            variant.capitalized(),
+            name,
+        ),
 ) : BaseJacocoTaskGenerator(
-    project,
-    variant,
-    configuration
-) {
-
+        project,
+        variant,
+        configuration,
+    ) {
     override val androidCoverageTaskName: String =
         "create${capitalisedVariantName}UnitTestCoverageReport"
     override val description =

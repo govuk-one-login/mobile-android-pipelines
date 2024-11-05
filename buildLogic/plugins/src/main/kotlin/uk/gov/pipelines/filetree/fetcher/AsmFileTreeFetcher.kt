@@ -21,32 +21,30 @@ import uk.gov.pipelines.extensions.ProjectExtensions.debugLog
 class AsmFileTreeFetcher(
     project: Project,
     variant: String,
-    capitalisedVariantFlavorName: String
+    capitalisedVariantFlavorName: String,
 ) : BaseFileTreeFetcher(
-    project,
-    variant,
-    capitalisedVariantFlavorName
-) {
-
+        project,
+        variant,
+        capitalisedVariantFlavorName,
+    ) {
     override fun getBaseFileTree(): Provider<FileTree> {
         return project.provider {
             getAsmClassesFileTree(
-                "transform${capitalisedVariantName}ClassesWithAsm"
+                "transform${capitalisedVariantName}ClassesWithAsm",
             ) ?: getAsmClassesFileTree(
-                "transform${capitalisedVariantFlavorName}ClassesWithAsm"
+                "transform${capitalisedVariantFlavorName}ClassesWithAsm",
             ) ?: project.fileTree(
-                "${project.buildDir}/intermediates/asm_instrumented_project_classes/$variant/"
+                "${project.buildDir}/intermediates/asm_instrumented_project_classes/$variant/",
             )
         }.also {
             project.debugLog(
-                "AsmFileTreeFetcher: ${it.get().files}"
+                "AsmFileTreeFetcher: ${it.get().files}",
             )
         }
     }
 
-    private fun getAsmClassesFileTree(
-        name: String
-    ): FileTree? = performOnFoundTask<TransformClassesWithAsmTask, FileTree>(name) {
-        it.classesOutputDir.asFileTree
-    }
+    private fun getAsmClassesFileTree(name: String): FileTree? =
+        performOnFoundTask<TransformClassesWithAsmTask, FileTree>(name) {
+            it.classesOutputDir.asFileTree
+        }
 }

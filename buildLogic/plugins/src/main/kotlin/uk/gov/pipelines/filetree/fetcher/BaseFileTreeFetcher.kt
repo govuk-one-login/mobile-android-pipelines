@@ -23,9 +23,8 @@ import uk.gov.pipelines.extensions.ProjectExtensions.debugLog
 abstract class BaseFileTreeFetcher(
     val project: Project,
     val variant: String,
-    val capitalisedVariantFlavorName: String
+    val capitalisedVariantFlavorName: String,
 ) : FileTreeFetcher {
-
     /**
      * The TitleCase representation of the Android app or library's build variant.
      */
@@ -48,20 +47,18 @@ abstract class BaseFileTreeFetcher(
      */
     inline fun <reified TaskType : Task, Result : Any> performOnFoundTask(
         name: String,
-        noinline action: (TaskType) -> Result
+        noinline action: (TaskType) -> Result,
     ): Result? {
         return project.tasks.withType(TaskType::class.java).firstOrNull {
             it.name == name
         }.also {
             project.debugLog(
-                "${this::class.java.simpleName}: found task: ${it?.name}"
+                "${this::class.java.simpleName}: found task: ${it?.name}",
             )
         }?.let(action::invoke)
     }
 
-    override fun getProvider(
-        excludes: List<String>
-    ): Provider<FileTree> {
+    override fun getProvider(excludes: List<String>): Provider<FileTree> {
         return project.provider {
             getBaseFileTree().get().matching(PatternSet().exclude(excludes))
         }

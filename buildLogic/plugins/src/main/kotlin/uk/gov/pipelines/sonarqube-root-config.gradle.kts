@@ -21,8 +21,8 @@ configure<SonarExtension> {
             "sonar.projectVersion" to "${project.versionName}-${project.versionCode}",
             "sonar.organization" to "govuk-one-login",
             "sonar.sourceEncoding" to "UTF-8",
-            "sonar.sources" to ""
-        )
+            "sonar.sources" to "",
+        ),
     )
 
     properties {

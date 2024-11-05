@@ -4,7 +4,7 @@ import org.jlleitschuh.gradle.ktlint.KtlintExtension
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 project.plugins.apply(
-    "org.jlleitschuh.gradle.ktlint"
+    "org.jlleitschuh.gradle.ktlint",
 )
 
 configure<KtlintExtension> {

@@ -39,7 +39,7 @@ object MavenPublishingConfigDefaults {
     private val defaultLibConfig =
         PluginConfiguration {
                 project: Project,
-                extension: MavenPublishingConfigExtension
+                extension: MavenPublishingConfigExtension,
             ->
 
             project.configure<LibraryExtension> {
@@ -59,7 +59,7 @@ object MavenPublishingConfigDefaults {
      */
     private fun PublishingExtension.configureMavenPublishing(
         project: Project,
-        extension: MavenPublishingConfigExtension
+        extension: MavenPublishingConfigExtension,
     ) {
         repositories {
             configureMavenRepositoriesToPublishTo(project)
@@ -76,7 +76,7 @@ object MavenPublishingConfigDefaults {
                 }
                 pom {
                     defaultPomSetup(
-                        extension.mavenConfigBlock
+                        extension.mavenConfigBlock,
                     )
                 }
             }
@@ -111,7 +111,7 @@ object MavenPublishingConfigDefaults {
             name = "GitHubPackages"
             url =
                 URI.create(
-                    "https://maven.pkg.github.com/govuk-one-login/$projectKey"
+                    "https://maven.pkg.github.com/govuk-one-login/$projectKey",
                 )
             credentials {
                 username = System.getenv("GITHUB_ACTOR")
@@ -133,7 +133,7 @@ object MavenPublishingConfigDefaults {
     val defaultSettings =
         AgpAwarePluginConfiguration(
             appPluginConfiguration = nothing,
-            libraryPluginConfiguration = defaultLibConfig
+            libraryPluginConfiguration = defaultLibConfig,
         )
 
     /**

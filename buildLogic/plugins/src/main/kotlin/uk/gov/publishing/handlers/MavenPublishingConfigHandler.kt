@@ -19,65 +19,65 @@ import javax.inject.Inject
  * The [name] and [description] properties are manually declared on a per-gradle-module basis.
  */
 open class MavenPublishingConfigHandler
-@Inject
-constructor(
-    objects: ObjectFactory,
-    private val projectKey: String,
-    private val projectId: String
-) : MavenPomDeveloperSpec,
-    MavenPomLicenseSpec {
-    val artifactGroupId: Property<String> = objects.property(String::class.java)
+    @Inject
+    constructor(
+        objects: ObjectFactory,
+        private val projectKey: String,
+        private val projectId: String,
+    ) : MavenPomDeveloperSpec,
+        MavenPomLicenseSpec {
+        val artifactGroupId: Property<String> = objects.property(String::class.java)
 
-    val description: Property<String> = objects.property(String::class.java)
-    val name: Property<String> = objects.property(String::class.java)
+        val description: Property<String> = objects.property(String::class.java)
+        val name: Property<String> = objects.property(String::class.java)
 
-    val url: Property<String> = objects.property(String::class.java)
-    val developer: MavenPomDeveloper = objects.newInstance(MavenPomDeveloper::class.java)
-    val license: MavenPomLicense = objects.newInstance(MavenPomLicense::class.java)
-    val scm: MavenPomScm = objects.newInstance(MavenPomScm::class.java)
+        val url: Property<String> = objects.property(String::class.java)
+        val developer: MavenPomDeveloper = objects.newInstance(MavenPomDeveloper::class.java)
+        val license: MavenPomLicense = objects.newInstance(MavenPomLicense::class.java)
+        val scm: MavenPomScm = objects.newInstance(MavenPomScm::class.java)
 
-    init {
-        setPropertyConventions()
+        init {
+            setPropertyConventions()
+        }
+
+        override fun developer(action: Action<in MavenPomDeveloper>?) {
+            action?.execute(developer)
+        }
+
+        override fun license(action: Action<in MavenPomLicense>?) {
+            action?.execute(license)
+        }
+
+        fun scm(action: Action<in MavenPomScm>?) {
+            action?.execute(scm)
+        }
+
+        private fun setPropertyConventions() {
+            artifactGroupId.convention(projectId)
+
+            url.convention(
+                "https://github.com/govuk-one-login/$projectKey",
+            )
+
+            developer.id.convention("idCheckTeam")
+            developer.name.convention("ID Check Team")
+            developer.email.convention(
+                "di-dcmaw-id-check-team@digital.cabinet-office.gov.uk",
+            )
+
+            license.name.convention("MIT License")
+            license.url.convention("https://choosealicense.com/licenses/mit/")
+
+            scm.connection.convention(
+                "scm:git:git://github.com/govuk-one-login" +
+                    "/$projectKey.git",
+            )
+            scm.developerConnection.convention(
+                "scm:git:ssh://github.com/govuk-one-login" +
+                    "/$projectKey.git",
+            )
+            scm.url.convention(
+                "http://github.com/govuk-one-login/$projectKey",
+            )
+        }
     }
-
-    override fun developer(action: Action<in MavenPomDeveloper>?) {
-        action?.execute(developer)
-    }
-
-    override fun license(action: Action<in MavenPomLicense>?) {
-        action?.execute(license)
-    }
-
-    fun scm(action: Action<in MavenPomScm>?) {
-        action?.execute(scm)
-    }
-
-    private fun setPropertyConventions() {
-        artifactGroupId.convention(projectId)
-
-        url.convention(
-            "https://github.com/govuk-one-login/$projectKey"
-        )
-
-        developer.id.convention("idCheckTeam")
-        developer.name.convention("ID Check Team")
-        developer.email.convention(
-            "di-dcmaw-id-check-team@digital.cabinet-office.gov.uk"
-        )
-
-        license.name.convention("MIT License")
-        license.url.convention("https://choosealicense.com/licenses/mit/")
-
-        scm.connection.convention(
-            "scm:git:git://github.com/govuk-one-login" +
-                "/$projectKey.git"
-        )
-        scm.developerConnection.convention(
-            "scm:git:ssh://github.com/govuk-one-login" +
-                "/$projectKey.git"
-        )
-        scm.url.convention(
-            "http://github.com/govuk-one-login/$projectKey"
-        )
-    }
-}

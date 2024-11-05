@@ -15,7 +15,7 @@ listOf(
     "uk.gov.pipelines.jvm-toolchains",
     "uk.gov.pipelines.ktlint-config",
     "uk.gov.pipelines.sonarqube-module-config",
-    "uk.gov.publishing.config"
+    "uk.gov.publishing.config",
 ).forEach {
     project.plugins.apply(it)
 }

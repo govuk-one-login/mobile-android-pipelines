@@ -22,7 +22,7 @@ dependencies {
         libs.detekt.gradle,
         libs.kotlin.gradle.plugin,
         libs.ktlint.gradle,
-        libs.sonarqube.gradle
+        libs.sonarqube.gradle,
     ).forEach { dependency ->
         implementation(dependency)
     }
