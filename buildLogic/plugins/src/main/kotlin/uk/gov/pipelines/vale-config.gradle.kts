@@ -1,12 +1,17 @@
 package uk.gov.pipelines
 
+import uk.gov.pipelines.extensions.valeConfigFile
+
 val valeSync =
     rootProject.tasks.register("valeSync", Exec::class.java) {
         description = "Lint the project's markdown and text files with Vale."
         group = "verification"
         executable = "vale"
         setArgs(
-            listOf("sync"),
+            listOf(
+                "sync",
+                "--config=${project.valeConfigFile()}",
+            ),
         )
     }
 
@@ -19,7 +24,8 @@ val vale =
         setArgs(
             listOf(
                 "--no-wrap",
-                "--config=${rootProject.projectDir}/.vale.ini",
+                "--config=${project.valeConfigFile()}",
+                "--glob=!**/{build,.gradle}/**",
                 rootProject.projectDir.toString(),
             ),
         )
