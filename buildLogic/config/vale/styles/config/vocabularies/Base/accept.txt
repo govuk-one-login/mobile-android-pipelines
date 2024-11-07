@@ -1,6 +1,7 @@
 (?i)Coroutine
 (?i)Coroutines
 (?i)Detekt
+(?i)GitHub
 (?i)GOV
 (?i)JIRA
 (?i)Zsh
@@ -9,7 +10,6 @@ APIs
 DAD
 DCMAW
 Dp
-GitHub
 GNU
 GPG
 JDK
@@ -33,17 +33,20 @@ VIZes
 [Kk]otlin
 [Ss]nackbar
 [Vv]eriff
-
 [Ww]halebrew
+
+accessors
 alphagov
 async
 avdmanager
+buildLogic
 clazz
 composability
 crashlytics
 enum
 iProov
 mockito
+namespace
 onResume
 onStop
 runBlocking
