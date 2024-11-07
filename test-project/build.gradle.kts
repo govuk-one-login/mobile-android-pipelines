@@ -2,17 +2,18 @@ import uk.gov.pipelines.config.ApkConfig
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
+    id("uk.gov.pipelines.android-root-config")
     id("uk.gov.pipelines.android-lib-config") apply false
 }
 
 buildscript {
-    // The Github repository name
+    // The GitHub repository name
     val projectKey: String by rootProject.extra("mobile-android-pipelines")
 
     // The Maven group ID
     val projectId: String by rootProject.extra("uk.gov.pipelines")
 
-    // Relative directory of the buildLogic included build
+    // Relative directory of the included build logic build
     val buildLogicDir: String by rootProject.extra("../buildLogic")
 }
 
