@@ -28,10 +28,11 @@ val detektReportFiles by project.extra(
 val jacocoXmlReportFiles by project.extra(
     generateCommaSeparatedFiles(
         listOf(
+            // unit test reports, split to stop vale reading line
+            "**/reports/jacoco" +
+                "/**/*.xml",
             // android instrumentation test reports
             "**/reports/coverage/**/*.xml",
-            // unit test reports
-            "**/reports/jacoco/**/*.xml",
         ),
     ),
 )

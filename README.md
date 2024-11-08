@@ -14,7 +14,7 @@ If used as part of a pull request workflow, the pipeline will:
 - Checkout the code (both scripts and repository)
 - Perform relevant setup of the GitHub runner
 - Run static code analysis (such as linting)
-- Run unit & instrumetation tests
+- Run unit & instrumentation tests
 - Upload results to SonarCloud
 - Ensure that SonarCloud results pass to required level
 
