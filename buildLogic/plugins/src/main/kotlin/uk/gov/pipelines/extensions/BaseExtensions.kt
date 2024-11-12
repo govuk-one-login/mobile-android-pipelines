@@ -104,11 +104,11 @@ object BaseExtensions {
      */
     fun BaseExtension.generateDeviceConfigurations(
         hardwareProfileStrings: Collection<String>,
-        apiLevelRange: IntRange,
+        androidApiLevels: Collection<Int>,
         systemImageSources: Collection<SystemImageSource> = SystemImageSource.values().asList(),
     ) {
         hardwareProfileStrings.forEach { hardwareProfileString ->
-            apiLevelRange.forEach { apiLevel ->
+            androidApiLevels.forEach { apiLevel ->
                 systemImageSources.forEach { systemImageSource ->
                     generateManagedDeviceConfiguration(
                         hardwareProfile = hardwareProfileString,

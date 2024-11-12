@@ -1,4 +1,6 @@
 import uk.gov.pipelines.config.ApkConfig
+import uk.gov.pipelines.emulator.EmulatorConfig
+import uk.gov.pipelines.emulator.SystemImageSource
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
@@ -27,4 +29,15 @@ val apkConfig by rootProject.extra(
             override val compile = 34
         }
     }
+)
+
+val emulatorConfig by rootProject.extra(
+    EmulatorConfig(
+        systemImageSources = setOf(SystemImageSource.AOSP_ATD),
+        androidApiLevels = setOf(
+            apkConfig.sdkVersions.minimum,
+            apkConfig.sdkVersions.compile,
+        ),
+        deviceFilters = setOf("Pixel XL"),
+    )
 )
