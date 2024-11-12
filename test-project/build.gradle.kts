@@ -35,7 +35,8 @@ val emulatorConfig by rootProject.extra(
     EmulatorConfig(
         systemImageSources = setOf(SystemImageSource.AOSP_ATD),
         androidApiLevels = setOf(
-            apkConfig.sdkVersions.minimum,
+            // Cannot use ATD below API 30
+            30,
             apkConfig.sdkVersions.compile,
         ),
         deviceFilters = setOf("Pixel XL"),
