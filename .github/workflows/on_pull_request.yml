@@ -74,5 +74,5 @@ jobs:
       - name: Run test project instrumentation tests
         run: |
           cd test-project
-          ./gradlew googleAtdPixelXLApi33Check
+          ./gradlew allDevicesCheck
 
