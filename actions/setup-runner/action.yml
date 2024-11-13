@@ -98,12 +98,18 @@ runs:
 
     - name: Install Gemfile dependencies
       run: |
+        cd ~
+        rm -rf .rbenv/
+        git clone git://github.com/sstephenson/rbenv.git .rbenv
+        echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+        echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+        git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+        source ~/.bashrc
         export LC_ALL=en_GB.UTF-8
         export LANG=en_GB.UTF-8
         export GEM_HOME=$HOME/.gem
         export GEM_PATH=$HOME/.gem
         eval "$(rbenv init - bash)"
-        
         rbenv install --skip-existing
         bundle install
       shell: bash
