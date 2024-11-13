@@ -1,0 +1,16 @@
+name: 'Setup Ruby on the runner'
+description: 'Set up GitHub Runner environment for building the Android Modules'
+runs:
+  using: "composite"
+  steps:
+    - name: Install Gemfile dependencies
+      run: |
+        brew install rbenv
+        brew install rbenv-bundler
+        export LANG=en_GB.UTF-8
+        export GEM_HOME=$HOME/.gem
+        export GEM_PATH=$HOME/.gem
+        eval "$(rbenv init - bash)"
+        rbenv install --skip-existing
+        bundle install
+      shell: bash
