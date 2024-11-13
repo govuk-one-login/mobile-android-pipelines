@@ -37,7 +37,7 @@ val emulatorConfig by rootProject.extra(
         androidApiLevels = setOf(
             // Cannot use Android Test Device (ATD) below API 30
             30,
-            apkConfig.sdkVersions.compile,
+            33,
         ),
         deviceFilters = setOf("Pixel XL"),
     )
