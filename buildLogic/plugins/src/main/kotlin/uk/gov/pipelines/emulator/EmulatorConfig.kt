@@ -1,7 +1,7 @@
 package uk.gov.pipelines.emulator
 
 /**
- * Configuration for the emulator config plugin.
+ * Configuration for the emulator configuration plugin.
  *
  * @param[systemImageSources] Set of system images to generate managed devices for
  * @param[androidApiLevels] Set of Android API levels generate managed devices for
