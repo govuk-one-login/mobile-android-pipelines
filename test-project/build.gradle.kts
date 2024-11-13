@@ -35,7 +35,7 @@ val emulatorConfig by rootProject.extra(
     EmulatorConfig(
         systemImageSources = setOf(SystemImageSource.AOSP_ATD),
         androidApiLevels = setOf(
-            // Cannot use ATD below API 30
+            // Cannot use Android Test Device (ATD) below API 30
             30,
             apkConfig.sdkVersions.compile,
         ),
