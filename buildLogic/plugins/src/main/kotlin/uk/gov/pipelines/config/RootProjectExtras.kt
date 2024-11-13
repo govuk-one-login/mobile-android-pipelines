@@ -21,10 +21,10 @@ internal val Project.buildLogicDir: File
 private fun Project.rootProjectExtra(key: String): String {
     // Gradle may create a temporary project and run this code while
     // generating accessors for pre-compiled script plugins.
-    // There is little documentation around this but some related discussion
-    // can be found at https://github.com/gradle/gradle/issues/15383.
-    // The extras are not available or required during this pass, so we can
-    // just return an empty string.
+    // There is little documentation around this but you can find some
+    // related discussion at https://github.com/gradle/gradle/issues/15383.
+    // The extras aren't available or required during this pass, so just
+    // return an empty string.
     if (rootProject.name == "gradle-kotlin-dsl-accessors") {
         return ""
     }
