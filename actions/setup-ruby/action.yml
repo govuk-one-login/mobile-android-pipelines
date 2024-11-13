@@ -7,7 +7,6 @@ runs:
       run: |
         brew install rbenv
         brew install rbenv-bundler
-        rvm pkg install openssl --with-openssl-dir="$(brew --prefix openssl)"
         export LANG=en_GB.UTF-8
         export GEM_HOME=$HOME/.gem
         export GEM_PATH=$HOME/.gem
