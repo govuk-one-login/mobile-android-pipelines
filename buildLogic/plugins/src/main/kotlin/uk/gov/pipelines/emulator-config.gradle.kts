@@ -1,9 +1,7 @@
 package uk.gov.pipelines
 
 import com.android.build.gradle.BaseExtension
-import uk.gov.pipelines.emulator.SystemImageSource
-import uk.gov.pipelines.emulator.SystemImageSource.GOOGLE_ATD
-import uk.gov.pipelines.emulator.SystemImageSource.GOOGLE_PLAYSTORE
+import uk.gov.pipelines.emulator.EmulatorConfig
 import uk.gov.pipelines.extensions.BaseExtensions.generateDeviceConfigurations
 import uk.gov.pipelines.extensions.BaseExtensions.generateGetHardwareProfilesTask
 import java.io.BufferedReader
@@ -14,14 +12,7 @@ plugins {
     id("kotlin-android")
 }
 
-private val initialHardwareProfileFilter: (String) -> Boolean = {
-    it.contains("pixel xl", ignoreCase = true)
-}
-private val initialSystemImageSources =
-    listOf(
-        GOOGLE_ATD,
-        GOOGLE_PLAYSTORE,
-    )
+val emulatorConfig: EmulatorConfig by rootProject.extra
 
 /**
  * Configure both app and library modules via the [BaseExtension].
@@ -32,15 +23,6 @@ private val initialSystemImageSources =
  * made.
  */
 configure<BaseExtension> {
-    /* Extra properties for the plugin. Defers to the root project values. Uses the underscored variants
-     * as the initial value if the root project has undefined values.
-     */
-    val minAndroidVersion: Int by project.extra(29)
-    val targetAndroidVersion: Int by project.extra(34)
-    val managedApiLevels: IntRange by project.extra((minAndroidVersion..targetAndroidVersion))
-    val hardwareProfileFilter: (String) -> Boolean by project.extra(initialHardwareProfileFilter)
-    val systemImageSources: List<SystemImageSource> by project.extra(initialSystemImageSources)
-
     val consoleOutputStream = ByteArrayOutputStream()
     val hardwareProfilesList =
         rootProject.file(
@@ -63,10 +45,15 @@ configure<BaseExtension> {
     val hardwareProfileStrings: List<String> =
         BufferedReader(FileReader(hardwareProfilesList))
             .readLines()
+            .filter { profile ->
+                emulatorConfig.deviceFilters.any { filter ->
+                    profile.contains(filter, ignoreCase = true)
+                }
+            }
 
     generateDeviceConfigurations(
-        apiLevelRange = managedApiLevels,
-        hardwareProfileStrings = hardwareProfileStrings.filter(hardwareProfileFilter),
-        systemImageSources = systemImageSources,
+        androidApiLevels = emulatorConfig.androidApiLevels,
+        hardwareProfileStrings = hardwareProfileStrings,
+        systemImageSources = emulatorConfig.systemImageSources,
     )
 }

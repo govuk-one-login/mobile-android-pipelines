@@ -1,4 +1,6 @@
 import uk.gov.pipelines.config.ApkConfig
+import uk.gov.pipelines.emulator.EmulatorConfig
+import uk.gov.pipelines.emulator.SystemImageSource
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
@@ -27,4 +29,17 @@ val apkConfig by rootProject.extra(
             override val compile = 34
         }
     }
+)
+
+val emulatorConfig by rootProject.extra(
+    EmulatorConfig(
+        systemImageSources = setOf(SystemImageSource.AOSP_ATD),
+        androidApiLevels = setOf(
+            // Cannot use Android Test Device (ATD) below API 30
+            30,
+            // The emulator would not start in the Github Actions runner when using API 34
+            33,
+        ),
+        deviceFilters = setOf("Pixel XL"),
+    )
 )
