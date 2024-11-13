@@ -11,6 +11,4 @@ runs:
         export GEM_HOME=$HOME/.gem
         export GEM_PATH=$HOME/.gem
         eval "$(rbenv init - bash)"
-        rbenv install --skip-existing
-        bundle install
       shell: bash

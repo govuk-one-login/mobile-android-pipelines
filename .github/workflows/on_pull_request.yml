@@ -66,6 +66,9 @@ jobs:
         with:
           jdk-version: 21
 
+      - name: Setup Ruby on the runner
+        uses: ./actions/setup-ruby
+
       - name: Check test project
         run: |
           cd test-project
