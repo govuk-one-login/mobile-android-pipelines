@@ -37,6 +37,7 @@ val emulatorConfig by rootProject.extra(
         androidApiLevels = setOf(
             // Cannot use Android Test Device (ATD) below API 30
             30,
+            // The emulator would not start in the Github Actions runner when using API 34
             33,
         ),
         deviceFilters = setOf("Pixel XL"),
