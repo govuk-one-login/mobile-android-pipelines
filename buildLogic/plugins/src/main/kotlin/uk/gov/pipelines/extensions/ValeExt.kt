@@ -6,7 +6,7 @@ import java.io.File
 
 /**
  * Get the custom vale configuration file defined by the project.
- * If a custom vale configuration does not exist, get the default file.
+ * If a custom vale configuration doesn't exist, get the default file.
  */
 internal fun Project.valeConfigFile(): File {
     val overrideFile = file("${rootProject.projectDir}/.vale.ini")

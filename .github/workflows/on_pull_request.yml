@@ -43,6 +43,17 @@ jobs:
           lfs: 'true'
           fetch-depth: 0
 
+      - name: Setup runner
+        uses: ./actions/setup-runner
+        with:
+          jdk-version: 21
+
+      - name: Lint build logic documentation
+        shell: bash
+        run: |
+          cd buildLogic
+          ./scripts/lintBuildLogicDocs.sh .
+
       - name: Lint build logic
         run: |
           cd buildLogic
