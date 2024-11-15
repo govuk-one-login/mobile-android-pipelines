@@ -6,7 +6,7 @@ import java.io.File
 
 private object RootProjectExtras {
     /**
-     * The directory of the buildLogic project, within mobile-android-pipelines project,
+     * The directory of the `buildLogic` project, within mobile-android-pipelines project,
      * relative to the root of the composite Gradle project.
      */
     const val BUILD_LOGIC_DIR = "buildLogicDir"
@@ -20,7 +20,7 @@ internal val Project.buildLogicDir: File
 
 private fun Project.rootProjectExtra(key: String): String {
     // Gradle may create a temporary project and run this code while
-    // generating accessors for pre-compiled script plugins.
+    // generating `accessors` for pre-compiled script plugins.
     // There is little documentation around this but you can find some
     // related discussion at https://github.com/gradle/gradle/issues/15383.
     // The extras aren't available or required during this pass, so just
