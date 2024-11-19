@@ -8,16 +8,14 @@ import com.android.build.api.dsl.LibraryExtension as DslLibraryExtension
 
 project.plugins.apply("uk.gov.pipelines.jacoco-common-config")
 
-val depJacoco: String by rootProject.extra
-
 project.configure<DslLibraryExtension> {
-    decorateExtensionWithJacoco(depJacoco).also {
+    decorateExtensionWithJacoco().also {
         project.debugLog("Applied jacoco properties to Library")
     }
 }
 
 project.configure<LibraryExtension> {
-    decorateExtensionWithJacoco(depJacoco).also {
+    decorateExtensionWithJacoco().also {
         project.debugLog("Applied jacoco properties to Library")
     }
 }
