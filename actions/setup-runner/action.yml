@@ -83,14 +83,6 @@ runs:
       with:
         gradle-version: ${{ inputs.gradle-version }}
 
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@00854ea68c109d98c75d956347303bf7c45b0277 # v3.2.1
-
-    - name: Update Android SDK Manager
-      run: |
-        sdkmanager --update
-      shell: bash
-
     - name: Install project defined homebrew dependencies
       run: |
         if [ -f Brewfile ]; then brew bundle --no-lock; fi
