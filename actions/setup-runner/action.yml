@@ -83,6 +83,10 @@ runs:
       with:
         gradle-version: ${{ inputs.gradle-version }}
 
+    - name: Add Android Command-Line Tools to path
+      run: echo "$ANDROID_HOME/cmdline-tools/latest/bin" >> "$GITHUB_PATH"
+      shell: bash
+
     - name: Install project defined homebrew dependencies
       run: |
         if [ -f Brewfile ]; then brew bundle --no-lock; fi
