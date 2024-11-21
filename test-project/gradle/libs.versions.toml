@@ -1,23 +1,35 @@
 [versions]
-kotlin = "2.0.21"
-composeBom = "2024.10.00"
-junit = "4.13.2"
-androidXTestJUnit = "1.2.1"
+androidXActivityCompose = "1.9.3"
+androidXComposeBom = "2024.10.00"
+androidXCoreKtx = "1.15.0"
+androidXLifecycleRuntimeKtx = "2.8.7"
 androidXTestCore = "1.6.1"
+androidXTestEspressoCore = "3.6.1"
+androidXTestJUnit = "1.2.1"
 androidXTestRunner = "1.6.2"
 androidXTestOrchestrator = "1.5.1"
+junit = "4.13.2"
+kotlin = "2.0.21"
 
 [plugins]
 kotlin-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 [libraries]
-androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidXCoreKtx" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidXComposeBom" }
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidXTestJUnit" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidXActivityCompose" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidXLifecycleRuntimeKtx" }
+androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidXTestEspressoCore" }
+androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidXTestJUnit" }
 androidx-test-core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "androidXTestCore" }
 androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidXTestRunner" }
 androidx-test-orchestrator = { module = "androidx.test:orchestrator", version.ref = "androidXTestOrchestrator" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
