@@ -15,7 +15,7 @@ dependencies {
     testImplementation(libs.junit)
 
     androidTestImplementation(libs.androidx.test.core.ktx)
-    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.test.runner)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.test.manifest)

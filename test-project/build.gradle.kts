@@ -25,8 +25,8 @@ val apkConfig by rootProject.extra(
         override val debugVersion: String = "DEBUG_VERSION"
         override val sdkVersions = object: ApkConfig.SdkVersions {
             override val minimum = 29
-            override val target = 33
-            override val compile = 34
+            override val target = 34
+            override val compile = 35
         }
     }
 )
