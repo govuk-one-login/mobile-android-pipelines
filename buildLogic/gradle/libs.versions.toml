@@ -22,6 +22,7 @@ sonarqube-gradle = { module = "org.sonarsource.scanner.gradle:sonarqube-gradle-p
 
 [plugins]
 
+buildconfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildconfig-gradle" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint-gradle" }
-buildconfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildconfig-gradle" }
+sonarqube = { id = "org.sonarqube", version.ref = "sonarqube-gradle" }
