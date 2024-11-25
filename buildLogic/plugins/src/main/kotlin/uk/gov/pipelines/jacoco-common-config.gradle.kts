@@ -8,12 +8,13 @@ import org.gradle.kotlin.dsl.withType
 import org.gradle.testing.jacoco.plugins.JacocoPluginExtension
 import uk.gov.pipelines.extensions.ProjectExtensions.debugLog
 import uk.gov.pipelines.extensions.TestExt.decorateTestTasksWithJacoco
+import uk.gov.pipelines.plugins.BuildConfig
 
 plugins {
     jacoco
 }
 
-val depJacoco: String by rootProject.extra("0.8.8")
+val depJacoco: String by rootProject.extra(BuildConfig.JACOCO_TOOL_VERSION)
 
 project.configure<JacocoPluginExtension> {
     this.toolVersion = depJacoco

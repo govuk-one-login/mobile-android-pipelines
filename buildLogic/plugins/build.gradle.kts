@@ -3,6 +3,7 @@ plugins {
     `java-gradle-plugin`
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.buildconfig)
 }
 
 group = "uk.gov.pipelines"
@@ -32,4 +33,10 @@ ktlint {
     filter {
         exclude { it.file.absolutePath.contains("/build/") }
     }
+}
+
+buildConfig {
+    buildConfigField("DETEKT_TOOL_VERSION", libs.versions.detekt.get())
+    buildConfigField("JACOCO_TOOL_VERSION", libs.versions.jacoco.tool.get())
+    buildConfigField("KTLINT_CLI_VERSION", libs.versions.ktlint.cli.get())
 }
