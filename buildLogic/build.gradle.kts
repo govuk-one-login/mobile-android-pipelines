@@ -30,8 +30,9 @@ dependencies {
 configure<SonarExtension> {
     setAndroidVariant("debug")
     properties {
-        property("sonar.projectKey", "mobile-android-pipelines")
-        property("sonar.projectName", "mobile-android-pipelines")
+        property("sonar.projectKey", "mobile-android-pipelines-build-logic")
+        property("sonar.projectName", "mobile-android-pipelines-build-logic")
+        property("sonar.project.monorepo.enabled", "true")
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.token", System.getProperty("SONAR_TOKEN"))
         property("sonar.organization", "govuk-one-login")

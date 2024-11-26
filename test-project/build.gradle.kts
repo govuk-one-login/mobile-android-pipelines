@@ -17,6 +17,14 @@ buildscript {
 
     // Relative directory of the included build logic build
     val buildLogicDir: String by rootProject.extra("../buildLogic")
+
+    val sonarProperties: Map<String, String> by rootProject.extra(
+        mapOf(
+            "sonar.projectKey" to "mobile-android-pipelines-test-project",
+            "sonar.projectName" to "mobile-android-pipelines-test-project",
+            "sonar.project.monorepo.enabled" to "true",
+        )
+    )
 }
 
 val apkConfig by rootProject.extra(
