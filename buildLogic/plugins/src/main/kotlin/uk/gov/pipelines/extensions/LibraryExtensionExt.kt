@@ -3,6 +3,7 @@ package uk.gov.pipelines.extensions
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.LibraryExtension
+import uk.gov.pipelines.plugins.BuildConfig
 import com.android.build.api.dsl.LibraryExtension as DslLibraryExtension
 
 /**
@@ -15,11 +16,9 @@ object LibraryExtensionExt {
      *
      * Sets up the `android.testCoverage.jacocoVersion` property with the [version] parameter.
      * Also enables instrumentation and unit test coverage.
-     *
-     * @param version The Jacoco version number as a string.
      */
-    fun LibraryExtension.decorateExtensionWithJacoco(version: String) {
-        testCoverage.jacocoVersion = version
+    fun LibraryExtension.decorateExtensionWithJacoco() {
+        testCoverage.jacocoVersion = BuildConfig.JACOCO_TOOL_VERSION
         buildTypes {
             debug {
                 this.enableAndroidTestCoverage = true
@@ -33,11 +32,9 @@ object LibraryExtensionExt {
      *
      * Sets up the `android.testCoverage.jacocoVersion` property with the [version] parameter.
      * Also enables instrumentation and unit test coverage.
-     *
-     * @param version The Jacoco version number as a string.
      */
-    fun DslLibraryExtension.decorateExtensionWithJacoco(version: String) {
-        testCoverage.jacocoVersion = version
+    fun DslLibraryExtension.decorateExtensionWithJacoco() {
+        testCoverage.jacocoVersion = BuildConfig.JACOCO_TOOL_VERSION
         buildTypes {
             debug {
                 this.enableAndroidTestCoverage = true
@@ -46,8 +43,8 @@ object LibraryExtensionExt {
         }
     }
 
-    fun ApplicationExtension.decorateExtensionWithJacoco(version: String) {
-        testCoverage.jacocoVersion = version
+    fun ApplicationExtension.decorateExtensionWithJacoco() {
+        testCoverage.jacocoVersion = BuildConfig.JACOCO_TOOL_VERSION
         buildTypes {
             debug {
                 this.enableAndroidTestCoverage = true
@@ -56,8 +53,8 @@ object LibraryExtensionExt {
         }
     }
 
-    fun AppExtension.decorateExtensionWithJacoco(version: String) {
-        this.jacoco.jacocoVersion = version
+    fun AppExtension.decorateExtensionWithJacoco() {
+        this.jacoco.jacocoVersion = BuildConfig.JACOCO_TOOL_VERSION
         buildTypes {
             this.maybeCreate("debug").apply {
                 this.enableAndroidTestCoverage = true

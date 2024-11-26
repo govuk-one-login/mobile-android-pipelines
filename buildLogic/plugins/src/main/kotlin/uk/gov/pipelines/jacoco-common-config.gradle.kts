@@ -2,22 +2,16 @@ package uk.gov.pipelines
 
 import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.extra
-import org.gradle.kotlin.dsl.jacoco
 import org.gradle.kotlin.dsl.withType
 import org.gradle.testing.jacoco.plugins.JacocoPluginExtension
 import uk.gov.pipelines.extensions.ProjectExtensions.debugLog
 import uk.gov.pipelines.extensions.TestExt.decorateTestTasksWithJacoco
 import uk.gov.pipelines.plugins.BuildConfig
 
-plugins {
-    jacoco
-}
-
-val depJacoco: String by rootProject.extra(BuildConfig.JACOCO_TOOL_VERSION)
+project.plugins.apply("jacoco")
 
 project.configure<JacocoPluginExtension> {
-    this.toolVersion = depJacoco
+    this.toolVersion = BuildConfig.JACOCO_TOOL_VERSION
     project.logger.debug("Applied jacoco tool version to jacoco plugin")
 }
 

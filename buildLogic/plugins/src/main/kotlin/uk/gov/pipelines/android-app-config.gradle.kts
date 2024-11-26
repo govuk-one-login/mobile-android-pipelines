@@ -10,6 +10,7 @@ listOf(
     "org.jetbrains.kotlin.android",
     "uk.gov.pipelines.detekt-config",
     "uk.gov.pipelines.emulator-config",
+    "uk.gov.pipelines.jacoco-app-config",
     "uk.gov.pipelines.jvm-toolchains",
     "uk.gov.pipelines.ktlint-config",
     "uk.gov.pipelines.sonarqube-module-config",
