@@ -2,6 +2,7 @@ package uk.gov.pipelines
 
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import uk.gov.pipelines.config.buildLogicDir
+import uk.gov.pipelines.plugins.BuildConfig
 
 project.plugins.apply("io.gitlab.arturbosch.detekt")
 
@@ -17,7 +18,6 @@ fun setupDetekt(): DetektExtension.() -> Unit =
             file(
                 "${project.rootProject.projectDir}/config/detekt/detektConfig.yml",
             )
-        val detektToolVersion = "1.23.7"
 
         allRules = true
         buildUponDefaultConfig = true
@@ -37,5 +37,5 @@ fun setupDetekt(): DetektExtension.() -> Unit =
                 )
             },
         )
-        toolVersion = detektToolVersion
+        toolVersion = BuildConfig.DETEKT_TOOL_VERSION
     }

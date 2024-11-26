@@ -2,13 +2,14 @@ package uk.gov.pipelines
 
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
+import uk.gov.pipelines.plugins.BuildConfig
 
 project.plugins.apply(
     "org.jlleitschuh.gradle.ktlint",
 )
 
 configure<KtlintExtension> {
-    version.set("0.50.0")
+    version.set(BuildConfig.KTLINT_CLI_VERSION)
     debug.set(true)
     verbose.set(true)
     android.set(true)
