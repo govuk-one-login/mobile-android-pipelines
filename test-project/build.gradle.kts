@@ -22,7 +22,6 @@ buildscript {
         mapOf(
             "sonar.projectKey" to "mobile-android-pipelines-test-project",
             "sonar.projectName" to "mobile-android-pipelines-test-project",
-            "sonar.project.monorepo.enabled" to "true",
         )
     )
 }
