@@ -1,5 +1,5 @@
 name: 'Scan pull request with Sonar'
-description: 'Scan pull request with Sonar and upload results to SonarCloud'
+description: 'Scan pull request with Sonar and apply the quality gate'
 
 inputs:
   working-directory:
@@ -17,7 +17,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Sonar PR analysis
+    - name: Scan pull request with Sonar
       env:
         SONAR_TOKEN: ${{ inputs.sonar-token }}
         PIPELINES_DIRECTORY: ${{ inputs.pipelines-directory }}
@@ -29,7 +29,7 @@ runs:
       working-directory: ${{ inputs.working-directory }}
       shell: bash
 
-    - name: SonarQube Quality Gate check
+    - name: Check SonarQube Quality Gate
       id: sonarqube-quality-gate-check
       uses: sonarsource/sonarqube-quality-gate-action@d304d050d930b02a896b0f85935344f023928496 # pin@v1.1.0
       env:
