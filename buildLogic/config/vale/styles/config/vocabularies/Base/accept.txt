@@ -25,6 +25,7 @@ VIZes
 [Aa]ndroid
 [Bb]io[Tt]oken
 [Cc]omposables?
+Dependabot
 [Gg]radle
 [Hh]amcrest
 [Hh]omebrew

@@ -20,6 +20,13 @@ object LintExtensions {
                     "VectorPath",
                 ),
             )
+            informational.addAll(
+                setOf(
+                    // Manage dependency updates using Dependabot
+                    // https://gds-way.digital.cabinet-office.gov.uk/standards/tracking-dependencies.html
+                    "NewerVersionAvailable",
+                ),
+            )
             explainIssues = true
             htmlReport = true
             ignoreTestSources = true
