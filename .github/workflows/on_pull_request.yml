@@ -93,7 +93,6 @@ jobs:
           ./gradlew allDevicesCheck
 
       - name: Scan with Sonar
-        id: sonar-scan
         uses: ./actions/sonar-scan-pull-request
         with:
           working-directory: ./test-project
