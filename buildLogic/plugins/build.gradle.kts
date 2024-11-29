@@ -1,6 +1,7 @@
 plugins {
     `kotlin-dsl`
     `java-gradle-plugin`
+    jacoco
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.buildconfig)
@@ -53,6 +54,18 @@ tasks.test {
     testLogging {
         events("skipped", "failed")
     }
+}
+
+project.configure<JacocoPluginExtension> {
+    toolVersion = libs.versions.jacoco.tool.get()
+}
+
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
 }
 
 buildConfig {
