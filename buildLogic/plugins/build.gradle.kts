@@ -4,6 +4,7 @@ plugins {
     jacoco
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.sonarqube)
     alias(libs.plugins.buildconfig)
 }
 
