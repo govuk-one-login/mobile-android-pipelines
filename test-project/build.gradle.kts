@@ -9,11 +9,9 @@ plugins {
 }
 
 buildscript {
-    // The GitHub repository name
-    val projectKey: String by rootProject.extra("mobile-android-pipelines")
+    val githubRepositoryName: String by rootProject.extra("mobile-android-pipelines")
 
-    // The Maven group ID
-    val projectId: String by rootProject.extra("uk.gov.pipelines")
+    val mavenGroupId: String by rootProject.extra("uk.gov.pipelines")
 
     // Relative directory of the included build logic build
     val buildLogicDir: String by rootProject.extra("../buildLogic")

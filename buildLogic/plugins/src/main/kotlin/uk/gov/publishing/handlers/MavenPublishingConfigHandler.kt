@@ -22,8 +22,8 @@ open class MavenPublishingConfigHandler
     @Inject
     constructor(
         objects: ObjectFactory,
-        private val projectKey: String,
-        private val projectId: String,
+        private val githubRepositoryName: String,
+        private val mavenGroupId: String,
     ) : MavenPomDeveloperSpec,
         MavenPomLicenseSpec {
         val artifactGroupId: Property<String> = objects.property(String::class.java)
@@ -53,10 +53,10 @@ open class MavenPublishingConfigHandler
         }
 
         private fun setPropertyConventions() {
-            artifactGroupId.convention(projectId)
+            artifactGroupId.convention(mavenGroupId)
 
             url.convention(
-                "https://github.com/govuk-one-login/$projectKey",
+                "https://github.com/govuk-one-login/$githubRepositoryName",
             )
 
             developer.id.convention("idCheckTeam")
@@ -70,14 +70,14 @@ open class MavenPublishingConfigHandler
 
             scm.connection.convention(
                 "scm:git:git://github.com/govuk-one-login" +
-                    "/$projectKey.git",
+                    "/$githubRepositoryName.git",
             )
             scm.developerConnection.convention(
                 "scm:git:ssh://github.com/govuk-one-login" +
-                    "/$projectKey.git",
+                    "/$githubRepositoryName.git",
             )
             scm.url.convention(
-                "http://github.com/govuk-one-login/$projectKey",
+                "http://github.com/govuk-one-login/$githubRepositoryName",
             )
         }
     }
