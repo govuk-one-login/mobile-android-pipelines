@@ -27,11 +27,31 @@ dependencies {
     ).forEach { dependency ->
         implementation(dependency)
     }
+
+    listOf(
+        platform(libs.org.junit.bom),
+        libs.org.junit.jupiter,
+    ).forEach { dep: Provider<MinimalExternalModuleDependency> ->
+        testImplementation(dep)
+    }
+
+    listOf(
+        libs.org.junit.platform.launcher,
+    ).forEach { dep ->
+        testRuntimeOnly(dep)
+    }
 }
 
 ktlint {
     filter {
         exclude { it.file.absolutePath.contains("/build/") }
+    }
+}
+
+tasks.test {
+    useJUnitPlatform()
+    testLogging {
+        events("skipped", "failed")
     }
 }
 
