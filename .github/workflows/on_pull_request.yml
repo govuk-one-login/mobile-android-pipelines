@@ -59,6 +59,11 @@ jobs:
             :plugins:detekt \
             :plugins:ktlintCheck
 
+      - name: Test build logic
+        run: |
+          cd buildLogic
+          ./gradlew test
+
       - name: Scan with Sonar
         uses: ./actions/sonar-scan-pull-request
         with:
