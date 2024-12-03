@@ -1,0 +1,9 @@
+name: 'Run linting script'
+description: 'Lint script files'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Lint script files
+      run: ./mobile-android-pipelines/scripts/lintProject.sh "" ""
+      shell: bash

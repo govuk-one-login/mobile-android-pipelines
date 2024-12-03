@@ -1,0 +1,9 @@
+name: 'Verify Conventional commit'
+description: 'Verify Conventional commit standards against latest git tag'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Verify Conventional commit standards against latest git tag
+      run: cog check -l
+      shell: bash

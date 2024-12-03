@@ -14,6 +14,7 @@ inputs:
     required: false
     default: 'main'
 
+# TODO DCMAW-10665: use action.yml files in each step
 runs:
   using: "composite"
   steps:
@@ -74,7 +75,8 @@ runs:
         
     - name: Bundle reports folder
       uses: ./mobile-android-pipelines/actions/bundle-reports
-        
+
+#        TODO DCMAW-10665: create folder for build artefact for release step
     - name: Build artefact for release
       if: ${{ github.event_name != 'pull_request' }}
       run: |
@@ -104,6 +106,7 @@ runs:
         git push --follow-tags && git push --tags
       shell: bash
 
+#      TODO DCMAW-10665: create folder for the "Publish package" step
     - name: Publish package
       if: ${{ github.event_name != 'pull_request'
         && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
