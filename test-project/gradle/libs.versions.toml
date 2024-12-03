@@ -1,6 +1,6 @@
 [versions]
 androidXActivityCompose = "1.9.3"
-androidXComposeBom = "2024.10.00"
+androidXComposeBom = "2024.11.00"
 androidXCoreKtx = "1.15.0"
 androidXLifecycleRuntimeKtx = "2.8.7"
 androidXTestCore = "1.6.1"
@@ -9,7 +9,7 @@ androidXTestJUnit = "1.2.1"
 androidXTestRunner = "1.6.2"
 androidXTestOrchestrator = "1.5.1"
 junit = "4.13.2"
-kotlin = "2.0.21"
+kotlin = "2.1.0"
 
 [plugins]
 kotlin-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
