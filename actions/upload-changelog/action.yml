@@ -1,0 +1,17 @@
+name: 'Upload Changelog'
+description: 'Upload Changelog'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Upload Changelog
+      if: ${{ github.event_name != 'pull_request'
+        && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
+      id: uploadBuildReports
+      uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
+      with:
+        name: CHANGELOG.md
+        retention-days: 1
+        if-no-files-found: error
+        path: |
+          CHANGELOG.md

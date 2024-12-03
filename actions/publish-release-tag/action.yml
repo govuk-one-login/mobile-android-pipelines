@@ -1,0 +1,12 @@
+name: 'Publish the release tag'
+description: 'Publish the release tag'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Publish the release
+      if: ${{ github.event_name != 'pull_request'
+        && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
+      run: |
+        git push --follow-tags && git push --tags
+      shell: bash
