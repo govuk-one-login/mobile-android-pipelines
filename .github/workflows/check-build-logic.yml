@@ -1,0 +1,57 @@
+name: Check build logic
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+  merge_group:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  check-build-logic:
+    name: Check build logic
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: 'Checkout codebase'
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          lfs: 'true'
+          fetch-depth: 0
+
+      - name: Setup runner
+        uses: ./actions/setup-runner
+        with:
+          jdk-version: 21
+
+      - name: Lint build logic documentation
+        shell: bash
+        run: |
+          cd buildLogic
+          ./scripts/lintBuildLogicDocs.sh .
+
+      - name: Lint build logic
+        run: |
+          cd buildLogic
+          ./gradlew \
+            :plugins:detekt \
+            :plugins:ktlintCheck
+
+      - name: Test build logic
+        run: |
+          cd buildLogic
+          ./gradlew test
+
+      - name: Scan with Sonar
+        uses: ./actions/sonar-scan-pull-request
+        with:
+          working-directory: ./buildLogic
+          pipelines-directory: ../
+          sonar-token: ${{ secrets.SONAR_TOKEN }}
