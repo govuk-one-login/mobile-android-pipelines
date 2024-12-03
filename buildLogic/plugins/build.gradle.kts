@@ -1,8 +1,10 @@
 plugins {
     `kotlin-dsl`
     `java-gradle-plugin`
+    jacoco
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.sonarqube)
     alias(libs.plugins.buildconfig)
 }
 
@@ -27,12 +29,45 @@ dependencies {
     ).forEach { dependency ->
         implementation(dependency)
     }
+
+    listOf(
+        platform(libs.org.junit.bom),
+        libs.org.junit.jupiter,
+    ).forEach { dep: Provider<MinimalExternalModuleDependency> ->
+        testImplementation(dep)
+    }
+
+    listOf(
+        libs.org.junit.platform.launcher,
+    ).forEach { dep ->
+        testRuntimeOnly(dep)
+    }
 }
 
 ktlint {
     filter {
         exclude { it.file.absolutePath.contains("/build/") }
     }
+}
+
+tasks.test {
+    useJUnitPlatform()
+    testLogging {
+        events("skipped", "failed")
+    }
+}
+
+project.configure<JacocoPluginExtension> {
+    toolVersion = libs.versions.jacoco.tool.get()
+}
+
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports.xml.required = true
 }
 
 buildConfig {

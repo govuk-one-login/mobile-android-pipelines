@@ -16,8 +16,8 @@ open class MavenPublishingConfigExtension
     @Inject
     constructor(
         objects: ObjectFactory,
-        projectKey: String,
-        projectId: String,
+        githubRepositoryName: String,
+        mavenGroupId: String,
     ) {
         /**
          * Configuration for the [org.gradle.api.publish.PublishingExtension] made available via the
@@ -26,8 +26,8 @@ open class MavenPublishingConfigExtension
         val mavenConfigBlock: MavenPublishingConfigHandler =
             objects.newInstance(
                 MavenPublishingConfigHandler::class.java,
-                projectKey,
-                projectId,
+                githubRepositoryName,
+                mavenGroupId,
             )
 
         /**
@@ -38,16 +38,16 @@ open class MavenPublishingConfigExtension
         }
 
         companion object {
-            private val Project.projectKey
+            private val Project.githubRepositoryName
                 get(): String {
-                    val projectKey: String by project.rootProject.extra
-                    return projectKey
+                    val githubRepositoryName: String by project.rootProject.extra
+                    return githubRepositoryName
                 }
 
-            private val Project.projectId
+            private val Project.mavenGroupId
                 get(): String {
-                    val projectId: String by project.rootProject.extra
-                    return projectId
+                    val mavenGroupId: String by project.rootProject.extra
+                    return mavenGroupId
                 }
 
             /**
@@ -65,8 +65,8 @@ open class MavenPublishingConfigExtension
                 } ?: this.extensions.create(
                     "mavenPublishingConfig",
                     MavenPublishingConfigExtension::class.java,
-                    projectKey,
-                    projectId,
+                    githubRepositoryName,
+                    mavenGroupId,
                 )
         }
     }

@@ -105,13 +105,13 @@ object MavenPublishingConfigDefaults {
      *   to the GitHub packages registry.
      */
     private fun RepositoryHandler.configureMavenRepositoriesToPublishTo(project: Project) {
-        val projectKey: String by project.rootProject.extra
+        val githubRepositoryName: String by project.rootProject.extra
 
         maven {
             name = "GitHubPackages"
             url =
                 URI.create(
-                    "https://maven.pkg.github.com/govuk-one-login/$projectKey",
+                    "https://maven.pkg.github.com/govuk-one-login/$githubRepositoryName",
                 )
             credentials {
                 username = System.getenv("GITHUB_ACTOR")

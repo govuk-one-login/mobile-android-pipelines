@@ -11,22 +11,21 @@ plugins {
 configure<SonarExtension> {
     this.setAndroidVariant("debug")
 
-    val projectKey: String by project.rootProject.extra
-    val rootSonarProperties by rootProject.extra(
+    val sonarProperties: Map<String, String> by rootProject.extra
+    val defaultSonarProperties =
         mapOf(
-            "sonar.projectKey" to projectKey,
-            "sonar.projectName" to projectKey,
             "sonar.host.url" to "https://sonarcloud.io",
             "sonar.token" to System.getProperty("SONAR_TOKEN"),
             "sonar.projectVersion" to "${project.versionName}-${project.versionCode}",
             "sonar.organization" to "govuk-one-login",
             "sonar.sourceEncoding" to "UTF-8",
             "sonar.sources" to "",
-        ),
-    )
+        )
+
+    val mergedSonarProperties = defaultSonarProperties + sonarProperties
 
     properties {
-        rootSonarProperties.forEach { (key, value) ->
+        mergedSonarProperties.forEach { (key, value) ->
             property(key, value)
         }
     }

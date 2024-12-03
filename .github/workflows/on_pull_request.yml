@@ -59,6 +59,18 @@ jobs:
             :plugins:detekt \
             :plugins:ktlintCheck
 
+      - name: Test build logic
+        run: |
+          cd buildLogic
+          ./gradlew test
+
+      - name: Scan with Sonar
+        uses: ./actions/sonar-scan-pull-request
+        with:
+          working-directory: ./buildLogic
+          pipelines-directory: ../
+          sonar-token: ${{ secrets.SONAR_TOKEN }}
+
   check-test-project:
     name: Check test project
     runs-on: ubuntu-latest
@@ -84,4 +96,12 @@ jobs:
         run: |
           cd test-project
           ./gradlew allDevicesCheck
+
+      - name: Scan with Sonar
+        uses: ./actions/sonar-scan-pull-request
+        with:
+          working-directory: ./test-project
+          pipelines-directory: ../
+          sonar-token: ${{ secrets.SONAR_TOKEN }}
+
 
