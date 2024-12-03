@@ -1,0 +1,51 @@
+name: Check test project
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+  merge_group:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  check-test-project:
+    name: Check test project
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: 'Checkout codebase'
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          lfs: 'true'
+          fetch-depth: 0
+
+      - name: Setup runner
+        uses: ./actions/setup-runner
+        with:
+          jdk-version: 21
+
+      - name: Check test project
+        run: |
+          cd test-project
+          ./gradlew check
+
+      - name: Run test project instrumentation tests
+        run: |
+          cd test-project
+          ./gradlew allDevicesCheck
+
+      - name: Scan with Sonar
+        uses: ./actions/sonar-scan-pull-request
+        with:
+          working-directory: ./test-project
+          pipelines-directory: ../
+          sonar-token: ${{ secrets.SONAR_TOKEN }}
+
+

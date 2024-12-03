@@ -1,0 +1,32 @@
+name: Check scripts
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+  merge_group:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  check-scripts:
+    name: Check scripts
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: 'Checkout codebase'
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          lfs: 'true'
+          fetch-depth: 0
+
+      - name: Lint scripts
+        run: |
+          # Lint all files in the .sh folder / sub-folders
+          find ./scripts -type f -exec shellcheck {} +
