@@ -1,6 +1,14 @@
 name: 'Increment cog semantic version'
 description: 'Increment the release version using Conventional Commits'
 
+outputs:
+  current-version:
+    description: 'current semantic version'
+    value: ${{ steps.versioning.outputs.current_version }}
+  new-version:
+    description: 'new semantic version'
+    value: ${{ steps.versioning.outputs.new_version }}
+
 runs:
   using: "composite"
   steps:

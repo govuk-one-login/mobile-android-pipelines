@@ -1,0 +1,31 @@
+name: 'Generate and Upload Changelog'
+description: 'Generate and Upload Changelog'
+inputs:
+  CURRENT_VERSION:
+    description: 'current semantic version'
+    required: true
+  NEW_VERSION:
+    description: 'new semantic version'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Generate Changelog
+      if: ${{ github.event_name != 'pull_request'
+        && inputs.CURRENT_VERSION != inputs.NEW_VERSION }}
+      run: |
+        cog changelog --at v$(cog -v get-version) > CHANGELOG.md
+      shell: bash
+
+    - name: Upload Changelog
+      if: ${{ github.event_name != 'pull_request'
+        && inputs.CURRENT_VERSION != inputs.NEW_VERSION }}
+      id: uploadBuildReports
+      uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
+      with:
+        name: CHANGELOG.md
+        retention-days: 1
+        if-no-files-found: error
+        path: |
+          CHANGELOG.md

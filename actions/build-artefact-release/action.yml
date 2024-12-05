@@ -1,0 +1,11 @@
+name: 'Build artefact for release'
+description: 'Build artefact for release'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Build artefact for release
+      if: ${{ github.event_name != 'pull_request' }}
+      run: |
+        ./gradlew bundleRelease
+      shell: bash
