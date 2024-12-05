@@ -14,7 +14,6 @@ inputs:
     required: false
     default: 'main'
 
-# TODO DCMAW-10665: use action.yml files in each step
 runs:
   using: "composite"
   steps:
@@ -76,7 +75,6 @@ runs:
     - name: Bundle reports folder
       uses: ./mobile-android-pipelines/actions/bundle-reports
 
-#        TODO DCMAW-10665: create folder for build artefact for release step
     - name: Build artefact for release
       if: ${{ github.event_name != 'pull_request' }}
       run: |
@@ -86,18 +84,7 @@ runs:
     - name: Increment the release version using Conventional Commits
       id: versioning
       if: ${{ github.event_name != 'pull_request' }}
-      run: |
-        git config user.name github-actions
-        git config user.email github-actions@github.com
-          
-        current_version=$(cog -v get-version)
-        echo "current_version=$current_version" >> $GITHUB_OUTPUT
-          
-        cog bump --auto
-          
-        new_version=$(cog -v get-version)
-        echo "new_version=$new_version" >> $GITHUB_OUTPUT
-      shell: bash
+      uses: ./mobile-android-pipelines/actions/increment-cog-semantic-version
       
     - name: Publish the release
       if: ${{ github.event_name != 'pull_request'
@@ -106,7 +93,6 @@ runs:
         git push --follow-tags && git push --tags
       shell: bash
 
-#      TODO DCMAW-10665: create folder for the "Publish package" step
     - name: Publish package
       if: ${{ github.event_name != 'pull_request'
         && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
@@ -122,21 +108,10 @@ runs:
     - name: Generate Changelog
       if: ${{ github.event_name != 'pull_request'
         && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
-      run: |
-        cog changelog --at v$(cog -v get-version) > CHANGELOG.md
-      shell: bash
-
-    - name: Upload Changelog
-      if: ${{ github.event_name != 'pull_request'
-        && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
-      id: uploadBuildReports
-      uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
+      uses: ./mobile-android-pipelines/actions/generate-and-upload-changelog
       with:
-        name: CHANGELOG.md
-        retention-days: 1
-        if-no-files-found: error
-        path: |
-          CHANGELOG.md
+        CURRENT_VERSION: ${{  }}
+        NEW_VERSION: ${{  }}
 
     - name: Clean workspace
       uses: ./mobile-android-pipelines/actions/clean-workspace
