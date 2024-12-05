@@ -86,18 +86,7 @@ runs:
     - name: Increment the release version using Conventional Commits
       id: versioning
       if: ${{ github.event_name != 'pull_request' }}
-      run: |
-        git config user.name github-actions
-        git config user.email github-actions@github.com
-          
-        current_version=$(cog -v get-version)
-        echo "current_version=$current_version" >> $GITHUB_OUTPUT
-          
-        cog bump --auto
-          
-        new_version=$(cog -v get-version)
-        echo "new_version=$new_version" >> $GITHUB_OUTPUT
-      shell: bash
+      uses: ./mobile-android-pipelines/actions/increment-cog-semantic-version
       
     - name: Publish the release
       if: ${{ github.event_name != 'pull_request'
@@ -119,24 +108,14 @@ runs:
       if: ${{ github.event_name == 'pull_request' }}
       uses: ./mobile-android-pipelines/actions/maven-publish-local
 
+#      TODO DCMAW-10665: add values to `CURRENT_VERSION` and `NEW_VERSION`
     - name: Generate Changelog
       if: ${{ github.event_name != 'pull_request'
         && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
-      run: |
-        cog changelog --at v$(cog -v get-version) > CHANGELOG.md
-      shell: bash
-
-    - name: Upload Changelog
-      if: ${{ github.event_name != 'pull_request'
-        && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
-      id: uploadBuildReports
-      uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
+      uses: ./mobile-android-pipelines/actions/generate-and-upload-changelog
       with:
-        name: CHANGELOG.md
-        retention-days: 1
-        if-no-files-found: error
-        path: |
-          CHANGELOG.md
+        CURRENT_VERSION: ${{  }}
+        NEW_VERSION: ${{  }}
 
     - name: Clean workspace
       uses: ./mobile-android-pipelines/actions/clean-workspace
