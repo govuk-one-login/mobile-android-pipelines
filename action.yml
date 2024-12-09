@@ -69,9 +69,12 @@ runs:
 
     - name: Build artefact for release
       if: ${{ github.event_name != 'pull_request' }}
-      run: |
-        ./gradlew assemble
-      shell: bash
+      uses: ./mobile-android-pipelines/actions/build-artefact-release
+      with:
+        SIGNING_KEY_PASSWORD: ${{ inputs.KEYSTORE_KEY_PASSWORD }}
+        SIGNING_KEY_ALIAS: ${{ inputs.KEYSTORE_KEY_ALIAS }}
+        SIGNING_STORE_PASSWORD: ${{ inputs.KEYSTORE_PASSWORD }}
+        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN}}
       
     - name: Increment the release version using Conventional Commits
       id: versioning
