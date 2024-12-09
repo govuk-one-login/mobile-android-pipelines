@@ -1,11 +1,33 @@
 name: 'Build artefact for release'
 description: 'Build artefact for release'
+inputs:
+  SIGNING_KEY_PASSWORD:
+    description: 'Signing key password'
+    required: true
+  SIGNING_KEY_ALIAS:
+    description: 'Signing key alias'
+    required: true
+  SIGNING_STORE_PASSWORD:
+    description: 'Signing store password'
+    required: true
+  GITHUB_TOKEN:
+    description: 'Github token'
+    required: true
 
 runs:
   using: "composite"
   steps:
     - name: Build artefact for release
       if: ${{ github.event_name != 'pull_request' }}
-      run: |
-        ./gradlew bundleRelease
+      run: | 
+        ./gradlew \
+          --no-build-cache \
+          --no-configuration-cache \
+          bundleRelease
+      env:
+        SIGNING_KEY_PASSWORD: ${{ inputs.KEYSTORE_KEY_PASSWORD }}
+        SIGNING_KEY_ALIAS: ${{ inputs.KEYSTORE_KEY_ALIAS }}
+        SIGNING_STORE_PASSWORD: ${{ inputs.KEYSTORE_PASSWORD }}
+        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN}}
+        GITHUB_ACTOR: ${{ github.actor }}
       shell: bash
