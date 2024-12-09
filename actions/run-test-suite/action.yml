@@ -1,9 +1,0 @@
-name: 'Run test suite'
-description: 'Run gradle testing suite'
-
-runs:
-  using: "composite"
-  steps:
-    - name: Run gradle testing suite
-      run: ./mobile-android-pipelines/scripts/runTestingSuite.sh
-      shell: bash

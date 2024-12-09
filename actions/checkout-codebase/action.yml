@@ -1,0 +1,13 @@
+name: 'Checkout codebase'
+description: 'Checkout codebase'
+
+runs:
+  using: "composite"
+  steps:
+    - name: 'Checkout codebase'
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      with:
+        lfs: 'true'
+        submodules: 'true'
+        fetch-depth: 0
+        fetch-tags: true
