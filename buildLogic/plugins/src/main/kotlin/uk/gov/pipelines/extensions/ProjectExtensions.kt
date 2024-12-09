@@ -25,17 +25,19 @@ object ProjectExtensions {
 
     val Project.versionCode
         get() = prop("versionCode", Integer.MAX_VALUE).toInt()
-    val Project.versionName
-        get() =
-            execWithOutput {
-                workingDir = buildLogicDir.resolve("./scripts")
+    val Project.versionName: String
+        get() {
+            val scriptsDir = buildLogicDir.resolve("scripts/")
+            return execWithOutput {
+                workingDir = rootDir
                 executable = "bash"
                 standardOutput = OutputStream.nullOutputStream()
                 args =
                     listOf(
-                        "./getCurrentVersion",
+                        scriptsDir.resolve("getCurrentVersion").path,
                     )
             }
+        }
 
     private fun Project.prop(
         key: String,
