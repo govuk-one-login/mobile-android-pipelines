@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test
 import org.sonarqube.gradle.ActionBroadcast
 import org.sonarqube.gradle.SonarExtension
 import org.sonarqube.gradle.SonarProperties
+import uk.gov.pipelines.extras.BUILD_LOGIC_DIR
 
 class SonarqubeRootConfigPluginTest {
     private val project = ProjectBuilder.builder().build()
@@ -23,8 +24,7 @@ class SonarqubeRootConfigPluginTest {
     fun setup() {
         project.rootProject.extraProperties.set(
             "buildLogicDir",
-            // Relative to where test projects are created
-            "../../../../../../",
+            BUILD_LOGIC_DIR,
         )
         project.rootProject.extraProperties.set(
             "sonarProperties",
