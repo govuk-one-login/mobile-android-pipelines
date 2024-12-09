@@ -1,5 +1,9 @@
 name: 'SonarQube Quality Gate check'
 description: 'SonarQube Quality Gate check'
+inputs:
+  SONAR_TOKEN:
+    description: 'Sonar token'
+    required: true
 
 runs:
   using: "composite"
