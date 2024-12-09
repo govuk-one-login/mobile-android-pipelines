@@ -1,6 +1,7 @@
 plugins {
     `kotlin-dsl`
     `java-gradle-plugin`
+    `java-test-fixtures`
     jacoco
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
