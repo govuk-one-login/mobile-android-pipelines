@@ -23,10 +23,6 @@ runs:
     - name: Clean workspace
       uses: ./mobile-android-pipelines/actions/clean-workspace
 
-    - name: 'Detect architecture'
-      id: detect-arch
-      uses: ./mobile-android-pipelines/actions/detect-arch
-
     - name: Setup GitHub Runner workflow
       uses: ./mobile-android-pipelines/actions/setup-runner
       
@@ -66,15 +62,6 @@ runs:
         
     - name: Bundle reports folder
       uses: ./mobile-android-pipelines/actions/bundle-reports
-
-    - name: Build artefact for release
-      if: ${{ github.event_name != 'pull_request' }}
-      uses: ./mobile-android-pipelines/actions/build-artefact-release
-      with:
-        SIGNING_KEY_PASSWORD: ${{ inputs.KEYSTORE_KEY_PASSWORD }}
-        SIGNING_KEY_ALIAS: ${{ inputs.KEYSTORE_KEY_ALIAS }}
-        SIGNING_STORE_PASSWORD: ${{ inputs.KEYSTORE_PASSWORD }}
-        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN}}
       
     - name: Increment the release version using Conventional Commits
       id: versioning
@@ -86,7 +73,6 @@ runs:
         && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
       uses: ./mobile-android-pipelines/actions/publish-release-tags
 
-#      TODO DCMAW-10665: create folder for the "Publish package" step
     - name: Publish package
       if: ${{ github.event_name != 'pull_request'
         && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
