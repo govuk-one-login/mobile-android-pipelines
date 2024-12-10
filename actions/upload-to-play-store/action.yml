@@ -1,1 +1,55 @@
-# TODO DCMAW-10774: Add step for uploading to play store
+name: 'Upload to play store'
+description: 'Uploads the supplied aabs to the Google Play Store'
+inputs:
+  aab-paths:
+    description: 'App bundle paths to upload, JSON object'
+    required: true
+  package-name:
+    description: 'App package name'
+    required: true
+  json-key-data:
+    description: 'JSON key data'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+
+    - name: Update fastlane and upload to play store
+      run: |
+        export LC_ALL=en_US.utf8
+        export LANG=en_US.utf8
+        export GEM_HOME=$HOME/.gem
+        export GEM_PATH=$HOME/.gem       
+        
+        BUNDLES=($(echo $INPUT_AAB_PATHS | tr ";" "\n"))
+        
+        for BUNDLE in ${BUNDLES[@]}
+        do
+          echo "Bundle = $BUNDLE" 
+          IFS=: VER=(${BUNDLE})
+        
+          FLAVOR=${VER[0]}
+          AAB_PATH=${VER[1]}
+          echo "Flavor = $FLAVOR"
+          echo "AAB path = $AAB_PATH"
+        
+          case $FLAVOR in
+            production*) PACKAGE_NAME=$INPUT_PACKAGE_NAME;;
+            *) PACKAGE_NAME=${INPUT_PACKAGE_NAME}.${FLAVOR};;
+          esac
+        
+          echo "Package name = $PACKAGE_NAME"
+        
+          export SUPPLY_UPLOAD_MAX_RETRIES=5
+          bundle exec fastlane supply --package_name "${PACKAGE_NAME}" --json_key_data "${INPUT_JSON_KEY_DATA}" --aab ${AAB_PATH} --track internal
+        done
+      shell: bash
+      env:
+        INPUT_AAB_PATHS: ${{ inputs.aab-paths }}
+        INPUT_PACKAGE_NAME: ${{ inputs.package-name }}
+        INPUT_JSON_KEY_DATA: ${{  inputs.json-key-data  }}

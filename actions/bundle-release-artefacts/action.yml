@@ -1,0 +1,48 @@
+name: 'Bundle artefact for release'
+description: 'Build artefact for release'
+inputs:
+  SIGNING_KEY_PASSWORD:
+    description: 'Signing key password'
+    required: true
+  SIGNING_KEY_ALIAS:
+    description: 'Signing key alias'
+    required: true
+  SIGNING_STORE_PASSWORD:
+    description: 'Signing store password'
+    required: true
+  GITHUB_TOKEN:
+    description: 'Github token'
+    required: true
+  MODULES:
+    description: 'Modules to bundle release, comma separated without spaces'
+    required: false
+    default: 'app'
+  FLAVORS:
+    description: 'App flavors to return paths for, comma separated without spaces'
+    required: false
+    default: 'production'
+
+outputs:
+  aab-paths:
+    description: 'Paths to build flavor aab files'
+    value: ${{ steps.gradle-bundle.outputs.aab-paths }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Build artefact for release
+      id: gradle-bundle
+      if: ${{ github.event_name != 'pull_request' }}
+      run: |
+        ./mobile-android-pipelines/scripts/bundleRelease.sh
+      env:
+        SIGNING_KEY_PASSWORD: ${{ inputs.KEYSTORE_KEY_PASSWORD }}
+        SIGNING_KEY_ALIAS: ${{ inputs.KEYSTORE_KEY_ALIAS }}
+        SIGNING_STORE_PASSWORD: ${{ inputs.KEYSTORE_PASSWORD }}
+        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+        # MODULES_TO_BUNDLE: 'app,modules/testWrapper'
+        MODULES_TO_BUNDLE: ${{ inputs.MODULES }}
+        # INPUT_FLAVORS: 'staging,production'
+        INPUT_FLAVORS: ${{ inputs.FLAVORS }}
+        GITHUB_ACTOR: ${{ github.actor }}
+      shell: bash
