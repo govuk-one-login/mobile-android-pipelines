@@ -1,0 +1,22 @@
+name: 'Upload results to sonarcloud'
+description: 'Upload results to sonarcloud'
+inputs:
+  SONAR_TOKEN:
+    description: 'A token for SonarCloud to enable the workflow to read and upload new quality reports.'
+    required: true
+  ANALYSIS_TYPE:
+    description: 'PR, BRANCH or LOCAL'
+    required: true
+
+
+runs:
+  using: "composite"
+  steps:
+    - name: Upload results to sonarcloud (merge)
+      if: ${{ github.event_name != 'pull_request' }}
+      env:
+        SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}
+        EVENT_NAME: ${{ inputs.ANALYSIS_TYPE }}
+      run: |
+        ./mobile-android-pipelines/scripts/sonar/scan "${ANALYSIS_TYPE}" ${{ github.ref_name }} ${{ github.event.number }}
+      shell: bash
