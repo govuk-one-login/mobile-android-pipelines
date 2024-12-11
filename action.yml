@@ -39,14 +39,14 @@ runs:
       if: ${{ github.event_name != 'pull_request' }}
       uses: ./mobile-android-pipelines/actions/upload-results-to-sonarcloud
       with:
-        SONAR_TOKEN: {{ inputs.SONAR_TOKEN }}
+        SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}
         ANALYSIS_TYPE: 'BRANCH'
     
     - name: Upload results to sonarcloud (pull request)
       if: ${{ github.event_name == 'pull_request' }}
       uses: ./mobile-android-pipelines/actions/upload-results-to-sonarcloud
       with:
-        SONAR_TOKEN: {{ inputs.SONAR_TOKEN }}
+        SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}
         ANALYSIS_TYPE: 'PR'
 
 
@@ -55,7 +55,7 @@ runs:
       if: ${{ github.event_name == 'pull_request' }}
       uses: ./mobile-android-pipelines/actions/sonar-quality-gate
       with:
-        SONAR_TOKEN: {{ inputs.SONAR_TOKEN }}
+        SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}
         
     - name: Bundle reports folder
       uses: ./mobile-android-pipelines/actions/bundle-reports
