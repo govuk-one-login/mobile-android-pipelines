@@ -30,28 +30,25 @@ runs:
       uses: ./mobile-android-pipelines/actions/verify-conventional-commit
       
     - name: Lint script files
-      run: ./mobile-android-pipelines/scripts/lintProject.sh "" ""
-      shell: bash
+      uses: ./mobile-android-pipelines/actions/lint-scripting-files
     
     - name: Run gradle testing suite
-      run: ./mobile-android-pipelines/scripts/runTestingSuite.sh
-      shell: bash
+      uses: ./mobile-android-pipelines/actions/run-testing-suite
       
     - name: Upload results to sonarcloud (merge)
       if: ${{ github.event_name != 'pull_request' }}
-      env:
-        SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}
-      run: |
-        ./mobile-android-pipelines/scripts/sonar/scan "BRANCH" ${{ github.ref_name }}
-      shell: bash
+      uses: ./mobile-android-pipelines/actions/upload-results-to-sonarcloud
+      with:
+        SONAR_TOKEN: {{ inputs.SONAR_TOKEN }}
+        ANALYSIS_TYPE: 'BRANCH'
     
     - name: Upload results to sonarcloud (pull request)
       if: ${{ github.event_name == 'pull_request' }}
-      env:
-        SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}
-      run: |
-        ./mobile-android-pipelines/scripts/sonar/scan "PR" ${{ github.head_ref }} ${{ github.event.number }}
-      shell: bash
+      uses: ./mobile-android-pipelines/actions/upload-results-to-sonarcloud
+      with:
+        SONAR_TOKEN: {{ inputs.SONAR_TOKEN }}
+        ANALYSIS_TYPE: 'PR'
+
 
     - name: SonarQube Quality Gate check
       id: sonarqube-quality-gate-check
