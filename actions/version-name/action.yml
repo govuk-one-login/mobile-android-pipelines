@@ -1,12 +1,11 @@
 name: 'Version name'
 description: 'Combines the inputs into a version name'
-# TODO-10665: rename `version code` and `version name`
 inputs:
   version-code:
-    description: 'Version code'
+    description: 'Version code from timestamp'
     required: true
-  version-name:
-    description: 'Version name'
+  semantic-version:
+    description: 'Semantic version'
     required: true
 
 outputs:
@@ -21,7 +20,7 @@ runs:
       id: version-name
       shell: bash
       run: |
-        echo "version-name=${INPUT_VERSION_CODE}-${INPUT_VERSION_NAME}" >> $GITHUB_OUTPUT
+        echo "version-name=${INPUT_VERSION_CODE}-${INPUT_SEMANTIC_VERSION}" >> $GITHUB_OUTPUT
       env:
         INPUT_VERSION_CODE: ${{ inputs.version-code }}
-        INPUT_VERSION_NAME: ${{ inputs.version-name }}
+        INPUT_SEMANTIC_VERSION: ${{ inputs.semantic-version }}
