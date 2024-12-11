@@ -1,0 +1,10 @@
+name: 'Run gradle publish local'
+description: 'Publish the current build Locally'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Publish API package locally
+      id: maven-publish-local
+      run: ./gradlew publishToMavenLocal
+      shell: bash

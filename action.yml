@@ -111,7 +111,11 @@ runs:
       with:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
         GITHUB_ACTOR: ${{ github.actor }}
-        
+
+    - name: Publish local package
+      if: ${{ github.event_name == 'pull_request' }}
+      uses: ./mobile-android-pipelines/actions/maven-publish-local
+
     - name: Generate Changelog
       if: ${{ github.event_name != 'pull_request'
         && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
