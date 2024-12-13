@@ -1,5 +1,5 @@
-name: 'Run publishToMavenLocal'
-description: 'Test Publish the current build Locally'
+name: 'Publish to Maven local'
+description: 'Publishes artifacts to the local Maven repository'
 
 inputs:
   working-directory:
@@ -12,8 +12,6 @@ runs:
   steps:
     - name: Publish API package locally
       id: maven-publish-local
-      run: |
-        pushd ${{ inputs.working-directory }}
-        ./gradlew publishToMavenLocal
-        popd
+      run: ./gradlew publishToMavenLocal
       shell: bash
+      working-directory: ${{ inputs.working-directory }}
