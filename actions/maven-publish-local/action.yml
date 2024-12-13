@@ -1,10 +1,19 @@
-name: 'Run gradle publish local'
-description: 'Publish the current build Locally'
+name: 'Run publishToMavenLocal'
+description: 'Test Publish the current build Locally'
+
+inputs:
+  working-directory:
+    description: 'The working directory for steps in this action'
+    required: false
+    default: '.'
 
 runs:
   using: "composite"
   steps:
     - name: Publish API package locally
       id: maven-publish-local
-      run: ./gradlew publishToMavenLocal
+      run: |
+        pushd ${{ inputs.working-directory }}
+        ./gradlew publishToMavenLocal
+        popd
       shell: bash

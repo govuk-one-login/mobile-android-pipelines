@@ -112,7 +112,7 @@ runs:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
         GITHUB_ACTOR: ${{ github.actor }}
 
-    - name: Publish local package
+    - name: Test local publish
       if: ${{ github.event_name == 'pull_request' }}
       uses: ./mobile-android-pipelines/actions/maven-publish-local
 
