@@ -27,7 +27,18 @@ jobs:
   lint-and-test:
     name: 'Lint and test'
     using: "composite"
+    needs:
+      - verify-commits
     steps:
+      - name: Checkout codebase
+        uses: ./mobile-android-pipelines/actions/checkout-codebase
+
+      - name: Clean workspace
+        uses: ./mobile-android-pipelines/actions/clean-workspace
+
+      - name: Setup GitHub Runner workflow
+        uses: ./mobile-android-pipelines/actions/setup-runner
+
       - name: Lint script files
         uses: ./mobile-android-pipelines/actions/lint-and-test-script-files
 
@@ -37,7 +48,18 @@ jobs:
   sonar-scan:
     name: 'Sonar scan steps'
     using: "composite"
+    needs:
+      - lint-and-test:
     steps:
+      - name: Checkout codebase
+        uses: ./mobile-android-pipelines/actions/checkout-codebase
+
+      - name: Clean workspace
+        uses: ./mobile-android-pipelines/actions/clean-workspace
+
+      - name: Setup GitHub Runner workflow
+        uses: ./mobile-android-pipelines/actions/setup-runner
+
       - name: Upload results to sonarcloud (merge)
         if: ${{ github.event_name != 'pull_request' }}
         uses: ./mobile-android-pipelines/actions/sonar-scan
@@ -62,7 +84,18 @@ jobs:
   rest:
     name: 'Rest'
     using: "composite"
+    needs:
+      - sonar-scan
     steps:
+      - name: Checkout codebase
+        uses: ./mobile-android-pipelines/actions/checkout-codebase
+
+      - name: Clean workspace
+        uses: ./mobile-android-pipelines/actions/clean-workspace
+
+      - name: Setup GitHub Runner workflow
+        uses: ./mobile-android-pipelines/actions/setup-runner
+
       - name: Bundle reports folder
         uses: ./mobile-android-pipelines/actions/bundle-reports
 
