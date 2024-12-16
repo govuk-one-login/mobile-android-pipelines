@@ -83,6 +83,7 @@ jobs:
           pipelines-directory: .
           sonar-token: ${{ secrets.SONAR_TOKEN }}
           analysis-type: PR
+          working-directory: ./buildLogic
 
       - name: Sonar quality gate
         uses: ./actions/sonar-quality-gate

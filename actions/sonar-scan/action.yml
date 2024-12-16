@@ -11,6 +11,10 @@ inputs:
     description: 'Pipelines directory'
     required: false
     default: './mobile-android-pipelines'
+  working-directory:
+    description: 'The working directory for steps in this action'
+    required: false
+    default: '.'
 
 
 runs:
@@ -24,3 +28,4 @@ runs:
       run: |
         ${PIPELINES_DIRECTORY}/scripts/sonar/scan "${ANALYSIS_TYPE}" ${{ github.ref_name }} ${{ github.event.number }}
       shell: bash
+      working-directory: ${{ inputs.working-directory }}
