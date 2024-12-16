@@ -3,9 +3,9 @@ description: 'Run pipelines to validate code before merge and deploy afterwards'
 
 on:
   workflow_call:
-    inputs:
-      stuff:
-        required: true
+    SONAR_TOKEN:
+      description: 'A token for SonarCloud to enable the workflow to read and upload new quality reports.'
+      required: true
 
 jobs:
   verify-commits:
@@ -60,15 +60,7 @@ jobs:
       - name: Setup GitHub Runner workflow
         uses: ./mobile-android-pipelines/actions/setup-runner
 
-      - name: Upload results to sonarcloud (merge)
-        if: ${{ github.event_name != 'pull_request' }}
-        uses: ./mobile-android-pipelines/actions/sonar-scan
-        with:
-          SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}
-          ANALYSIS_TYPE: 'BRANCH'
-
       - name: Upload results to sonarcloud (pull request)
-        if: ${{ github.event_name == 'pull_request' }}
         uses: ./mobile-android-pipelines/actions/sonar-scan
         with:
           SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}
@@ -76,7 +68,6 @@ jobs:
 
       - name: SonarQube Quality Gate check
         id: sonarqube-quality-gate-check
-        if: ${{ github.event_name == 'pull_request' }}
         uses: ./mobile-android-pipelines/actions/sonar-quality-gate
         with:
           SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}
@@ -101,28 +92,12 @@ jobs:
 
       - name: Increment the release version using Conventional Commits
         id: versioning
-        if: ${{ github.event_name != 'pull_request' }}
         uses: ./mobile-android-pipelines/actions/increment-cog-semantic-version
 
-      - name: Publish release tags
-        if: ${{ github.event_name != 'pull_request'
-          && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
-        uses: ./mobile-android-pipelines/actions/publish-release-tag
-
-      - name: Publish package
-        if: ${{ github.event_name != 'pull_request'
-          && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
-        uses: ./mobile-android-pipelines/actions/maven-publish
-        with:
-          GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
-          GITHUB_ACTOR: ${{ github.actor }}
-
       - name: Test local publish
-        if: ${{ github.event_name == 'pull_request' }}
         uses: ./mobile-android-pipelines/actions/maven-publish-local
 
       - name: Generate Changelog
-        if: ${{ github.event_name != 'pull_request'
           && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
         uses: ./mobile-android-pipelines/actions/generate-and-upload-changelog
         with:
