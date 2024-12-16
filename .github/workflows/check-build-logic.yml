@@ -77,10 +77,15 @@ jobs:
         with:
           name: build-logic-unit-test-coverage
 
-      - name: Scan with Sonar
-        uses: ./actions/sonar-scan-and-quality-gate
+      - name: Sonar scan
+        uses: ./actions/sonar-scan
         with:
-          working-directory: ./buildLogic
           pipelines-directory: ../
           sonar-token: ${{ secrets.SONAR_TOKEN }}
           analysis-type: PR
+
+      - name: Sonar quality gate
+        uses: ./actions/sonar-quality-gate
+        with:
+          working-directory: ./buildLogic
+          sonar-token: ${{ secrets.SONAR_TOKEN }}

@@ -1,10 +1,10 @@
 name: 'Upload results to sonarcloud'
 description: 'Upload results to sonarcloud'
 inputs:
-  SONAR_TOKEN:
+  sonar-token:
     description: 'A token for SonarCloud to enable the workflow to read and upload new quality reports.'
     required: true
-  ANALYSIS_TYPE:
+  analysis-type:
     description: 'PR, BRANCH or LOCAL'
     required: true
   pipelines-directory:
@@ -19,8 +19,8 @@ runs:
     - name: Upload results to sonarcloud (merge)
       if: ${{ github.event_name != 'pull_request' }}
       env:
-        SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}
-        EVENT_NAME: ${{ inputs.ANALYSIS_TYPE }}]
+        SONAR_TOKEN: ${{ inputs.sonar-token }}
+        ANALYSIS_TYPE: ${{ inputs.analysis-type }}]
         PIPELINES_DIRECTORY: ${{ inputs.pipelines-directory }}
       run: |
         ${PIPELINES_DIRECTORY}/scripts/sonar/scan "${ANALYSIS_TYPE}" ${{ github.ref_name }} ${{ github.event.number }}
