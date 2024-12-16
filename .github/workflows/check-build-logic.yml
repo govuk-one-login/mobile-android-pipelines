@@ -80,7 +80,7 @@ jobs:
       - name: Sonar scan
         uses: ./actions/sonar-scan
         with:
-          pipelines-directory: .
+          pipelines-directory: ..
           sonar-token: ${{ secrets.SONAR_TOKEN }}
           analysis-type: PR
           working-directory: ./buildLogic
