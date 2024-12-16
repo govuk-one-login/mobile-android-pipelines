@@ -7,8 +7,14 @@ IFS="," read -r -a MODULE_PATHS <<< "${MODULES_TO_BUNDLE/://}"
 echo Module paths: "${MODULE_PATHS[@]}"
 
 # Converting comma separated string input into a list of strings for input flavors.
-IFS="," read -r -a FLAVORS <<< "${INPUT_FLAVORS}"
-echo Flavors: "${FLAVORS[@]}"
+if [ -z "${INPUT_FLAVORS}" ]
+then
+  EMPTY_STRING=""
+  FLAVORS=("$EMPTY_STRING")
+else
+  IFS="," read -r -a FLAVORS <<< "${INPUT_FLAVORS}"
+  echo Flavors: "${FLAVORS[@]}"
+fi
 
 # Converting comma separated string input into a list of strings, replacing "/" with ":" for tasks.
 IFS="," read -r -a MODULE_TASKS <<< "${MODULES_TO_BUNDLE////:}"
@@ -39,7 +45,17 @@ do
   MODULE_SUFFIX="${MODULE##*/}"
   for FLAVOR in "${FLAVORS[@]}"
   do
-    OUTPUT+="${FLAVOR}:${MODULE}/build/outputs/bundle/${FLAVOR}Release/${MODULE_SUFFIX}-${FLAVOR}-release.aab;"
+    if [ "${FLAVOR}" == "" ]
+    then
+      PACKAGE_NAME_INDICATOR="production"
+      RELEASE_FOLDER="release"
+      AAB_NAME_HYPHEN=""
+    else
+      PACKAGE_NAME_INDICATOR="${FLAVOR}"
+      RELEASE_FOLDER="Release"
+      AAB_NAME_HYPHEN="-"
+    fi
+    OUTPUT+="${PACKAGE_NAME_INDICATOR}:${MODULE}/build/outputs/bundle/${FLAVOR}${RELEASE_FOLDER}/${MODULE_SUFFIX}${AAB_NAME_HYPHEN}${FLAVOR}-release.aab;"
   done
 done
 echo "aab paths = ${OUTPUT}"

@@ -1,0 +1,14 @@
+name: 'Lint files'
+description: 'Lint files'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Lint script files
+      run: |
+        ./gradlew \
+          vale \
+          ktlintCheck \
+          detekt \
+          lint
+      shell: bash

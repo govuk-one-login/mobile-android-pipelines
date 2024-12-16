@@ -20,7 +20,6 @@ inputs:
   FLAVORS:
     description: 'App flavors to return paths for, comma separated without spaces'
     required: false
-    default: 'production'
 
 outputs:
   aab-paths:
