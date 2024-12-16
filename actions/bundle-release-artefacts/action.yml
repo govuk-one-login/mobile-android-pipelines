@@ -35,8 +35,6 @@ runs:
   steps:
     - name: Build artefact for release
       id: gradle-bundle
-      # TODO: change back to post-merge only
-#      if: ${{ github.event_name != 'pull_request' }}
       run: |
         ${PIPELINES_DIRECTORY}/scripts/bundleRelease.sh
       env:
