@@ -4,6 +4,9 @@ inputs:
   SONAR_TOKEN:
     description: 'Sonar token'
     required: true
+  WORKING_DIRECTORY:
+    description: 'The working directory for steps in this action'
+    required: true
 
 runs:
   using: "composite"
@@ -15,4 +18,4 @@ runs:
       env:
         SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}
       with:
-        scanMetadataReportFile: ${{ github.workspace }}/build/sonar/report-task.txt
+        scanMetadataReportFile: ${{ inputs.WORKING_DIRECTORY }}/build/sonar/report-task.txt
