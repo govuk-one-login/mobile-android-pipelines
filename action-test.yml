@@ -1,0 +1,100 @@
+name: 'Android pipelines Test'
+description: 'Run pipelines to validate code before merge and deploy afterwards'
+
+on:
+  workflow_call:
+    inputs:
+      stuff:
+        required: true
+
+jobs:
+  verify-commits:
+    name: 'Verify commits'
+    using: "composite"
+    steps:
+      - name: Checkout codebase
+        uses: ./mobile-android-pipelines/actions/checkout-codebase
+
+      - name: Clean workspace
+        uses: ./mobile-android-pipelines/actions/clean-workspace
+
+      - name: Setup GitHub Runner workflow
+        uses: ./mobile-android-pipelines/actions/setup-runner
+
+      - name: Verify Conventional commit standards against latest git tag
+        uses: ./mobile-android-pipelines/actions/verify-conventional-commit
+
+  lint-and-test:
+    name: 'Lint and test'
+    using: "composite"
+    steps:
+      - name: Lint script files
+        uses: ./mobile-android-pipelines/actions/lint-and-test-script-files
+
+      - name: Run gradle testing suite
+        uses: ./mobile-android-pipelines/actions/run-testing-suite
+
+  sonar-scan:
+    name: 'Sonar scan steps'
+    using: "composite"
+    steps:
+      - name: Upload results to sonarcloud (merge)
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: ./mobile-android-pipelines/actions/sonar-scan
+        with:
+          SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}
+          ANALYSIS_TYPE: 'BRANCH'
+
+      - name: Upload results to sonarcloud (pull request)
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: ./mobile-android-pipelines/actions/sonar-scan
+        with:
+          SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}
+          ANALYSIS_TYPE: 'PR'
+
+      - name: SonarQube Quality Gate check
+        id: sonarqube-quality-gate-check
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: ./mobile-android-pipelines/actions/sonar-quality-gate
+        with:
+          SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}
+
+  rest:
+    name: 'Rest'
+    using: "composite"
+    steps:
+      - name: Bundle reports folder
+        uses: ./mobile-android-pipelines/actions/bundle-reports
+
+      - name: Increment the release version using Conventional Commits
+        id: versioning
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: ./mobile-android-pipelines/actions/increment-cog-semantic-version
+
+      - name: Publish release tags
+        if: ${{ github.event_name != 'pull_request'
+          && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
+        uses: ./mobile-android-pipelines/actions/publish-release-tag
+
+      - name: Publish package
+        if: ${{ github.event_name != 'pull_request'
+          && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
+        uses: ./mobile-android-pipelines/actions/maven-publish
+        with:
+          GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
+
+      - name: Test local publish
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: ./mobile-android-pipelines/actions/maven-publish-local
+
+      - name: Generate Changelog
+        if: ${{ github.event_name != 'pull_request'
+          && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
+        uses: ./mobile-android-pipelines/actions/generate-and-upload-changelog
+        with:
+          CURRENT_VERSION: ${{ steps.versioning.outputs.current-version }}
+          NEW_VERSION: ${{ steps.versioning.outputs.new-version }}
+
+      - name: Clean workspace
+        uses: ./mobile-android-pipelines/actions/clean-workspace
