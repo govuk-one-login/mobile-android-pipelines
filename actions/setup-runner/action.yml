@@ -78,8 +78,6 @@ runs:
     - name: Setup Gradle
       id: setupGradle
       uses: gradle/actions/setup-gradle@cc4fc85e6b35bafd578d5ffbc76a5518407e1af0 # v4.2.1
-      env:
-        CI: 'true'
       with:
         gradle-version: ${{ inputs.gradle-version }}
 

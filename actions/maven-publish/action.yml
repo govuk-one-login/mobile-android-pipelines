@@ -18,6 +18,5 @@ runs:
         ./gradlew publish
       shell: bash
       env:
-        CI: true
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
         GITHUB_ACTOR: ${{ inputs.GITHUB_ACTOR }}

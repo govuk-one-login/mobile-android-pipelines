@@ -1,0 +1,17 @@
+name: 'Publish to Maven local'
+description: 'Publishes artifacts to the local Maven repository'
+
+inputs:
+  working-directory:
+    description: 'The working directory for steps in this action'
+    required: false
+    default: '.'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Publish API package locally
+      id: maven-publish-local
+      run: ./gradlew publishToMavenLocal
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
