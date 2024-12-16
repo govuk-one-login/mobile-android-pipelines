@@ -59,4 +59,4 @@ do
   done
 done
 echo "aab paths = ${OUTPUT}"
-echo "aab-paths=${OUTPUT}" >> $GITHUB_OUTPUT
+echo "aab-paths=${OUTPUT}" >> "$GITHUB_OUTPUT"

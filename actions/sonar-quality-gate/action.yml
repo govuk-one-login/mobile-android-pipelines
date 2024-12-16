@@ -1,10 +1,10 @@
 name: 'SonarQube Quality Gate check'
 description: 'SonarQube Quality Gate check'
 inputs:
-  SONAR_TOKEN:
+  sonar-token:
     description: 'Sonar token'
     required: true
-  WORKING_DIRECTORY:
+  working-directory:
     description: 'The working directory for steps in this action'
     required: true
 
@@ -16,6 +16,6 @@ runs:
       if: ${{ github.event_name == 'pull_request' }}
       uses: sonarsource/sonarqube-quality-gate-action@d304d050d930b02a896b0f85935344f023928496 # pin@v1.1.0
       env:
-        SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}
+        SONAR_TOKEN: ${{ inputs.sonar-token }}
       with:
-        scanMetadataReportFile: ${{ inputs.WORKING_DIRECTORY }}/build/sonar/report-task.txt
+        scanMetadataReportFile: ${{ inputs.working-directory }}/build/sonar/report-task.txt
