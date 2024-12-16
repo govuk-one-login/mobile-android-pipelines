@@ -23,7 +23,7 @@ runs:
     - name: Sonar scan
       env:
         SONAR_TOKEN: ${{ inputs.sonar-token }}
-        ANALYSIS_TYPE: ${{ inputs.analysis-type }}]
+        ANALYSIS_TYPE: ${{ inputs.analysis-type }}
         PIPELINES_DIRECTORY: ${{ inputs.pipelines-directory }}
       run: |
         ${PIPELINES_DIRECTORY}/scripts/sonar/scan "${ANALYSIS_TYPE}" ${{ github.ref_name }} ${{ github.event.number }}
