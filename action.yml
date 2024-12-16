@@ -17,7 +17,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: 'Checkout codebase'
+    - name: Checkout codebase
       uses: ./mobile-android-pipelines/actions/checkout-codebase
 
     - name: Clean workspace
@@ -30,7 +30,7 @@ runs:
       uses: ./mobile-android-pipelines/actions/verify-conventional-commit
       
     - name: Lint script files
-      uses: ./mobile-android-pipelines/actions/lint-scripting-files
+      uses: ./mobile-android-pipelines/actions/lint-and-test-script-files
     
     - name: Run gradle testing suite
       uses: ./mobile-android-pipelines/actions/run-testing-suite
@@ -68,7 +68,7 @@ runs:
     - name: Publish release tags
       if: ${{ github.event_name != 'pull_request'
         && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
-      uses: ./mobile-android-pipelines/actions/publish-release-tags
+      uses: ./mobile-android-pipelines/actions/publish-release-tag
 
     - name: Publish package
       if: ${{ github.event_name != 'pull_request'

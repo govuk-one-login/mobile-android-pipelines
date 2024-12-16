@@ -1,5 +1,5 @@
-name: 'Lint script files'
-description: 'Lint script files'
+name: 'Lint and test files'
+description: 'Lint and test files via script'
 inputs:
   TEST_RUNNER_MODE:
     description: 'unit, instrumentation, both'
@@ -16,5 +16,5 @@ runs:
       env:
         TEST_RUNNER_MODE: ${{ inputs.TEST_RUNNER_MODE }}
         DEPENDENCY_CHECK: ${{ inputs.SHOULD_RUN_DEPENDENCY_CHECKER }}
-      run: ./mobile-android-pipelines/scripts/lintProject.sh "${TEST_RUNNER_MODE}" "${DEPENDENCY_CHECK}"
+      run: ./mobile-android-pipelines/scripts/lintAndTestProject.sh "${TEST_RUNNER_MODE}" "${DEPENDENCY_CHECK}"
       shell: bash
