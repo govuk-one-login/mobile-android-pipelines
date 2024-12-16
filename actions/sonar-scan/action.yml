@@ -16,8 +16,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Upload results to sonarcloud (merge)
-      if: ${{ github.event_name != 'pull_request' }}
+    - name: Sonar scan
       env:
         SONAR_TOKEN: ${{ inputs.sonar-token }}
         ANALYSIS_TYPE: ${{ inputs.analysis-type }}]
