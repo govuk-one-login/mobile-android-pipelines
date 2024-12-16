@@ -1,13 +1,13 @@
 name: 'Bundle artefact for release'
 description: 'Build artefact for release'
 inputs:
-  SIGNING_KEY_PASSWORD:
+  KEYSTORE_KEY_PASSWORD:
     description: 'Signing key password'
     required: true
-  SIGNING_KEY_ALIAS:
+  KEYSTORE_KEY_ALIAS:
     description: 'Signing key alias'
     required: true
-  SIGNING_STORE_PASSWORD:
+  KEYSTORE_PASSWORD:
     description: 'Signing store password'
     required: true
   GITHUB_TOKEN:
