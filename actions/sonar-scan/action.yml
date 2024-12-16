@@ -7,6 +7,10 @@ inputs:
   ANALYSIS_TYPE:
     description: 'PR, BRANCH or LOCAL'
     required: true
+  pipelines-directory:
+    description: 'Pipelines directory'
+    required: false
+    default: './mobile-android-pipelines'
 
 
 runs:
@@ -16,7 +20,8 @@ runs:
       if: ${{ github.event_name != 'pull_request' }}
       env:
         SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}
-        EVENT_NAME: ${{ inputs.ANALYSIS_TYPE }}
+        EVENT_NAME: ${{ inputs.ANALYSIS_TYPE }}]
+        PIPELINES_DIRECTORY: ${{ inputs.pipelines-directory }}
       run: |
-        ./mobile-android-pipelines/scripts/sonar/scan "${ANALYSIS_TYPE}" ${{ github.ref_name }} ${{ github.event.number }}
+        ${PIPELINES_DIRECTORY}/scripts/sonar/scan "${ANALYSIS_TYPE}" ${{ github.ref_name }} ${{ github.event.number }}
       shell: bash

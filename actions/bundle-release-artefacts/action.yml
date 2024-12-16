@@ -20,6 +20,10 @@ inputs:
   FLAVORS:
     description: 'App flavors to return paths for, comma separated without spaces'
     required: false
+  pipelines-directory:
+    description: 'Pipelines directory'
+    required: false
+    default: './mobile-android-pipelines'
 
 outputs:
   aab-paths:
@@ -33,7 +37,7 @@ runs:
       id: gradle-bundle
       if: ${{ github.event_name != 'pull_request' }}
       run: |
-        ./mobile-android-pipelines/scripts/bundleRelease.sh
+        ${PIPELINES_DIRECTORY}/scripts/bundleRelease.sh
       env:
         SIGNING_KEY_PASSWORD: ${{ inputs.KEYSTORE_KEY_PASSWORD }}
         SIGNING_KEY_ALIAS: ${{ inputs.KEYSTORE_KEY_ALIAS }}
@@ -44,4 +48,5 @@ runs:
         # INPUT_FLAVORS: 'staging,production'
         INPUT_FLAVORS: ${{ inputs.FLAVORS }}
         GITHUB_ACTOR: ${{ github.actor }}
+        PIPELINES_DIRECTORY: ${{ inputs.pipelines-directory }}
       shell: bash
