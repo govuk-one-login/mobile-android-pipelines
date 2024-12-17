@@ -7,6 +7,9 @@ inputs:
   NEW_VERSION:
     description: 'new semantic version'
     required: true
+  VERSION_PREFIX:
+    description: 'version prefix'
+    required: false
 
 runs:
   using: "composite"
@@ -14,7 +17,9 @@ runs:
     - name: Generate Changelog
       if: ${{ inputs.CURRENT_VERSION != inputs.NEW_VERSION }}
       run: |
-        cog changelog --at v$(cog -v get-version) > CHANGELOG.md
+        cog changelog --at ${VERSION_PREFIX}$(cog -v get-version) > CHANGELOG.md
+      env:
+        VERSION_PREFIX: ${{ inputs.VERSION_PREFIX }}
       shell: bash
 
     - name: Upload Changelog
