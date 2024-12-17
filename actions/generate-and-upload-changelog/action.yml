@@ -12,15 +12,13 @@ runs:
   using: "composite"
   steps:
     - name: Generate Changelog
-      if: ${{ github.event_name != 'pull_request'
-        && inputs.CURRENT_VERSION != inputs.NEW_VERSION }}
+      if: ${{ inputs.CURRENT_VERSION != inputs.NEW_VERSION }}
       run: |
         cog changelog --at v$(cog -v get-version) > CHANGELOG.md
       shell: bash
 
     - name: Upload Changelog
-      if: ${{ github.event_name != 'pull_request'
-        && inputs.CURRENT_VERSION != inputs.NEW_VERSION }}
+      if: ${{ inputs.CURRENT_VERSION != inputs.NEW_VERSION }}
       id: uploadBuildReports
       uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
       with:
