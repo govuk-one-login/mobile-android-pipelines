@@ -14,7 +14,6 @@ runs:
   steps:
     - name: Increment the release version using Conventional Commits
       id: versioning
-      if: ${{ github.event_name != 'pull_request' }}
       run: |
         git config user.name github-actions
         git config user.email github-actions@github.com
