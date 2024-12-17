@@ -87,8 +87,8 @@ runs:
         && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
       uses: ./mobile-android-pipelines/actions/generate-and-upload-changelog
       with:
-        CURRENT_VERSION: ${{ steps.versioning.outputs.current-version }}
-        NEW_VERSION: ${{ steps.versioning.outputs.new-version }}
+        CURRENT_VERSION: ${{ steps.versioning.outputs.current_version }}
+        NEW_VERSION: ${{ steps.versioning.outputs.new_version }}
 
     - name: Clean workspace
       uses: ./mobile-android-pipelines/actions/clean-workspace
