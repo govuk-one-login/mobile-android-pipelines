@@ -20,7 +20,7 @@ jobs:
     steps:
 
       - name: Checkout codebase
-        uses: ./mobile-android-pipelines/actions/checkout-codebase
+        uses: ./actions/checkout-codebase
 
       - name: Setup runner
         uses: ./actions/setup-runner

@@ -21,7 +21,7 @@ jobs:
     steps:
 
       - name: 'Checkout codebase'
-        uses: ./mobile-android-pipelines/actions/checkout-codebase
+        uses: ./actions/checkout-codebase
 
       - name: Setup runner
         uses: ./actions/setup-runner
@@ -59,7 +59,7 @@ jobs:
     steps:
 
       - name: 'Checkout codebase'
-        uses: ./mobile-android-pipelines/actions/checkout-codebase
+        uses: ./actions/checkout-codebase
 
       - name: Setup runner
         uses: ./actions/setup-runner
@@ -67,7 +67,7 @@ jobs:
           jdk-version: 21
 
       - name: Download build logic unit test coverage reports
-        uses: ./mobile-android-pipelines/actions/download-artifact
+        uses: ./actions/download-artifact
         with:
           artifact-name: build-logic-unit-test-coverage
 
