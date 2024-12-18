@@ -21,7 +21,7 @@ jobs:
     steps:
 
       - name: 'Checkout codebase'
-        uses: ./mobile-android-pipelines/actions/checkout-codebase
+        uses: ./actions/checkout-codebase
 
       - name: Lint scripts
         run: |
