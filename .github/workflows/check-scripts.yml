@@ -21,7 +21,7 @@ jobs:
     steps:
 
       - name: 'Checkout codebase'
-        uses: ./actions/checkout-codebase
+        uses: govuk-one-login/mobile-android-pipelines/actions/checkout-codebase
 
       - name: Lint scripts
         run: |
