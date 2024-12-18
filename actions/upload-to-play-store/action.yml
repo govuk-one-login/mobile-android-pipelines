@@ -25,11 +25,6 @@ runs:
 
     - name: Update fastlane and upload to play store
       run: |
-        export LC_ALL=en_US.utf8
-        export LANG=en_US.utf8
-        export GEM_HOME=$HOME/.gem
-        export GEM_PATH=$HOME/.gem       
-        
         BUNDLES=($(echo $INPUT_AAB_PATHS | tr ";" "\n"))
         
         for BUNDLE in ${BUNDLES[@]}
@@ -58,3 +53,8 @@ runs:
         INPUT_PACKAGE_NAME: ${{ inputs.package-name }}
         INPUT_JSON_KEY_DATA: ${{  inputs.json-key-data  }}
         INPUT_TRACK: ${{ inputs.track }}
+        LC_ALL: en_US.utf8
+        LANG: en_US.utf8
+        GEM_HOME: $HOME/.gem
+        GEM_PATH: $HOME/.gem
+
