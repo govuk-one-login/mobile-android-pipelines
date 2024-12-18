@@ -5,6 +5,6 @@ runs:
   using: "composite"
   steps:
     - name: Verify Conventional commit standards against latest git tag
-      uses: cocogitto/cocogitto-action@f1d28f8e65281597d8209bf233328ddfd4424d10
+      uses: cocogitto/cocogitto-action@f1d28f8e65281597d8209bf233328ddfd4424d10 #v3
       with:
         check-latest-tag-only: true
