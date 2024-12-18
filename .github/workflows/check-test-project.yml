@@ -37,9 +37,10 @@ jobs:
           ./gradlew check
 
       - name: Upload coverage reports
-        uses: ./actions/upload-coverage-reports
+        uses: ./actions/upload-artifact
         with:
           artifact-name: test-project-unit-test-coverage
+          artifact-path: "**/reports/jacoco/**/*.xml"
 
   instrumentation-test:
     name: Instrumentation test
@@ -47,7 +48,10 @@ jobs:
     steps:
 
       - name: 'Checkout codebase'
-        uses: ./actions/checkout-codebase
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          lfs: 'true'
+          fetch-depth: 0
 
       - name: Setup runner
         uses: ./actions/setup-runner
@@ -60,9 +64,10 @@ jobs:
           ./gradlew allDevicesCheck
 
       - name: Upload coverage reports
-        uses: ./actions/upload-coverage-reports
+        uses: ./actions/upload-artifact
         with:
           artifact-name: test-project-instrumentation-test-coverage
+          artifact-path: "**/reports/jacoco/**/*.xml"
 
   sonar-scan:
     name: Scan with Sonar
