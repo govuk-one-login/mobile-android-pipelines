@@ -15,7 +15,7 @@ runs:
     - name: Publish API package
       id: maven-publish
       run: |
-        ./gradlew publishDefaultPublicationToGitHubPackagesRepository
+        ./gradlew publish
       shell: bash
       env:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
