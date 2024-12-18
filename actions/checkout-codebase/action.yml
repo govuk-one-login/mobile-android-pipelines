@@ -1,5 +1,26 @@
 name: 'Checkout codebase'
 description: 'Checkout codebase'
+inputs:
+  lfs:
+    description: 'Whether to download Git-LFS files'
+    required: false
+    default: 'true'
+  submodules:
+    description: 'Whether to checkout submodules: `true` to checkout submodules or `recursive` to recursively checkout submodules.'
+    required: false
+    default: 'true'
+  fetch-depth:
+    description: 'Number of commits to fetch. 0 indicates all history for all branches and tags'
+    required: false
+    default: '0'
+  fetch-tags:
+    description: 'Whether to fetch tags, even if fetch-depth > 0.'
+    required: false
+    default: 'true'
+  ref:
+    description: 'Git reference location'
+    required: false
+
 
 runs:
   using: "composite"
@@ -7,7 +28,8 @@ runs:
     - name: 'Checkout codebase'
       uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       with:
-        lfs: 'true'
-        submodules: 'true'
-        fetch-depth: 0
-        fetch-tags: true
+        lfs: ${{ inputs.lfs }}
+        submodules: ${{ inputs.submodules }}
+        fetch-depth: ${{ inputs.fetch-depth }}
+        fetch-tags: ${{ inputs.fetch-tags }}
+        ref: ${{ inputs.ref }}
