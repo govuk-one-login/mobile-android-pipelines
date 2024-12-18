@@ -1,10 +1,14 @@
-name: 'Lint files'
+name: 'Lint'
 description: 'Lint files'
+inputs:
+  scripts-directory:
+    description: Directory of bash scripts
+    required: true
 
 runs:
   using: "composite"
   steps:
-    - name: Lint script files
+    - name: Lint
       run: |
         ./gradlew \
           vale \
