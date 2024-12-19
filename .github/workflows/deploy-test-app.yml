@@ -35,8 +35,7 @@ jobs:
           KEYSTORE_KEY_PASSWORD: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
           KEYSTORE_KEY_ALIAS: ${{ secrets.KEYSTORE_KEY_ALIAS }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MODULES_TO_BUNDLE: 'test-app'
-          INPUT_FLAVORS: ''
+          MODULES: 'test-app'
           GITHUB_ACTOR: ${{ github.actor }}
 
       - name: Upload release artefact
