@@ -20,6 +20,14 @@ jobs:
           lfs: 'true'
           fetch-depth: 0
 
+      - name: Decode Keystore
+        working-directory: test-project
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          echo "${KEYSTORE_BASE64}" | base64 --decode > config/keystore.jks
+        shell: bash
+
       - name: Setup runner
         uses: ./actions/setup-runner
         with:
@@ -41,4 +49,6 @@ jobs:
       - name: Upload release artefact
         uses: ./actions/upload-artifact
         with:
-          artifact-path: test-app/build/outputs/bundle/release/test-app-release.aab
+          artifact-path: test-project/test-app/build/outputs/bundle/release/test-app-release.aab
+
+
