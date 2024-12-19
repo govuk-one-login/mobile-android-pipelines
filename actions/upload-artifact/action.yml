@@ -1,0 +1,28 @@
+name: 'Upload artifact'
+
+inputs:
+  artifact-name:
+    description: 'Name for the uploaded artifact'
+    required: true
+  artifact-path:
+    description: 'Path to artifact'
+    required: true
+  retention-days:
+    description: 'Duration of retention of uploaded artifacts'
+    required: false
+    default: '1'
+  if-no-files-found:
+    description: 'Behaviour if no files are found'
+    required: false
+    default: 'error'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Upload artifact
+      uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
+      with:
+        name: ${{ inputs.artifact-name }}
+        retention-days: ${{ inputs.retention-days }}
+        if-no-files-found: ${{ inputs.if-no-files-found }}
+        path: ${{ inputs.artifact-path }}

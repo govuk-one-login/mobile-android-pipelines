@@ -1,0 +1,27 @@
+name: 'Run gradle check'
+description: 'Run the "check" command for a Gradle project'
+
+inputs:
+  KEYSTORE_BASE64:
+    description: 'Keystore base 64'
+    required: true
+  SERVICE_ACCOUNT_JSON_BASE64:
+    description: 'Service account JSON base 64'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Decode Keystore
+      env:
+        ENCODED_STRING: ${{ inputs.KEYSTORE_BASE64 }}
+      run: |
+        echo "${ENCODED_STRING}" | base64 --decode > config/keystore.jks
+      shell: bash
+
+    - name: Decode Service Account
+      env:
+        ENCODED_STRING: ${{ inputs.SERVICE_ACCOUNT_JSON_BASE64 }}
+      run: |
+        echo "${ENCODED_STRING}" | base64 --decode > config/service-account-credentials.json
+      shell: bash

@@ -1,0 +1,42 @@
+name: 'Upload results to sonarcloud'
+description: 'Upload results to sonarcloud'
+inputs:
+  sonar-token:
+    description: 'A token for SonarCloud to enable the workflow to read and upload new quality reports.'
+    required: true
+  analysis-type:
+    description: 'PR, BRANCH or LOCAL'
+    required: true
+  pipelines-directory:
+    description: 'Pipelines directory'
+    required: false
+    default: './mobile-android-pipelines'
+  working-directory:
+    description: 'The working directory for steps in this action'
+    required: false
+    default: '.'
+
+
+runs:
+  using: "composite"
+  steps:
+    - name: Sonar scan
+      env:
+        SONAR_TOKEN: ${{ inputs.sonar-token }}
+        ANALYSIS_TYPE: ${{ inputs.analysis-type }}
+        PIPELINES_DIRECTORY: ${{ inputs.pipelines-directory }}
+      run: |
+        case "${ANALYSIS_TYPE}" in
+          "PR")
+            REF=${{ github.head_ref }}
+            ;;
+          "BRANCH")
+            REF=${{ github.ref_name }}
+            ;;
+          *)
+            REF=""
+            ;;
+        esac
+        ${PIPELINES_DIRECTORY}/scripts/sonar/scan "${ANALYSIS_TYPE}" "$REF" ${{ github.event.number }}
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}

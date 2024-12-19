@@ -1,7 +1,7 @@
 name: 'Upload coverage reports'
 
 inputs:
-  name:
+  artifact-name:
     description: 'Name for the uploaded artifact'
     required: true
 
@@ -9,9 +9,7 @@ runs:
   using: "composite"
   steps:
     - name: Upload coverage reports
-      uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
+      uses: ./mobile-android-pipelines/actions/upload-artifact
       with:
-        name: ${{ inputs.name }}
-        retention-days: 1
-        if-no-files-found: error
-        path: "**/reports/jacoco/**/*.xml"
+        artifact-name: ${{ inputs.artifact-name }}
+        artifact-path: "**/reports/jacoco/**/*.xml"
