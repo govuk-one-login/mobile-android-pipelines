@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.ApplicationExtension
+
 plugins {
     id("uk.gov.pipelines.android-app-config")
     alias(libs.plugins.kotlin.compose.compiler)
@@ -47,4 +49,11 @@ dependencies {
     androidTestUtil(libs.androidx.test.orchestrator)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+}
+
+configure<ApplicationExtension> {
+    defaultConfig {
+        versionName = "0.1.0"
+        versionCode = 2
+    }
 }
