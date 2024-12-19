@@ -31,9 +31,9 @@ jobs:
         with:
           working-directory: test-project
           pipelines-directory: ..
-          SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
-          SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_KEY_ALIAS }}
-          SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEYSTORE_KEY_PASSWORD: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
+          KEYSTORE_KEY_ALIAS: ${{ secrets.KEYSTORE_KEY_ALIAS }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MODULES_TO_BUNDLE: 'test-app'
           INPUT_FLAVORS: ''
@@ -42,5 +42,4 @@ jobs:
       - name: Upload release artefact
         uses: ./actions/upload-artifact
         with:
-          artifact-path:
-            ${{ steps.bundle-release.outputs.aab-paths }}
+          artifact-path: app/build/outputs/bundle/release/app-release.aab
