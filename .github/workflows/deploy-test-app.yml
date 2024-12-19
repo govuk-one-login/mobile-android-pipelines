@@ -1,6 +1,7 @@
 name: Deploy test app
 
 on:
+  push:
   workflow_dispatch:
 
 concurrency:
