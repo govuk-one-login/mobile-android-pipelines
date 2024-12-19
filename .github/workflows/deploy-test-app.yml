@@ -50,5 +50,6 @@ jobs:
         uses: ./actions/upload-artifact
         with:
           artifact-path: test-project/test-app/build/outputs/bundle/release/test-app-release.aab
+          artifact-name: 'app-release'
 
 
