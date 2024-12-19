@@ -10,9 +10,6 @@ inputs:
   KEYSTORE_PASSWORD:
     description: 'Signing store password'
     required: true
-  GITHUB_TOKEN:
-    description: 'Github token'
-    required: true
   MODULES:
     description: 'Modules to bundle release, comma separated without spaces'
     required: false
