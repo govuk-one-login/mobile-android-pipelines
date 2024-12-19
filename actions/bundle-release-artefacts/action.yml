@@ -24,6 +24,10 @@ inputs:
     description: 'Pipelines directory'
     required: false
     default: './mobile-android-pipelines'
+  working-directory:
+    description: 'Working directory'
+    required: false
+    default: '.'
 
 outputs:
   aab-paths:
@@ -35,6 +39,7 @@ runs:
   steps:
     - name: Build artefact for release
       id: gradle-bundle
+      working-directory: ${{ inputs.working-directory }}
       run: |
         ${PIPELINES_DIRECTORY}/scripts/bundleRelease.sh
       env:
