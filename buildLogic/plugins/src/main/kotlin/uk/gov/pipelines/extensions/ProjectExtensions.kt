@@ -24,7 +24,7 @@ object ProjectExtensions {
         }
 
     val Project.versionCode
-        get() = prop("versionCode", Integer.MAX_VALUE).toInt()
+        get() = prop("versionCode", 1).toInt()
     val Project.versionName: String
         get() {
             val scriptsDir = buildLogicDir.resolve("scripts/")
