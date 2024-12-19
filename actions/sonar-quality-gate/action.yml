@@ -6,7 +6,8 @@ inputs:
     required: true
   working-directory:
     description: 'The working directory for steps in this action'
-    required: true
+    required: false
+    default: '.'
 
 runs:
   using: "composite"
