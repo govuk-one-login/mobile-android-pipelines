@@ -18,7 +18,7 @@ runs:
   using: "composite"
   steps:
     - name: Checkout codebase
-      uses: ./mobile-android-pipelines/actions/checkout-codebase
+      uses: govuk-one-login/mobile-android-pipelines/actions/checkout-codebase@6afe0236a1f516f3daa8e01cc4251e93557a407b
 
     - name: Clean workspace
       uses: ./mobile-android-pipelines/actions/clean-workspace
@@ -48,7 +48,6 @@ runs:
       with:
         SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}
         ANALYSIS_TYPE: 'PR'
-
 
     - name: SonarQube Quality Gate check
       id: sonarqube-quality-gate-check
