@@ -37,10 +37,9 @@ jobs:
           ./gradlew check
 
       - name: Upload coverage reports
-        uses: ./actions/upload-artifact
+        uses: ./actions/upload-coverage-reports
         with:
           artifact-name: test-project-unit-test-coverage
-          artifact-path: "**/reports/jacoco/**/*.xml"
 
   instrumentation-test:
     name: Instrumentation test
@@ -64,10 +63,9 @@ jobs:
           ./gradlew allDevicesCheck
 
       - name: Upload coverage reports
-        uses: ./actions/upload-artifact
+        uses: ./actions/upload-coverage-reports
         with:
           artifact-name: test-project-instrumentation-test-coverage
-          artifact-path: "**/reports/jacoco/**/*.xml"
 
   sonar-scan:
     name: Scan with Sonar

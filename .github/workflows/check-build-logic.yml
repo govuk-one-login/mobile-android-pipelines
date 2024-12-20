@@ -50,10 +50,9 @@ jobs:
           ./gradlew test
 
       - name: Upload coverage reports
-        uses: ./actions/upload-artifact
+        uses: ./actions/upload-coverage-reports
         with:
           artifact-name: build-logic-unit-test-coverage
-          artifact-path: "**/reports/jacoco/**/*.xml"
 
   sonar-scan:
     name: Scan with Sonar

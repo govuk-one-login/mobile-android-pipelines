@@ -25,7 +25,7 @@ runs:
     - name: Upload Changelog
       if: ${{ inputs.CURRENT_VERSION != inputs.NEW_VERSION }}
       id: uploadBuildReports
-      uses: ./mobile-android-pipelines/actions/upload-artifact
+      uses: govuk-one-login/mobile-android-pipelines/actions/upload-artifact@79fc35b19faff39ed49b8ba1fdcd0608760062e1
       with:
         artifact-name: CHANGELOG.md
         artifact-path: |
