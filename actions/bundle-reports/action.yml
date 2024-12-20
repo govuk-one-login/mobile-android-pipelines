@@ -12,7 +12,7 @@ runs:
 
     - name: Upload buildLogic.plugins.build reports
       id: uploadBuildReports
-      uses: ./mobile-android-pipelines/actions/upload-artifact
+      uses: govuk-one-login/mobile-android-pipelines/actions/upload-artifact@79fc35b19faff39ed49b8ba1fdcd0608760062e1
       with:
         artifact-name: buildLogic.plugins.build-reports
         artifact-path: |
