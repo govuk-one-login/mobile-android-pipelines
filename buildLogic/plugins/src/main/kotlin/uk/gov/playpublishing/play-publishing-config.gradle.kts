@@ -4,17 +4,20 @@ import com.android.build.api.dsl.ApplicationExtension
 import com.github.triplet.gradle.play.PlayPublisherExtension
 
 val googlePlayServiceAccountJson = project.rootProject.file("config/service-account-credentials.json")
-val signingKeystoreFile = project.rootProject.file("/config/keystore.jks")
+val signingKeystoreFile = project.rootProject.file("config/keystore.jks")
 val signingKeystorePassword: String? = System.getenv("KEYSTORE_PASSWORD")
 val signingKeyAlias: String? = System.getenv("KEYSTORE_KEY_ALIAS")
 val signingKeyPassword: String? = System.getenv("KEYSTORE_KEY_PASSWORD")
 
 if (!googlePlayServiceAccountJson.exists()) {
-    project.logger.warn("Google Service Account Credentials not found.")
+    project.logger.warn("Google Service Account credentials not found.")
 }
+project.logger.info("Google Service Account credentials found: $googlePlayServiceAccountJson")
+
 if (!signingKeystoreFile.exists()) {
     project.logger.warn("Signing keystore not found")
 }
+project.logger.info("Signing keystore found: $signingKeystoreFile")
 
 project.plugins.apply("com.github.triplet.play")
 
