@@ -2,19 +2,12 @@ import com.android.build.api.dsl.ApplicationExtension
 
 plugins {
     id("uk.gov.pipelines.android-app-config")
+    id("uk.gov.playpublishing.play-publishing-config")
     alias(libs.plugins.kotlin.compose.compiler)
 }
 
 android {
     namespace = "uk.gov.pipelines.testapp"
-    signingConfigs {
-        register("release") {
-            storeFile = File("${project.rootProject.projectDir}/config/keystore.jks")
-            storePassword = System.getenv("SIGNING_STORE_PASSWORD")
-            keyAlias = System.getenv("SIGNING_KEY_ALIAS")
-            keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
-        }
-    }
     buildTypes {
         release {
             isMinifyEnabled = true
@@ -22,7 +15,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("release")
         }
     }
 }

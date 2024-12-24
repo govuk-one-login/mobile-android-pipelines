@@ -6,6 +6,7 @@
 android-gradle = "8.7.3" # https://developer.android.com/studio/releases/gradle-plugin
 buildconfig-gradle = "5.5.1" # https://github.com/gmazzo/gradle-buildconfig-plugin/releases
 detekt = "1.23.7" # https://github.com/detekt/detekt/releases
+gradle-play-publisher = "3.12.1" # https://github.com/Triple-T/gradle-play-publisher/releases
 jacoco-tool = "0.8.12" # https://github.com/jacoco/jacoco/releases
 junit = "5.11.3" # https://github.com/junit-team/junit5/releases
 ktlint-gradle = "12.1.2" # https://github.com/JLLeitschuh/ktlint-gradle/releases
@@ -17,6 +18,7 @@ sonarqube-gradle = "6.0.1.5171" # https://github.com/SonarSource/sonar-scanner-g
 
 android-build-tool = { group = "com.android.tools.build", name = "gradle", version.ref = "android-gradle" }
 detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
+gradleplaypublisher-gradle = { module = "com.github.triplet.gradle:play-publisher", version.ref = "gradle-play-publisher" }
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin-general" }
 ktlint-gradle = { group = "org.jlleitschuh.gradle", name = "ktlint-gradle", version.ref = "ktlint-gradle" }
 sonarqube-gradle = { module = "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin", version.ref = "sonarqube-gradle" }

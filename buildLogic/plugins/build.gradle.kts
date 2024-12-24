@@ -27,6 +27,7 @@ dependencies {
         libs.kotlin.gradle.plugin,
         libs.ktlint.gradle,
         libs.sonarqube.gradle,
+        libs.gradleplaypublisher.gradle,
     ).forEach { dependency ->
         implementation(dependency)
     }
