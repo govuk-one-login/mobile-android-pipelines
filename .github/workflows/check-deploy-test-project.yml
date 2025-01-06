@@ -25,12 +25,38 @@ jobs:
           lfs: 'true'
           fetch-depth: 0
 
+      - name: Clean workspace
+        uses: ./actions/clean-workspace
+
       - name: Setup runner
         uses: ./actions/setup-runner
         with:
           jdk-version: 21
 
+      - name: Verify Conventional commit standards against latest git tag
+        uses: ./actions/verify-conventional-commit
+
+      - name: Bundle reports folder
+        uses: ./actions/bundle-reports
+
+      - name: Increment the release version using Conventional Commits
+        id: versioning
+        uses: ./actions/increment-cog-semantic-version
+
+      - name: Publish release tags
+        if: ${{ steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
+        uses: ./actions/publish-release-tag
+
+      - name: Generate Changelog
+        uses: ./actions/generate-and-upload-changelog
+        with:
+          CURRENT_VERSION: ${{ steps.versioning.outputs.current_version }}
+          NEW_VERSION: ${{ steps.versioning.outputs.new_version }}
+
       - name: Publish package locally
         uses: ./actions/maven-publish-local
         with:
           working-directory: 'test-project'
+
+      - name: Clean workspace
+        uses: ./actions/clean-workspace
