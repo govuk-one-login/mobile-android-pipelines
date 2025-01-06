@@ -41,6 +41,5 @@ configure<ApplicationExtension> {
 configure<PlayPublisherExtension> {
     serviceAccountCredentials.set(googlePlayServiceAccountJson)
     track.set("internal")
-    userFraction.set(1.0)
     resolutionStrategy.set(ResolutionStrategy.AUTO)
 }
