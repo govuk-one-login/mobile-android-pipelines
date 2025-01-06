@@ -19,6 +19,7 @@ sonarqube-gradle = "6.0.1.5171" # https://github.com/SonarSource/sonar-scanner-g
 android-build-tool = { group = "com.android.tools.build", name = "gradle", version.ref = "android-gradle" }
 detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 gradleplaypublisher-gradle = { module = "com.github.triplet.gradle:play-publisher", version.ref = "gradle-play-publisher" }
+gradleplaypublisher-androidpublisher = { module = "com.github.triplet.gradle:android-publisher", version.ref = "gradle-play-publisher" }
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin-general" }
 ktlint-gradle = { group = "org.jlleitschuh.gradle", name = "ktlint-gradle", version.ref = "ktlint-gradle" }
 sonarqube-gradle = { module = "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin", version.ref = "sonarqube-gradle" }

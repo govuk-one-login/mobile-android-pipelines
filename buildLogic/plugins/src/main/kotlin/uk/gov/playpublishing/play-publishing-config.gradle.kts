@@ -2,6 +2,7 @@ package uk.gov.playpublishing
 
 import com.android.build.api.dsl.ApplicationExtension
 import com.github.triplet.gradle.play.PlayPublisherExtension
+import com.github.triplet.gradle.androidpublisher.ResolutionStrategy
 
 val googlePlayServiceAccountJson = project.rootProject.file("config/service-account-credentials.json")
 val signingKeystoreFile = project.rootProject.file("config/keystore.jks")
@@ -41,4 +42,5 @@ configure<PlayPublisherExtension> {
     serviceAccountCredentials.set(googlePlayServiceAccountJson)
     track.set("internal")
     userFraction.set(1.0)
+    resolutionStrategy.set(ResolutionStrategy.AUTO)
 }

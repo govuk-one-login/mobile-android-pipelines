@@ -28,6 +28,7 @@ dependencies {
         libs.ktlint.gradle,
         libs.sonarqube.gradle,
         libs.gradleplaypublisher.gradle,
+        libs.gradleplaypublisher.androidpublisher,
     ).forEach { dependency ->
         implementation(dependency)
     }
