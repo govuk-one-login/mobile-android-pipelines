@@ -1,0 +1,22 @@
+name: Verify commits
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+  merge_group:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify-commits:
+    name: Verify commits
+    runs-on: ubuntu-latest
+    steps:
+    - name: Verify Conventional commit standards against latest git tag
+      uses: ./actions/verify-conventional-commit

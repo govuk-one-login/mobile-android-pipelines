@@ -1,4 +1,4 @@
-name: 'Upload to play store'
+name: 'Publish to play store'
 description: 'Uploads the supplied aabs to the Google Play Store'
 inputs:
   aab-paths:
@@ -23,7 +23,7 @@ runs:
       with:
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
-    - name: Update fastlane and upload to play store
+    - name: Update fastlane and publish to play store
       run: |
         BUNDLES=($(echo $INPUT_AAB_PATHS | tr ";" "\n"))
         
