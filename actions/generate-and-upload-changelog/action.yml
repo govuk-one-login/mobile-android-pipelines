@@ -8,7 +8,8 @@ inputs:
     description: 'new semantic version'
     required: true
   VERSION_PREFIX:
-    description: 'version prefix'
+    description: 'A prefix added to the Git tag before the app version number'
+    default: 'v'
     required: false
 
 runs:

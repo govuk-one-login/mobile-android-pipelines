@@ -39,7 +39,6 @@ jobs:
         with:
           CURRENT_VERSION: ${{ steps.versioning.outputs.current_version }}
           NEW_VERSION: ${{ steps.versioning.outputs.new_version }}
-          VERSION_PREFIX: 'v'
 
       - name: Publish package locally
         uses: ./actions/maven-publish-local
