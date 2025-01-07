@@ -30,9 +30,6 @@ jobs:
         with:
           jdk-version: 21
 
-      - name: Bundle reports folder
-        uses: ./actions/bundle-reports
-
       - name: Increment the release version using Conventional Commits
         id: versioning
         uses: ./actions/increment-cog-semantic-version
