@@ -87,12 +87,12 @@ jobs:
           jdk-version: 21
 
       - name: Download unit test coverage reports
-        uses: ./actions/download-artifact
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 #v4.1.8
         with:
           artifact-name: test-project-unit-test-coverage
 
       - name: Download instrumentation test coverage reports
-        uses: ./actions/download-artifact
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 #v4.1.8
         with:
           artifact-name: test-project-instrumentation-test-coverage
 
