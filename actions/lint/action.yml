@@ -10,9 +10,19 @@ runs:
   steps:
     - name: Lint
       run: |
-        ./gradlew \
-          vale \
-          ktlintCheck \
-          detekt \
-          lint
+        echo "::group::Lint documentation with vale"
+        ./gradlew vale
+        echo "::endgroup::"
+
+        echo "::group::Lint Kotlint with ktlint"
+        ./gradlew ktlintCheck
+        echo "::endgroup::"
+
+        echo "::group::Lint Kotlin with detekt"
+        ./gradlew detekt
+        echo "::endgroup::"
+
+        echo "::group::Lint Android"
+        ./gradlew lint
+        echo "::endgroup::"
       shell: bash
