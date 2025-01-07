@@ -1,5 +1,5 @@
-name: 'Run gradle check'
-description: 'Run the "check" command for a Gradle project'
+name: 'Decode and export secrets'
+description: 'Decodes the keystore and service account secret values and stores them in files in the config directory'
 
 inputs:
   KEYSTORE_BASE64:
