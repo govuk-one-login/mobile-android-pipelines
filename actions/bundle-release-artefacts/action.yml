@@ -3,26 +3,29 @@ description: 'Build artefact for release'
 inputs:
   KEYSTORE_KEY_PASSWORD:
     description: 'Signing key password'
-    required: true
+    default: ''
+    required: false
   KEYSTORE_KEY_ALIAS:
     description: 'Signing key alias'
-    required: true
+    default: ''
+    required: false
   KEYSTORE_PASSWORD:
     description: 'Signing store password'
-    required: true
+    default: ''
+    required: false
   GITHUB_TOKEN:
     description: 'Github token'
     required: true
   MODULES:
-    description: 'Modules to bundle release, comma separated without spaces'
+    description: 'Modules to be bundled (comma separated without spaces), for example: "app,modules/testWrapper"'
     required: false
     default: 'app'
   FLAVORS:
-    description: 'App flavors to return paths for, comma separated without spaces'
+    description: 'App flavours to be bundled (comma separated without spaces), for example: "staging,production"'
     required: false
   pipelines-directory:
     description: 'Pipelines directory'
-    required: false
+    required: true
     default: './mobile-android-pipelines'
 
 outputs:
@@ -42,9 +45,7 @@ runs:
         SIGNING_KEY_ALIAS: ${{ inputs.KEYSTORE_KEY_ALIAS }}
         SIGNING_STORE_PASSWORD: ${{ inputs.KEYSTORE_PASSWORD }}
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
-        # MODULES_TO_BUNDLE: 'app,modules/testWrapper'
         MODULES_TO_BUNDLE: ${{ inputs.MODULES }}
-        # INPUT_FLAVORS: 'staging,production'
         INPUT_FLAVORS: ${{ inputs.FLAVORS }}
         GITHUB_ACTOR: ${{ github.actor }}
         PIPELINES_DIRECTORY: ${{ inputs.pipelines-directory }}
