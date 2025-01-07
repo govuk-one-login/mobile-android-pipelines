@@ -34,6 +34,7 @@ dependencies {
     listOf(
         platform(libs.org.junit.bom),
         libs.org.junit.jupiter,
+        libs.org.hamcrest,
     ).forEach { dep: Provider<MinimalExternalModuleDependency> ->
         testImplementation(dep)
     }
