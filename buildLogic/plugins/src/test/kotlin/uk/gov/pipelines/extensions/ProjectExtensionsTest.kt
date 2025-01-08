@@ -13,7 +13,7 @@ class ProjectExtensionsTest {
     private val project = ProjectBuilder.builder().build()
 
     companion object {
-        private const val VERSION_PATTERN = """[0-9]\.[0-9]\.[0-9]"""
+        private const val VERSION_PATTERN = """[0-9]+\.[0-9]+\.[0-9]+"""
     }
 
     @BeforeEach
