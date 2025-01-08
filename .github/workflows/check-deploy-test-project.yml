@@ -46,6 +46,8 @@ jobs:
 
       - name: Clean workspace
         uses: ./actions/clean-workspace
+        with:
+          pipelines-directory: .
 
   upload-app:
     name: Upload app to Play Store
