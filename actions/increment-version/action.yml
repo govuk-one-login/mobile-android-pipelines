@@ -1,4 +1,4 @@
-name: 'Increment cog semantic version'
+name: 'Increment version'
 description: 'Increment the release version using Conventional Commits'
 
 outputs:

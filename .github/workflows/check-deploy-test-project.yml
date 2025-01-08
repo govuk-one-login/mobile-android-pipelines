@@ -31,7 +31,7 @@ jobs:
 
       - name: Increment the release version using Conventional Commits
         id: versioning
-        uses: ./actions/increment-cog-semantic-version
+        uses: ./actions/increment-version
 
       - name: Generate Changelog
         uses: ./actions/generate-and-upload-changelog
