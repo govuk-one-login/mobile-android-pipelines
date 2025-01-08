@@ -14,7 +14,7 @@ runs:
         ./gradlew vale
         echo "::endgroup::"
 
-        echo "::group::Lint Kotlint with ktlint"
+        echo "::group::Lint Kotlin with ktlint"
         ./gradlew ktlintCheck
         echo "::endgroup::"
 
