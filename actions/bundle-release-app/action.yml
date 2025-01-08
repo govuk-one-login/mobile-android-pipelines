@@ -1,5 +1,5 @@
-name: 'Bundle artefact for release'
-description: 'Build artefact for release'
+name: 'Bundle app for release'
+description: 'Build app for release'
 inputs:
   KEYSTORE_KEY_PASSWORD:
     description: 'Signing key password'
@@ -36,7 +36,7 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - name: Build artefact for release
+    - name: Build app for release
       id: gradle-bundle
       run: |
         ${PIPELINES_DIRECTORY}/scripts/bundleRelease.sh
