@@ -69,8 +69,6 @@ runs:
         GITHUB_ACTOR: ${{ github.actor }}
 
     - name: Generate Changelog
-#      if: ${{ github.event_name != 'pull_request'
-#        && steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
       uses: ./mobile-android-pipelines/actions/generate-and-upload-changelog
       with:
         CURRENT_VERSION: ${{ steps.versioning.outputs.current_version }}
