@@ -34,7 +34,7 @@ runs:
             echo "ANALYSIS_TYPE=PR" >> "$GITHUB_ENV"
           else
             echo "ANALYSIS_TYPE=BRANCH" >> "$GITHUB_ENV"
-	  fi
+          fi
         else
           # use manually overriden value
           echo "ANALYSIS_TYPE=${ANALYSIS_TYPE}" >> "$GITHUB_ENV"
