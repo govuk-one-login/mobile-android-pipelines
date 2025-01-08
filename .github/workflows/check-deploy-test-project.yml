@@ -92,7 +92,7 @@ jobs:
         uses: ./actions/publish-to-play-store
         with:
           aab-paths: ${{ steps.bundle-release-app.outputs.aab-paths }}
-          package-name: 'uk.gov.onelogin.criorchestrator.testwrapper'
+          package-name: 'uk.gov.pipelines.testproject'
           json-key-data: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
           track: 'internal'
           working-directory: test-project
