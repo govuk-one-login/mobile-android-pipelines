@@ -1,12 +1,18 @@
-name: 'Upload results to sonarcloud'
-description: 'Upload results to sonarcloud'
+name: 'Run SonarCloud Analysis'
+description: 'Runs SonarCloud analysis, uploading results and - if analysis type is PR - failing based on analysis result'
 inputs:
   sonar-token:
     description: 'A token for SonarCloud to enable the workflow to read and upload new quality reports.'
     required: true
   analysis-type:
-    description: 'PR, BRANCH or LOCAL'
-    required: true
+    description: 'Type of analysis to run, leave blank to determine automatically based on workflow trigger'
+    required: false
+    default: ''
+    type: choice
+    options:
+      - PR
+      - BRANCH
+      - ''
   pipelines-directory:
     description: 'Pipelines directory'
     required: false
@@ -20,10 +26,38 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Determine analysis type
+      run: |
+        if [ -z "${ANALYSIS_TYPE}" ]; then
+          # no manual override, use the event name to determine analysis type:
+          if [ "${EVENT_NAME}" = "pull_request" ]; then
+            echo "ANALYSIS_TYPE=PR" >> "$GITHUB_ENV"
+          else
+            echo "ANALYSIS_TYPE=BRANCH" >> "$GITHUB_ENV"
+	  fi
+        else
+          # use manually overriden value
+          echo "ANALYSIS_TYPE=${ANALYSIS_TYPE}" >> "$GITHUB_ENV"
+        fi
+
+        case "${ANALYSIS_TYPE}" in
+          "PR")
+            REF=${{ github.head_ref }}
+            ;;
+          "BRANCH")
+            REF=${{ github.ref_name }}
+            ;;
+          *)
+            REF=""
+            ;;
+        esac
+      env:
+        ANALYSIS_TYPE: ${{ inputs.analysis-type }}
+        EVENT_NAME: ${{ github.event_name }}
+
     - name: Sonar scan
       env:
         SONAR_TOKEN: ${{ inputs.sonar-token }}
-        ANALYSIS_TYPE: ${{ inputs.analysis-type }}
         PIPELINES_DIRECTORY: ${{ inputs.pipelines-directory }}
       run: |
         case "${ANALYSIS_TYPE}" in
@@ -40,3 +74,12 @@ runs:
         ${PIPELINES_DIRECTORY}/scripts/sonar/scan "${ANALYSIS_TYPE}" "$REF" ${{ github.event.number }}
       shell: bash
       working-directory: ${{ inputs.working-directory }}
+
+    - name: SonarQube Quality Gate check
+      id: sonarqube-quality-gate-check
+      uses: sonarsource/sonarqube-quality-gate-action@d304d050d930b02a896b0f85935344f023928496 # pin@v1.1.0
+      if: env.ANALYSIS_TYPE == 'PR'
+      env:
+        SONAR_TOKEN: ${{ inputs.sonar-token }}
+      with:
+        scanMetadataReportFile: ${{ inputs.working-directory }}/build/sonar/report-task.txt

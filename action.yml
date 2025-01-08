@@ -39,23 +39,7 @@ runs:
       uses: ./mobile-android-pipelines/actions/run-testing-suite
       
     - name: Sonar Scan (Merge)
-      if: ${{ github.event_name != 'pull_request' }}
       uses: ./mobile-android-pipelines/actions/sonar-scan
-      with:
-        sonar-token: ${{ inputs.SONAR_TOKEN }}
-        analysis-type: 'BRANCH'
-    
-    - name: Sonar scan (Pull Request)
-      if: ${{ github.event_name == 'pull_request' }}
-      uses: ./mobile-android-pipelines/actions/sonar-scan
-      with:
-        sonar-token: ${{ inputs.SONAR_TOKEN }}
-        analysis-type: 'PR'
-
-    - name: SonarQube Quality Gate check
-      id: sonarqube-quality-gate-check
-      if: ${{ github.event_name == 'pull_request' }}
-      uses: ./mobile-android-pipelines/actions/sonar-quality-gate
       with:
         sonar-token: ${{ inputs.SONAR_TOKEN }}
         
