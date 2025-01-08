@@ -83,7 +83,7 @@ jobs:
           keystore-key-alias: ${{ secrets.KEYSTORE_KEY_ALIAS }}
           keystore-password: ${{ secrets.KEYSTORE_PASSWORD }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          modules: 'app'
+          modules: 'test-app'
           flavors: 'release'
           pipelines-directory: ../
           working-directory: test-project
