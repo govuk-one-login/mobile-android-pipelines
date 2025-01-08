@@ -8,10 +8,10 @@ inputs:
     description: 'App package name'
     required: true
   json-key-data:
-    description: 'JSON key data'
+    description: 'The service account JSON data used to authenticate with Google'
     required: true
   track:
-    description: 'Google Play track to upload to'
+    description: 'Google Play testing track to upload to'
     required: false
     default: 'internal'
 
