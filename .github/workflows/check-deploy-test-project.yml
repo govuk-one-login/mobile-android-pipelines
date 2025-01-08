@@ -73,3 +73,5 @@ jobs:
 
       - name: Clean workspace
         uses: ./actions/clean-workspace
+        with:
+          pipelines-directory: ..
