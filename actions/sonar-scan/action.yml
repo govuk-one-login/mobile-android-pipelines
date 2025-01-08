@@ -54,6 +54,8 @@ runs:
       env:
         ANALYSIS_TYPE: ${{ inputs.analysis-type }}
         EVENT_NAME: ${{ github.event_name }}
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
 
     - name: Sonar scan
       env:
