@@ -12,6 +12,11 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Create config folder if required
+      run: |
+        mkdir -p config
+      shell: bash
+      
     - name: Decode Keystore
       env:
         ENCODED_STRING: ${{ inputs.KEYSTORE_BASE64 }}
