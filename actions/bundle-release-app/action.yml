@@ -24,6 +24,10 @@ inputs:
     description: 'Pipelines directory'
     required: false
     default: './mobile-android-pipelines'
+  working-directory:
+    description: 'The working directory for steps in this action'
+    required: false
+    default: '.'
 
 outputs:
   aab-paths:
@@ -47,3 +51,4 @@ runs:
         GITHUB_ACTOR: ${{ github.actor }}
         PIPELINES_DIRECTORY: ${{ inputs.pipelines-directory }}
       shell: bash
+      working-directory: ${{ inputs.working-directory }}

@@ -8,6 +8,10 @@ inputs:
   SERVICE_ACCOUNT_JSON_BASE64:
     description: 'Service account JSON base 64'
     required: true
+  working-directory:
+    description: 'The working directory for steps in this action'
+    required: false
+    default: '.'
 
 runs:
   using: "composite"
@@ -16,6 +20,7 @@ runs:
       run: |
         mkdir -p config
       shell: bash
+      working-directory: ${{ inputs.working-directory }}
       
     - name: Decode Keystore
       env:
@@ -23,6 +28,7 @@ runs:
       run: |
         echo "${ENCODED_STRING}" | base64 --decode > config/keystore.jks
       shell: bash
+      working-directory: ${{ inputs.working-directory }}
 
     - name: Decode Service Account
       env:
@@ -30,3 +36,4 @@ runs:
       run: |
         echo "${ENCODED_STRING}" | base64 --decode > config/service-account-credentials.json
       shell: bash
+      working-directory: ${{ inputs.working-directory }}

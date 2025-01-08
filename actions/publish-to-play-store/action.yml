@@ -14,6 +14,10 @@ inputs:
     description: 'Google Play testing track to upload to'
     required: false
     default: 'internal'
+  working-directory:
+    description: 'The working directory for steps in this action'
+    required: false
+    default: '.'
 
 runs:
   using: "composite"
@@ -48,6 +52,7 @@ runs:
           bundle exec fastlane supply --package_name "${PACKAGE_NAME}" --json_key_data "${INPUT_JSON_KEY_DATA}" --aab ${AAB_PATH} --track "${INPUT_TRACK}"
         done
       shell: bash
+      working-directory: ${{ inputs.working-directory }}
       env:
         INPUT_AAB_PATHS: ${{ inputs.aab-paths }}
         INPUT_PACKAGE_NAME: ${{ inputs.package-name }}
