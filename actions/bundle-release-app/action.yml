@@ -1,31 +1,28 @@
 name: 'Bundle app for release'
 description: 'Build app for release'
 inputs:
-  KEYSTORE_KEY_PASSWORD:
+  keystore-key-password:
     description: 'Signing key password'
-    default: ''
-    required: false
-  KEYSTORE_KEY_ALIAS:
+    required: true
+  keystore-key-alias:
     description: 'Signing key alias'
-    default: ''
-    required: false
-  KEYSTORE_PASSWORD:
+    required: true
+  keystore-password:
     description: 'Signing store password'
-    default: ''
-    required: false
-  GITHUB_TOKEN:
+    required: true
+  github-token:
     description: 'Github token'
     required: true
-  MODULES:
+  modules:
     description: 'Modules to be bundled (comma separated without spaces), for example: "app,modules/testWrapper"'
     required: false
     default: 'app'
-  FLAVORS:
+  flavors:
     description: 'App flavours to be bundled (comma separated without spaces), for example: "staging,production"'
     required: false
   pipelines-directory:
     description: 'Pipelines directory'
-    required: true
+    required: false
     default: './mobile-android-pipelines'
 
 outputs:
@@ -41,12 +38,12 @@ runs:
       run: |
         ${PIPELINES_DIRECTORY}/scripts/bundleRelease.sh
       env:
-        SIGNING_KEY_PASSWORD: ${{ inputs.KEYSTORE_KEY_PASSWORD }}
-        SIGNING_KEY_ALIAS: ${{ inputs.KEYSTORE_KEY_ALIAS }}
-        SIGNING_STORE_PASSWORD: ${{ inputs.KEYSTORE_PASSWORD }}
-        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
-        MODULES_TO_BUNDLE: ${{ inputs.MODULES }}
-        INPUT_FLAVORS: ${{ inputs.FLAVORS }}
+        SIGNING_KEY_PASSWORD: ${{ inputs.keystore-key-password }}
+        SIGNING_KEY_ALIAS: ${{ inputs.keystore-key-alias }}
+        SIGNING_STORE_PASSWORD: ${{ inputs.keystore-password }}
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+        MODULES_TO_BUNDLE: ${{ inputs.modules }}
+        INPUT_FLAVORS: ${{ inputs.flavors }}
         GITHUB_ACTOR: ${{ github.actor }}
         PIPELINES_DIRECTORY: ${{ inputs.pipelines-directory }}
       shell: bash
