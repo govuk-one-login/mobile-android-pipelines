@@ -73,8 +73,8 @@ jobs:
           
       - name: Build app bundle
         id: bundle-release-app
-        working-directory: test-project
         uses: ./actions/bundle-release-app
+        working-directory: test-project
         with:
           keystore-key-password: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
           keystore-key-alias: ${{ secrets.KEYSTORE_KEY_ALIAS }}
