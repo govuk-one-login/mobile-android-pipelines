@@ -46,6 +46,6 @@ configure<ApplicationExtension> {
 
     defaultConfig {
         versionName = semanticVersion
-        versionCode = versionCodeFromSemVer
+        versionCode = 1
     }
 }
