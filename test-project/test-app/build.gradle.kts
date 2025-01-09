@@ -45,6 +45,8 @@ configure<ApplicationExtension> {
         )
 
     defaultConfig {
+        applicationId = "uk.gov.pipelines.testapp"
+
         versionName = semanticVersion
         versionCode = versionCodeFromSemVer
         println(versionCode)
