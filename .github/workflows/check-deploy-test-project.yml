@@ -69,6 +69,7 @@ jobs:
           jdk-version: 21
 
       - name: Retrieve GitHub secrets
+        id: retrieve-secrets
         uses: ./actions/retrieve-secrets
         with:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
