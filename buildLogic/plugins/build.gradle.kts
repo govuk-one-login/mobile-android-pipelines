@@ -17,6 +17,10 @@ gradlePlugin {
             this.id = this.name
             implementationClass = "uk.gov.publishing.MavenPublishingConfigPlugin"
         }
+        register("uk.gov.signing.app-signing-config") {
+            this.id = this.name
+            implementationClass = "uk.gov.signing.AppSigningConfigPlugin"
+        }
     }
 }
 
