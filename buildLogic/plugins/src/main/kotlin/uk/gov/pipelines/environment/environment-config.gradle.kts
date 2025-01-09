@@ -9,5 +9,5 @@ if (project.extensions.findByType<EnvironmentExtension>() == null) {
     val extension =
         project.extensions
             .create<EnvironmentExtension>(EnvironmentExtension.NAME)
-    extension.environmentVariables = SystemEnvironmentVariables
+    extension.environmentVariables = EnvironmentVariables(System::getenv)
 }
