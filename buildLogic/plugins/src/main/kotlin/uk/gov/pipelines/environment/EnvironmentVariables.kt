@@ -1,5 +1,5 @@
 package uk.gov.pipelines.environment
 
-internal interface EnvironmentVariables {
+internal fun interface EnvironmentVariables {
     fun get(name: String): String?
 }
