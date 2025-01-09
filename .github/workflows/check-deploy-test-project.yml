@@ -79,9 +79,10 @@ jobs:
         id: bundle-release-app
         uses: ./actions/bundle-release-app
         with:
-          keystore-key-password: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
-          keystore-key-alias: ${{ secrets.KEYSTORE_KEY_ALIAS }}
+          keystore-file-path: ${{ steps.retrieve-secrets.outputs.keystore-file-path }}
           keystore-password: ${{ secrets.KEYSTORE_PASSWORD }}
+          keystore-key-alias: ${{ secrets.KEYSTORE_KEY_ALIAS }}
+          keystore-key-password: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           modules: 'test-app'
           pipelines-directory: ../

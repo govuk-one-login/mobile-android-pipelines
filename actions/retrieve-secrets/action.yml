@@ -13,6 +13,11 @@ inputs:
     required: false
     default: '.'
 
+outputs:
+  keystore-file-path:
+    description: 'Path of the keystore (relative to the working directory)'
+    value: ${{ steps.decode-keystore.outputs.keystore-file-path }}
+
 runs:
   using: "composite"
   steps:
@@ -23,10 +28,13 @@ runs:
       working-directory: ${{ inputs.working-directory }}
       
     - name: Decode Keystore
+      id: decode-keystore
       env:
         ENCODED_STRING: ${{ inputs.KEYSTORE_BASE64 }}
+        KEYSTORE_FILE_PATH: config/keystore.jks
       run: |
-        echo "${ENCODED_STRING}" | base64 --decode > config/keystore.jks
+        echo "${ENCODED_STRING}" | base64 --decode > ${KEYSTORE_FILE_PATH}
+        echo "keystore-file-path=${KEYSTORE_FILE_PATH}" >> "$GITHUB_OUTPUT"
       shell: bash
       working-directory: ${{ inputs.working-directory }}
 

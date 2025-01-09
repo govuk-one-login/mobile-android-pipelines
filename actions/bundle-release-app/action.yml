@@ -1,14 +1,17 @@
 name: 'Bundle app for release'
 description: 'Build app for release'
 inputs:
-  keystore-key-password:
-    description: 'Signing key password'
+  keystore-file-path:
+    description: 'Signing store file path (either absolute or relative to the working directory)'
+    required: true
+  keystore-password:
+    description: 'Signing store password'
     required: true
   keystore-key-alias:
     description: 'Signing key alias'
     required: true
-  keystore-password:
-    description: 'Signing store password'
+  keystore-key-password:
+    description: 'Signing key password'
     required: true
   github-token:
     description: 'Github token'
@@ -42,9 +45,10 @@ runs:
       run: |
         ${PIPELINES_DIRECTORY}/scripts/bundleRelease.sh
       env:
-        SIGNING_KEY_PASSWORD: ${{ inputs.keystore-key-password }}
-        SIGNING_KEY_ALIAS: ${{ inputs.keystore-key-alias }}
+        SIGNING_STORE_FILE_PATH: ${{ inputs.keystore-file-path }}
         SIGNING_STORE_PASSWORD: ${{ inputs.keystore-password }}
+        SIGNING_KEY_ALIAS: ${{ inputs.keystore-key-alias }}
+        SIGNING_KEY_PASSWORD: ${{ inputs.keystore-key-password }}
         GITHUB_TOKEN: ${{ inputs.github-token }}
         MODULES_TO_BUNDLE: ${{ inputs.modules }}
         INPUT_FLAVORS: ${{ inputs.flavors }}
