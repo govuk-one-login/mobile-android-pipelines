@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  verify-commits:
-    name: Verify commits
+  deploy-release:
+    name: Deploy release
     runs-on: ubuntu-latest
     steps:
       - name: Setup runner
