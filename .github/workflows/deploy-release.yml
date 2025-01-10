@@ -26,7 +26,6 @@ jobs:
         uses: ./actions/publish-release-tag
 
       - name: Maven publish
-        if: ${{ github.event_name != 'pull_request' }}
         uses: ./mobile-android-pipelines/actions/maven-publish
 
       - name: Generate Changelog
