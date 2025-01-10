@@ -1,7 +1,3 @@
-import com.android.build.api.dsl.ApplicationExtension
-import uk.gov.pipelines.extensions.ProjectExtensions.versionCode
-import uk.gov.pipelines.extensions.ProjectExtensions.versionName
-
 plugins {
     id("uk.gov.pipelines.android-app-config")
     alias(libs.plugins.kotlin.compose.compiler)
