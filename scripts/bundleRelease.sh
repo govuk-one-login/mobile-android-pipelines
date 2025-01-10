@@ -34,7 +34,8 @@ else
     ./gradlew \
       --no-build-cache \
       --no-configuration-cache \
-      "$MODULE_TASK":bundleRelease
+      "$MODULE_TASK":bundleRelease \
+      -PversionCode="${VERSION_CODE}"
   done
 fi
 
