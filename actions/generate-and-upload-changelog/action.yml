@@ -1,14 +1,14 @@
-name: 'Generate and Upload Changelog'
-description: 'Generate and Upload Changelog'
+name: 'Generate and upload changelog'
+description: 'Generate and upload changelog'
 inputs:
-  CURRENT_VERSION:
-    description: 'current semantic version'
+  current-version:
+    description: 'The current semantic version'
     required: true
-  NEW_VERSION:
-    description: 'new semantic version'
+  new-version:
+    description: 'The new semantic version'
     required: true
-  VERSION_PREFIX:
-    description: 'A prefix added to the Git tag before the app version number'
+  version-prefix:
+    description: 'A prefix added to the Git tag before the version number'
     default: 'v'
     required: false
 
@@ -16,18 +16,17 @@ runs:
   using: "composite"
   steps:
     - name: Generate Changelog
-      if: ${{ inputs.CURRENT_VERSION != inputs.NEW_VERSION }}
+      if: ${{ inputs.current-version != inputs.new-version }}
+      env:
+        VERSION_PREFIX: ${{ inputs.version-prefix }}
       run: |
         cog changelog --at ${VERSION_PREFIX}$(cog -v get-version) > CHANGELOG.md
-      env:
-        VERSION_PREFIX: ${{ inputs.VERSION_PREFIX }}
       shell: bash
 
     - name: Upload Changelog
-      if: ${{ inputs.CURRENT_VERSION != inputs.NEW_VERSION }}
+      if: ${{ inputs.current-version != inputs.new-version }}
       id: uploadBuildReports
       uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
       with:
         name: CHANGELOG.md
-        path: |
-          CHANGELOG.md
+        path: CHANGELOG.md

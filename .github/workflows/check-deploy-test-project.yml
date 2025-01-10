@@ -40,8 +40,8 @@ jobs:
       - name: Generate Changelog
         uses: ./actions/generate-and-upload-changelog
         with:
-          CURRENT_VERSION: ${{ steps.versioning.outputs.current_version }}
-          NEW_VERSION: ${{ steps.versioning.outputs.new_version }}
+          current-version: ${{ steps.versioning.outputs.current_version }}
+          new-version: ${{ steps.versioning.outputs.new_version }}
 
       - name: Publish package locally
         uses: ./actions/maven-publish-local
