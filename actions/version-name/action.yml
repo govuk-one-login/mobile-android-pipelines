@@ -1,16 +1,16 @@
 name: 'Version name'
 description: 'Combines the inputs into a version name'
+
 inputs:
   version-code:
-    description: 'Version code from timestamp'
+    description: 'Version code'
     required: true
   version-name:
-    description: 'Version-name'
+    description: 'Version name'
     required: true
 
 outputs:
   version-name:
-    description: 'version name'
     value: ${{ steps.version-name.outputs.version-name }}
 
 runs:
