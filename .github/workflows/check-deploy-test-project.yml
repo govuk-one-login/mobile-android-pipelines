@@ -93,14 +93,6 @@ jobs:
           version-code: ${{ steps.generate-version-code.outputs.version-code }}
           working-directory: test-project
 
-      - name: Upload aab bundle
-        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
-        with:
-          name: Aab bundles
-          retention-days: 1
-          if-no-files-found: error
-          path: test-project/test-app/build/outputs/bundle/**/*
-
       - name: Publish to Play Store
         uses: ./actions/publish-to-play-store
         with:
