@@ -4,15 +4,6 @@ inputs:
   sonar-token:
     description: 'A token for SonarCloud to enable the workflow to read and upload new quality reports.'
     required: true
-  analysis-type:
-    description: 'Type of analysis to run, leave blank to determine automatically based on workflow trigger'
-    required: false
-    default: ''
-    type: choice
-    options:
-      - PR
-      - BRANCH
-      - ''
   pipelines-directory:
     description: 'Pipelines directory'
     required: false
@@ -28,16 +19,10 @@ runs:
   steps:
     - name: Determine analysis type
       run: |
-        if [ -z "${ANALYSIS_TYPE}" ]; then
-          # no manual override, use the event name to determine analysis type:
-          if [ "${EVENT_NAME}" = "pull_request" ]; then
-            echo "ANALYSIS_TYPE=PR" >> "$GITHUB_ENV"
-          else
-            echo "ANALYSIS_TYPE=BRANCH" >> "$GITHUB_ENV"
-          fi
+        if [ "${EVENT_NAME}" = "pull_request" ]; then
+          echo "ANALYSIS_TYPE=PR" >> "$GITHUB_ENV"
         else
-          # use manually overriden value
-          echo "ANALYSIS_TYPE=${ANALYSIS_TYPE}" >> "$GITHUB_ENV"
+          echo "ANALYSIS_TYPE=BRANCH" >> "$GITHUB_ENV"
         fi
 
         case "${ANALYSIS_TYPE}" in
@@ -52,7 +37,6 @@ runs:
             ;;
         esac
       env:
-        ANALYSIS_TYPE: ${{ inputs.analysis-type }}
         EVENT_NAME: ${{ github.event_name }}
       shell: bash
       working-directory: ${{ inputs.working-directory }}
