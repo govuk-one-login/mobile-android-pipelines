@@ -1,4 +1,5 @@
 import com.android.build.api.dsl.ApplicationExtension
+import uk.gov.pipelines.extensions.ProjectExtensions.versionCode
 import uk.gov.pipelines.extensions.ProjectExtensions.versionName
 
 plugins {
@@ -32,23 +33,4 @@ dependencies {
     androidTestUtil(libs.androidx.test.orchestrator)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
-}
-
-configure<ApplicationExtension> {
-    val semanticVersion = project.versionName
-    val (major, minor, patch) = semanticVersion.split(".")
-    val versionCodeFromSemVer =
-        major.toInt().times(10000).plus(
-            minor.toInt().times(100).plus(
-                patch.toInt(),
-            ),
-        )
-
-    defaultConfig {
-        applicationId = "uk.gov.pipelines.testapp"
-
-        versionName = semanticVersion
-        versionCode = versionCodeFromSemVer
-        println(versionCode)
-    }
 }
