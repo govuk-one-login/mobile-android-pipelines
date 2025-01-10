@@ -10,6 +10,14 @@ import uk.gov.pipelines.output.OutputStreamGroup
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
 
+/**
+ * Default version code if no `versionCode` property is supplied to the build.
+ *
+ * Google Play will reject builds with this default value because it is larger than the maximum
+ * allowed which is 2100000000.
+ */
+private const val DEFAULT_VERSION_CODE: Int = Integer.MAX_VALUE
+
 object ProjectExtensions {
     fun Project.execWithOutput(spec: ExecSpec.() -> Unit) =
         OutputStreamGroup().use { outputStreamGroup ->
@@ -23,8 +31,15 @@ object ProjectExtensions {
             byteArrayOutputStream.toString().trim()
         }
 
+    /**
+     * The version code for the application.
+     *
+     * The value is sourced from the `versionCode` property if it is provided, otherwise it
+     * defaults to [DEFAULT_VERSION_CODE].
+     */
     val Project.versionCode
-        get() = prop("versionCode", Integer.MAX_VALUE).toInt()
+        get() = prop("versionCode", DEFAULT_VERSION_CODE).toInt()
+
     val Project.versionName: String
         get() {
             val scriptsDir = buildLogicDir.resolve("scripts/")
