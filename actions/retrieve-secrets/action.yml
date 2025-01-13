@@ -1,12 +1,12 @@
 name: 'Decode and export secrets'
-description: 'Decodes the keystore and service account secret values and stores them in files in the config directory'
+description: 'Decodes the keystore and Google service account secret values and stores them in files in the config directory'
 
 inputs:
-  KEYSTORE_BASE64:
-    description: 'Keystore base 64'
+  keystore-base64:
+    description: 'Base64 encoded keystore (for signing apps)'
     required: true
-  SERVICE_ACCOUNT_JSON_BASE64:
-    description: 'Service account JSON base 64'
+  google-service-account-json-base64:
+    description: 'Base64 encoded Google service acccount JSON credentials (for uploading apps to Google Play)'
     required: true
   working-directory:
     description: 'The working directory for steps in this action'
@@ -15,8 +15,11 @@ inputs:
 
 outputs:
   keystore-file-path:
-    description: 'Path of the keystore (relative to the working directory)'
+    description: 'Path to the keystore file (relative to the working directory)'
     value: ${{ steps.decode-keystore.outputs.keystore-file-path }}
+  google-service-account-json-file-path:
+    description: 'Path to the Google service account JSON file (relative to the working directory)'
+    value: ${{ steps.decode-google-service-account-json.outputs.credentials-file-path }}
 
 runs:
   using: "composite"
@@ -30,18 +33,21 @@ runs:
     - name: Decode Keystore
       id: decode-keystore
       env:
-        ENCODED_STRING: ${{ inputs.KEYSTORE_BASE64 }}
+        KEYSTORE_BASE64: ${{ inputs.keystore-base64 }}
         KEYSTORE_FILE_PATH: config/keystore.jks
       run: |
-        echo "${ENCODED_STRING}" | base64 --decode > ${KEYSTORE_FILE_PATH}
+        echo "${KEYSTORE_BASE64}" | base64 --decode > ${KEYSTORE_FILE_PATH}
         echo "keystore-file-path=${KEYSTORE_FILE_PATH}" >> "$GITHUB_OUTPUT"
       shell: bash
       working-directory: ${{ inputs.working-directory }}
 
-    - name: Decode Service Account
+    - name: Decode Google service account JSON credentials
+      id: decode-google-service-account-json
       env:
-        ENCODED_STRING: ${{ inputs.SERVICE_ACCOUNT_JSON_BASE64 }}
+        CREDENTIALS_BASE64: ${{ inputs.google-service-account-json-base64 }}
+        CREDENTIALS_FILE_PATH: config/service-account-credentials.json
       run: |
-        echo "${ENCODED_STRING}" | base64 --decode > config/service-account-credentials.json
+        echo "${CREDENTIALS_BASE64}" | base64 --decode > ${CREDENTIALS_FILE_PATH}
+        echo "credentials-file-path=${CREDENTIALS_FILE_PATH}" >> "$GITHUB_OUTPUT"
       shell: bash
       working-directory: ${{ inputs.working-directory }}
