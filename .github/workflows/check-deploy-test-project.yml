@@ -71,8 +71,8 @@ jobs:
         id: retrieve-secrets
         uses: ./actions/retrieve-secrets
         with:
-          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
-          SERVICE_ACCOUNT_JSON_BASE64: ${{ secrets.SERVICE_ACCOUNT_JSON_BASE64 }}
+          keystore-base64: ${{ secrets.KEYSTORE_BASE64 }}
+          google-service-account-json-base64: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON_BASE64 }}
           working-directory: test-project
 
       - name: Generate version code
@@ -98,7 +98,7 @@ jobs:
         with:
           aab-paths: ${{ steps.bundle-release-app.outputs.aab-paths }}
           package-name: 'uk.gov.pipelines.testapp'
-          json-key-data: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          google-service-account-json: ${{ steps.retrieve-secrets.outputs.google-service-account-json-file-path }}
           track: 'internal'
           working-directory: test-project
 
