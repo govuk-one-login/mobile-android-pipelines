@@ -1,9 +1,5 @@
 name: 'Lint'
 description: 'Lint files'
-inputs:
-  scripts-directory:
-    description: Directory of bash scripts
-    required: true
 
 runs:
   using: "composite"
