@@ -1,0 +1,62 @@
+name: 'Bundle app for release'
+description: 'Build app for release'
+inputs:
+  keystore-file-path:
+    description: 'Signing store file path (either absolute or relative to the working directory)'
+    required: true
+  keystore-password:
+    description: 'Signing store password'
+    required: true
+  keystore-key-alias:
+    description: 'Signing key alias'
+    required: true
+  keystore-key-password:
+    description: 'Signing key password'
+    required: true
+  github-token:
+    description: 'Github token'
+    required: true
+  modules:
+    description: 'Modules to be bundled (comma separated without spaces), for example: "app,modules/testWrapper"'
+    required: false
+    default: 'app'
+  flavors:
+    description: 'App flavours to be bundled (comma separated without spaces), for example: "staging,production"'
+    required: false
+  pipelines-directory:
+    description: 'Pipelines directory'
+    required: false
+    default: './mobile-android-pipelines'
+  version-code:
+    description: 'A unique version code for the build'
+    required: true
+  working-directory:
+    description: 'The working directory for steps in this action'
+    required: false
+    default: '.'
+
+outputs:
+  aab-paths:
+    description: 'Paths to build flavor aab files'
+    value: ${{ steps.gradle-bundle.outputs.aab-paths }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Build app for release
+      id: gradle-bundle
+      run: |
+        ${PIPELINES_DIRECTORY}/scripts/bundleRelease.sh
+      env:
+        SIGNING_STORE_FILE_PATH: ${{ inputs.keystore-file-path }}
+        SIGNING_STORE_PASSWORD: ${{ inputs.keystore-password }}
+        SIGNING_KEY_ALIAS: ${{ inputs.keystore-key-alias }}
+        SIGNING_KEY_PASSWORD: ${{ inputs.keystore-key-password }}
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+        MODULES_TO_BUNDLE: ${{ inputs.modules }}
+        INPUT_FLAVORS: ${{ inputs.flavors }}
+        GITHUB_ACTOR: ${{ github.actor }}
+        PIPELINES_DIRECTORY: ${{ inputs.pipelines-directory }}
+        VERSION_CODE: ${{ inputs.version-code }}
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}

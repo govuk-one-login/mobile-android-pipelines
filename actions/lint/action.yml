@@ -1,0 +1,28 @@
+name: 'Lint'
+description: 'Lint files'
+inputs:
+  scripts-directory:
+    description: Directory of bash scripts
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Lint
+      run: |
+        echo "::group::Lint documentation with vale"
+        ./gradlew vale
+        echo "::endgroup::"
+
+        echo "::group::Lint Kotlin with ktlint"
+        ./gradlew ktlintCheck
+        echo "::endgroup::"
+
+        echo "::group::Lint Kotlin with detekt"
+        ./gradlew detekt
+        echo "::endgroup::"
+
+        echo "::group::Lint Android"
+        ./gradlew lint
+        echo "::endgroup::"
+      shell: bash

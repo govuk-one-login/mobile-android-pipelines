@@ -1,0 +1,38 @@
+name: Deploy release
+
+on:
+  workflow_run:
+    workflows: [ Test ]
+    branches: [ main ]
+    types: [ completed ]
+  workflow_dispatch:
+
+jobs:
+  deploy-release:
+    name: Deploy release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup runner
+        uses: ./actions/setup-runner
+        with:
+          jdk-version: 21
+
+      - name: Increment the release version using Conventional Commits
+        id: versioning
+        uses: ./actions/increment-version
+
+      - name: Publish release tags
+        if: ${{ steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
+        uses: ./actions/publish-release-tag
+
+      - name: Maven publish
+        uses: ./mobile-android-pipelines/actions/maven-publish
+
+      - name: Generate Changelog
+        uses: ./actions/generate-and-upload-changelog
+        with:
+          current-version: ${{ steps.versioning.outputs.current_version }}
+          new-version: ${{ steps.versioning.outputs.new_version }}
+
+      - name: Clean workspace
+        uses: ./actions/clean-workspace

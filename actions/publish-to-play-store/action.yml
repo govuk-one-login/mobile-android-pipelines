@@ -1,0 +1,65 @@
+name: 'Publish to play store'
+description: 'Uploads the supplied aabs to the Google Play Store'
+inputs:
+  aab-paths:
+    description: 'App bundle paths to upload, JSON object'
+    required: true
+  package-name:
+    description: 'App package name'
+    required: true
+  json-key-data:
+    description: 'The service account JSON data used to authenticate with Google'
+    required: true
+  track:
+    description: 'Google Play testing track to upload to'
+    required: false
+    default: 'internal'
+  working-directory:
+    description: 'The working directory for steps in this action'
+    required: false
+    default: '.'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+
+    - name: Update fastlane and publish to play store
+      run: |
+        BUNDLES=($(echo $INPUT_AAB_PATHS | tr ";" "\n"))
+        
+        for BUNDLE in ${BUNDLES[@]}
+        do
+          echo "Bundle = $BUNDLE" 
+          IFS=: VER=(${BUNDLE})
+        
+          FLAVOR=${VER[0]}
+          AAB_PATH=${VER[1]}
+          echo "Flavor = $FLAVOR"
+          echo "AAB path = $AAB_PATH"
+        
+          case $FLAVOR in
+            production*) PACKAGE_NAME=$INPUT_PACKAGE_NAME;;
+            *) PACKAGE_NAME=${INPUT_PACKAGE_NAME}.${FLAVOR};;
+          esac
+        
+          echo "Package name = $PACKAGE_NAME"
+        
+          export SUPPLY_UPLOAD_MAX_RETRIES=5
+          bundle exec fastlane supply --package_name "${PACKAGE_NAME}" --json_key_data "${INPUT_JSON_KEY_DATA}" --aab ${AAB_PATH} --track "${INPUT_TRACK}"
+        done
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      env:
+        INPUT_AAB_PATHS: ${{ inputs.aab-paths }}
+        INPUT_PACKAGE_NAME: ${{ inputs.package-name }}
+        INPUT_JSON_KEY_DATA: ${{  inputs.json-key-data  }}
+        INPUT_TRACK: ${{ inputs.track }}
+        LC_ALL: en_US.utf8
+        LANG: en_US.utf8
+        GEM_HOME: $HOME/.gem
+        GEM_PATH: $HOME/.gem
+

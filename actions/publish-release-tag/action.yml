@@ -1,0 +1,10 @@
+name: 'Publish the release tag'
+description: 'Publish the release tag'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Publish the release tag
+      run: |
+        git push --follow-tags && git push --tags
+      shell: bash

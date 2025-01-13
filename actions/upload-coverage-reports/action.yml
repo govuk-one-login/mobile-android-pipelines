@@ -1,7 +1,7 @@
 name: 'Upload coverage reports'
 
 inputs:
-  name:
+  artifact-name:
     description: 'Name for the uploaded artifact'
     required: true
 
@@ -11,7 +11,5 @@ runs:
     - name: Upload coverage reports
       uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
       with:
-        name: ${{ inputs.name }}
-        retention-days: 1
-        if-no-files-found: error
+        name: ${{ inputs.artifact-name }}
         path: "**/reports/jacoco/**/*.xml"
