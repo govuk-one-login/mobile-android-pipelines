@@ -1,4 +1,4 @@
-import uk.gov.pipelines.config.ApkConfig
+import uk.gov.pipelines.config.AndroidSdkVersions
 import uk.gov.pipelines.emulator.EmulatorConfig
 import uk.gov.pipelines.emulator.SystemImageSource
 
@@ -29,16 +29,12 @@ buildscript {
     }
 }
 
-val apkConfig by rootProject.extra(
-    object: ApkConfig {
-        override val applicationId: String = "uk.gov.pipelines.testproject"
-        override val debugVersion: String = "DEBUG_VERSION"
-        override val sdkVersions = object: ApkConfig.SdkVersions {
-            override val minimum = 29
-            override val target = 34
-            override val compile = 35
-        }
-    }
+val androidSdkVersions by rootProject.extra(
+    AndroidSdkVersions(
+        minSdk = 29,
+        targetSdk = 34,
+        compileSdk = 35,
+    )
 )
 
 val emulatorConfig by rootProject.extra(

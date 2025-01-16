@@ -12,7 +12,7 @@ import org.gradle.kotlin.dsl.invoke
 import org.gradle.kotlin.dsl.maybeCreate
 import org.gradle.kotlin.dsl.provideDelegate
 import org.gradle.kotlin.dsl.register
-import uk.gov.pipelines.config.ApkConfig
+import uk.gov.pipelines.config.AndroidSdkVersions
 import uk.gov.pipelines.config.buildLogicDir
 import uk.gov.pipelines.emulator.SystemImageSource
 import uk.gov.pipelines.extensions.ProjectExtensions.versionCode
@@ -121,12 +121,12 @@ object BaseExtensions {
     }
 
     fun BaseExtension.baseAndroidConfig(project: Project) {
-        val apkConfig: ApkConfig by project.rootProject.extra
+        val androidSdkVersions: AndroidSdkVersions by project.rootProject.extra
 
-        compileSdkVersion(apkConfig.sdkVersions.compile)
+        compileSdkVersion(androidSdkVersions.compileSdk)
         defaultConfig {
-            minSdk = apkConfig.sdkVersions.minimum
-            targetSdk = apkConfig.sdkVersions.target
+            minSdk = androidSdkVersions.minSdk
+            targetSdk = androidSdkVersions.targetSdk
             versionCode = project.versionCode
             versionName = project.versionName
 

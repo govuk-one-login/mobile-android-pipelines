@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test
 import uk.gov.pipelines.environment.EnvironmentExtension
 import uk.gov.pipelines.environment.FakeEnvironment
 import uk.gov.pipelines.extras.BUILD_LOGIC_DIR
-import uk.gov.pipelines.extras.FAKE_APK_CONFIG
+import uk.gov.pipelines.extras.FakeAndroidSdkVersions
 import java.nio.file.Paths
 
 class AppSigningConfigPluginTest {
@@ -39,7 +39,7 @@ class AppSigningConfigPluginTest {
     @BeforeEach
     fun setup() {
         project.rootProject.extraProperties.set("buildLogicDir", BUILD_LOGIC_DIR)
-        project.rootProject.extraProperties.set("apkConfig", FAKE_APK_CONFIG)
+        project.rootProject.extraProperties.set("androidSdkVersions", FakeAndroidSdkVersions)
         project.createFakeEnvironmentExtension()
     }
 
