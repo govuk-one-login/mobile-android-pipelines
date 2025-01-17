@@ -7,7 +7,6 @@ import uk.gov.pipelines.extensions.LintExtensions.configureLintOptions
 
 listOf(
     "com.android.library",
-    "kotlin-kapt",
     "org.jetbrains.kotlin.android",
     "uk.gov.pipelines.detekt-config",
     "uk.gov.pipelines.emulator-config",
