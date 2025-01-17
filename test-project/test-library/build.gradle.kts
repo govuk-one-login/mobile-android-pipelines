@@ -21,7 +21,3 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     androidTestUtil(libs.androidx.test.orchestrator)
 }
-
-ktlint {
-    this.version = "0.50.0"
-}

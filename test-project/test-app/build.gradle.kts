@@ -30,7 +30,3 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 }
-
-ktlint {
-    version = "0.50.0"
-}
