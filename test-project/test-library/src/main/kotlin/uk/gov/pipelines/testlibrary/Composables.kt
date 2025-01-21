@@ -8,9 +8,7 @@ import androidx.compose.ui.Modifier
  * Text that says 'hello, world'.
  */
 @Composable
-fun HelloWorld(
-    modifier: Modifier = Modifier,
-) {
+fun HelloWorld(modifier: Modifier = Modifier) {
     BasicText(
         modifier = modifier,
         text = "Hello, world",
