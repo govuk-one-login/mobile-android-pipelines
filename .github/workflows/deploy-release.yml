@@ -29,9 +29,6 @@ jobs:
         if: ${{ steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
         uses: ./actions/publish-release-tag
 
-      - name: Maven publish
-        uses: ./mobile-android-pipelines/actions/maven-publish
-
       - name: Generate Changelog
         uses: ./actions/generate-and-upload-changelog
         with:
