@@ -51,6 +51,43 @@ object MavenPublishingConfigDefaults {
             }
         }
 
+    private val javaModuleLibConfig =
+        PluginConfiguration {
+                project: Project,
+                extension: MavenPublishingConfigExtension,
+            ->
+
+            project.configure<PublishingExtension> {
+                configureJavaModuleMavenPublishing(project, extension)
+            }
+        }
+
+    private fun PublishingExtension.configureJavaModuleMavenPublishing(
+        project: Project,
+        extension: MavenPublishingConfigExtension,
+    ) {
+        repositories {
+            configureMavenRepositoriesToPublishTo(project)
+        }
+        publications {
+            register<MavenPublication>("default") {
+                this.groupId = extension.mavenConfigBlock.artifactGroupId.get()
+                this.artifactId = project.name
+                this.version = project.versionName
+
+                project.afterEvaluate {
+                    from(project.components["java"])
+                    withBuildIdentifier()
+                }
+                pom {
+                    defaultPomSetup(
+                        extension.mavenConfigBlock,
+                    )
+                }
+            }
+        }
+    }
+
     /**
      * Declares the repositories to utilise for the [PublishingExtension.repositories] block.
      *
@@ -134,6 +171,7 @@ object MavenPublishingConfigDefaults {
         AgpAwarePluginConfiguration(
             appPluginConfiguration = nothing,
             libraryPluginConfiguration = defaultLibConfig,
+            javaModulePluginConfiguration = javaModuleLibConfig,
         )
 
     /**

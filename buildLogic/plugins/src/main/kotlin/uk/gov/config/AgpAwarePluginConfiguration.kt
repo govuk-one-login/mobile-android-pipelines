@@ -14,6 +14,7 @@ import org.gradle.api.Project
 data class AgpAwarePluginConfiguration<ExtensionConfig : Any>(
     private val appPluginConfiguration: PluginConfiguration<ExtensionConfig>,
     private val libraryPluginConfiguration: PluginConfiguration<ExtensionConfig>,
+    private val javaModulePluginConfiguration: PluginConfiguration<ExtensionConfig>,
 ) : PluginConfiguration<ExtensionConfig> {
     override fun applyConfig(
         project: Project,
@@ -27,6 +28,10 @@ data class AgpAwarePluginConfiguration<ExtensionConfig : Any>(
             project.pluginManager.hasPlugin("com.android.library")
         ) {
             libraryPluginConfiguration.applyConfig(project, extension)
+        } else if (
+            project.pluginManager.hasPlugin("java-library")
+        ) {
+            javaModulePluginConfiguration.applyConfig(project, extension)
         }
     }
 }
