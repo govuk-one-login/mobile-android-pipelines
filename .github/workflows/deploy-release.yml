@@ -1,10 +1,9 @@
 name: Deploy release
 
 on:
-  workflow_run:
-    workflows: [ Test ]
-    branches: [ main ]
-    types: [ completed ]
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
@@ -12,6 +11,11 @@ jobs:
     name: Deploy release
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout codebase
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+
       - name: Setup runner
         uses: ./actions/setup-runner
         with:
@@ -24,9 +28,6 @@ jobs:
       - name: Publish release tags
         if: ${{ steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
         uses: ./actions/publish-release-tag
-
-      - name: Maven publish
-        uses: ./mobile-android-pipelines/actions/maven-publish
 
       - name: Generate Changelog
         uses: ./actions/generate-and-upload-changelog
