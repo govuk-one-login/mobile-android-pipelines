@@ -10,6 +10,9 @@ import org.gradle.api.Project
  *
  * @param libraryPluginConfiguration The configuration to apply when the [Project] is a library
  * module.
+ *
+ * @param javaModulePluginConfiguration The configuration to apply when the [Project] is a pure
+ * Java/Kotlin library module.
  */
 data class AgpAwarePluginConfiguration<ExtensionConfig : Any>(
     private val appPluginConfiguration: PluginConfiguration<ExtensionConfig>,
