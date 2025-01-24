@@ -20,18 +20,13 @@ data class AgpAwarePluginConfiguration<ExtensionConfig : Any>(
         project: Project,
         extension: ExtensionConfig,
     ) {
-        if (
-            project.pluginManager.hasPlugin("com.android.application")
-        ) {
-            appPluginConfiguration.applyConfig(project, extension)
-        } else if (
-            project.pluginManager.hasPlugin("com.android.library")
-        ) {
-            libraryPluginConfiguration.applyConfig(project, extension)
-        } else if (
-            project.pluginManager.hasPlugin("java-library")
-        ) {
-            javaModulePluginConfiguration.applyConfig(project, extension)
+        when {
+            project.pluginManager.hasPlugin("com.android.application") ->
+                appPluginConfiguration.applyConfig(project, extension)
+            project.pluginManager.hasPlugin("com.android.library") ->
+                libraryPluginConfiguration.applyConfig(project, extension)
+            project.pluginManager.hasPlugin("java-library") ->
+                javaModulePluginConfiguration.applyConfig(project, extension)
         }
     }
 }
