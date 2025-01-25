@@ -3,14 +3,14 @@ package uk.gov.config
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class AgpAwarePluginConfigurationTest {
-    lateinit var testVar: Values
-    lateinit var project: Project
+    private lateinit var testVar: Values
+    private lateinit var project: Project
 
-    enum class Values {
+    private enum class Values {
         DEFAULT,
         APP,
         LIB,
@@ -32,11 +32,12 @@ class AgpAwarePluginConfigurationTest {
             testVar = Values.JAVA_MODULE
         }
 
-    private val sut = AgpAwarePluginConfiguration<Any>(
-        appPluginConfiguration = appLibConfig,
-        libraryPluginConfiguration = defaultLibConfig,
-        javaModulePluginConfiguration = javaModuleLibConfig,
-    )
+    private val sut =
+        AgpAwarePluginConfiguration<Any>(
+            appPluginConfiguration = appLibConfig,
+            libraryPluginConfiguration = defaultLibConfig,
+            javaModulePluginConfiguration = javaModuleLibConfig,
+        )
 
     @BeforeEach
     fun setUp() {
@@ -50,7 +51,7 @@ class AgpAwarePluginConfigurationTest {
 
         sut.applyConfig(
             project,
-            Any()
+            Any(),
         )
 
         assertEquals(testVar, Values.APP)
@@ -62,7 +63,7 @@ class AgpAwarePluginConfigurationTest {
 
         sut.applyConfig(
             project,
-            Any()
+            Any(),
         )
 
         assertEquals(testVar, Values.LIB)
@@ -74,7 +75,7 @@ class AgpAwarePluginConfigurationTest {
 
         sut.applyConfig(
             project,
-            Any()
+            Any(),
         )
 
         assertEquals(testVar, Values.JAVA_MODULE)
@@ -84,7 +85,7 @@ class AgpAwarePluginConfigurationTest {
     fun detectsNeitherModule() {
         sut.applyConfig(
             project,
-            Any()
+            Any(),
         )
 
         assertEquals(testVar, Values.DEFAULT)
