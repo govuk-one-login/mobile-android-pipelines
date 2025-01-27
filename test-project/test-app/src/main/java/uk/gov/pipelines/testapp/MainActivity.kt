@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import uk.gov.pipelines.testapp.ui.theme.TestProjectTheme
-import uk.gov.pipelines.testlibrary.HelloWorld
+import uk.gov.pipelines.testlibrary.androidmodule.HelloWorld
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

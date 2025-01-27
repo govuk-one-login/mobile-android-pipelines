@@ -8,7 +8,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":test-library"))
+    implementation(project(":test-library:android-module"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

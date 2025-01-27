@@ -20,5 +20,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "test-project"
 
-include(":test-library")
 include(":test-app")
+include(":test-library:android-module")
+include(":test-library:pure-kotlin-module")
