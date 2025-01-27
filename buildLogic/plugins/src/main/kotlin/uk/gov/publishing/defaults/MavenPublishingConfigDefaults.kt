@@ -43,10 +43,12 @@ object MavenPublishingConfigDefaults {
             ->
 
             project.configure<LibraryExtension> {
+                println("HELLO configure LibraryExtension")
                 configureAndroidPublishing()
             }
 
             project.configure<PublishingExtension> {
+                println("HELLO configure PublishingExtension")
                 configureMavenPublishing(project, extension)
             }
         }
@@ -102,12 +104,15 @@ object MavenPublishingConfigDefaults {
             configureMavenRepositoriesToPublishTo(project)
         }
         publications {
+            println("HELLO configureMavenPublishing publications")
             register<MavenPublication>("default") {
+                println("HELLO afterRegister")
                 this.groupId = extension.mavenConfigBlock.artifactGroupId.get()
                 this.artifactId = project.name
                 this.version = project.versionName
 
                 project.afterEvaluate {
+                    println("HELLO afterEvaluate")
                     from(project.components["default"])
                     withBuildIdentifier()
                 }
@@ -179,6 +184,7 @@ object MavenPublishingConfigDefaults {
      * configuration.
      */
     private fun MavenPom.defaultPomSetup(extension: MavenPublishingConfigHandler) {
+        println("HELLO defaultPomSetup")
         this.name.set(extension.name)
         this.description.set(extension.description)
 

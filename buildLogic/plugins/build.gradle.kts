@@ -30,6 +30,7 @@ dependencies {
         libs.detekt.gradle,
         libs.kotlin.gradle.plugin,
         libs.ktlint.gradle,
+        libs.mockito.kotlin,
         libs.sonarqube.gradle,
     ).forEach { dependency ->
         implementation(dependency)
@@ -37,6 +38,7 @@ dependencies {
 
     listOf(
         platform(libs.org.junit.bom),
+        libs.mockito.kotlin,
         libs.org.junit.jupiter,
         libs.org.hamcrest,
     ).forEach { dep: Provider<MinimalExternalModuleDependency> ->

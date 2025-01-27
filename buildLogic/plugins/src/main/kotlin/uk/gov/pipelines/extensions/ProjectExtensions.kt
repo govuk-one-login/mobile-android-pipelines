@@ -4,6 +4,7 @@ import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalog
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.getByType
+import org.mockito.Spy
 import org.gradle.process.ExecSpec
 import uk.gov.pipelines.config.buildLogicDir
 import uk.gov.pipelines.output.OutputStreamGroup
@@ -42,6 +43,7 @@ object ProjectExtensions {
 
     val Project.versionName: String
         get() {
+//            return "0.1.0"
             val scriptsDir = buildLogicDir.resolve("scripts/")
             return execWithOutput {
                 workingDir = rootDir
