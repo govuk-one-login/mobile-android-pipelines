@@ -12,7 +12,6 @@ junit = "5.11.4" # https://github.com/junit-team/junit5/releases
 ktlint-gradle = "12.1.2" # https://github.com/JLLeitschuh/ktlint-gradle/releases
 ktlint-cli = "1.5.0" # https://github.com/pinterest/ktlint/releases
 kotlin-general = "2.1.0" # https://kotlinlang.org/docs/releases.html#release-details
-mockito-kotlin = "5.4.0"
 sonarqube-gradle = "6.0.1.5171" # https://github.com/SonarSource/sonar-scanner-gradle/releases
 
 [libraries]
@@ -21,7 +20,6 @@ android-build-tool = { group = "com.android.tools.build", name = "gradle", versi
 detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin-general" }
 ktlint-gradle = { group = "org.jlleitschuh.gradle", name = "ktlint-gradle", version.ref = "ktlint-gradle" }
-mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
 sonarqube-gradle = { module = "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin", version.ref = "sonarqube-gradle" }
 org-junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
 org-junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
