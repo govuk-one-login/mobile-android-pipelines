@@ -11,6 +11,6 @@ class ApplicationContextTest {
     @Test
     fun useAppContext() {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("uk.gov.pipelines.testlibrary.test", appContext.packageName)
+        assertEquals("uk.gov.pipelines.testlibrary.androidmodule.test", appContext.packageName)
     }
 }
