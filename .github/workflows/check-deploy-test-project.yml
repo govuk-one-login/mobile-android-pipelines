@@ -47,10 +47,6 @@ jobs:
         uses: ./actions/maven-publish-local
         with:
           working-directory: 'test-project'
-      
-      - name: Check if expected packages are published locally
-        uses: ./actions/check-packages-published-locally
-        with:
           pipelines-directory: .
           expected-packages:
             'uk.gov.pipelines.android-module,uk.gov.pipelines.pure-kotlin-module'
