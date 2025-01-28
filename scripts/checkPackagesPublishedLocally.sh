@@ -5,5 +5,6 @@ echo Packages: "${PACKAGES[@]}"
 cd ~/.m2/repository || exit
 for PACKAGE in "${PACKAGES[@]}"
 do
+  echo "$PACKAGE"
   ls "$PACKAGE" || exit
 done

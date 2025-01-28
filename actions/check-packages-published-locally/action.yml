@@ -1,4 +1,4 @@
-name: 'Check expected packages are published'
+name: 'Check expected packages are published locally'
 description: 'Check expected packages are published locally'
 
 inputs:
