@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # Example: `EXPECTED_PACKAGES=uk.gov.my:app,uk.gov.publishing:your-app scripts/checkPackagesPublishedLocally.sh`
 
-# Converting comma separated string input `EXPECTED_PACKAGES` into a list of strings,
-# replacing "." and then ":" with "/" to make it a list of directory path.
-PACKAGES="${EXPECTED_PACKAGES//.//}"
-IFS="," read -r -a PACKAGES <<< "${PACKAGES//://}"
+# Converting comma separated string input `EXPECTED_PACKAGES` into a list of strings, removing spaces
+# and replacing both "." and ":" with "/" to return a list of directory paths.
+PACKAGES_WITHOUT_SPACES="${EXPECTED_PACKAGES// /}"
+IFS="," read -r -a PACKAGES <<< "${PACKAGES_WITHOUT_SPACES//[.:]//}"
 echo Packages: "${PACKAGES[@]}"
 
 # Navigate to directory where publishToMavenLocal publishes to in filesystem. If this local
