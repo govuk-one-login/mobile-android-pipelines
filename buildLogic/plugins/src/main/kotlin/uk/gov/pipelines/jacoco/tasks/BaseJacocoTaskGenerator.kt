@@ -1,8 +1,8 @@
 package uk.gov.pipelines.jacoco.tasks
 
 import org.gradle.api.Project
-import org.gradle.configurationcache.extensions.capitalized
 import org.gradle.testing.jacoco.tasks.JacocoReport
+import uk.gov.pipelines.extensions.StringExtensions.capitaliseFirstCharacter
 import uk.gov.pipelines.jacoco.config.JacocoCustomConfig
 
 /**
@@ -25,7 +25,7 @@ abstract class BaseJacocoTaskGenerator(
     /**
      * TitleCase representation of the Android app or library's build variant.
      */
-    protected val capitalisedVariantName: String = variant.capitalized()
+    protected val capitalisedVariantName: String = variant.capitaliseFirstCharacter()
 
     /**
      * The name of the Android System Development Kit (SDK)'s implementation of Jacoco test

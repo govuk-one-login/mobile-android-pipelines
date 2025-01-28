@@ -5,8 +5,8 @@ import org.gradle.api.Task
 import org.gradle.api.file.FileTree
 import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.util.PatternSet
-import org.gradle.configurationcache.extensions.capitalized
 import uk.gov.pipelines.extensions.ProjectExtensions.debugLog
+import uk.gov.pipelines.extensions.StringExtensions.capitaliseFirstCharacter
 
 /**
  * Partial implementation for obtaining a [FileTree].
@@ -28,7 +28,7 @@ abstract class BaseFileTreeFetcher(
     /**
      * The TitleCase representation of the Android app or library's build variant.
      */
-    protected val capitalisedVariantName = variant.capitalized()
+    protected val capitalisedVariantName = variant.capitaliseFirstCharacter()
 
     /**
      * Obtain the original [FileTree] for an implementation. This has no filtration on the object.

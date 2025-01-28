@@ -1,8 +1,8 @@
 package uk.gov.pipelines.jacoco.tasks
 
 import org.gradle.api.Project
-import org.gradle.configurationcache.extensions.capitalized
 import uk.gov.pipelines.Filters
+import uk.gov.pipelines.extensions.StringExtensions.capitaliseFirstCharacter
 import uk.gov.pipelines.filetree.fetcher.FileTreeFetcher
 import uk.gov.pipelines.jacoco.config.JacocoConnectedTestConfig
 import uk.gov.pipelines.jacoco.config.JacocoCustomConfig
@@ -21,12 +21,12 @@ class JacocoConnectedTestTaskGenerator(
     private val project: Project,
     private val classDirectoriesFetcher: FileTreeFetcher,
     variant: String,
-    name: String = "jacoco${variant.capitalized()}ConnectedTestReport",
+    name: String = "jacoco${variant.capitaliseFirstCharacter()}ConnectedTestReport",
     configuration: JacocoCustomConfig =
         JacocoConnectedTestConfig(
             project,
             classDirectoriesFetcher,
-            variant.capitalized(),
+            variant.capitaliseFirstCharacter(),
             name,
         ),
 ) : BaseJacocoTaskGenerator(

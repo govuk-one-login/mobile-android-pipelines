@@ -3,7 +3,7 @@ package uk.gov.pipelines.extensions
 import com.android.build.gradle.api.ApplicationVariant
 import com.android.build.gradle.api.LibraryVariant
 import org.gradle.api.Project
-import org.gradle.configurationcache.extensions.capitalized
+import uk.gov.pipelines.extensions.StringExtensions.capitaliseFirstCharacter
 import uk.gov.pipelines.filetree.fetcher.FileTreesFetcher
 import uk.gov.pipelines.filetree.fetcher.JavaCompileFileTreeFetcher
 import uk.gov.pipelines.filetree.fetcher.KotlinCompileFileTreeFetcher
@@ -14,7 +14,7 @@ import uk.gov.pipelines.jacoco.tasks.JacocoUnitTestTaskGenerator
 
 fun LibraryVariant.generateDebugJacocoTasks(project: Project) {
     val capitalisedFlavorName =
-        flavorName?.capitalized() ?: error(
+        flavorName?.capitaliseFirstCharacter() ?: error(
             "The library variant has no flavor name!",
         )
     generateJacocoTasks(
@@ -27,7 +27,7 @@ fun LibraryVariant.generateDebugJacocoTasks(project: Project) {
 
 fun ApplicationVariant.generateDebugJacocoTasks(project: Project) {
     val capitalisedFlavorName =
-        flavorName?.capitalized() ?: error(
+        flavorName?.capitaliseFirstCharacter() ?: error(
             "The application variant has no flavor name!",
         )
     generateJacocoTasks(

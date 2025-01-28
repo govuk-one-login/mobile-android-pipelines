@@ -5,9 +5,9 @@ import com.android.build.gradle.AppExtension
 import com.android.build.gradle.internal.coverage.JacocoReportTask
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import com.android.build.gradle.internal.tasks.ManagedDeviceInstrumentationTestTask
-import org.gradle.configurationcache.extensions.capitalized
 import uk.gov.pipelines.extensions.LibraryExtensionExt.decorateExtensionWithJacoco
 import uk.gov.pipelines.extensions.ProjectExtensions.debugLog
+import uk.gov.pipelines.extensions.StringExtensions.capitaliseFirstCharacter
 import uk.gov.pipelines.extensions.generateDebugJacocoTasks
 
 project.plugins.apply("uk.gov.pipelines.jacoco-common-config")
@@ -35,7 +35,7 @@ project.configure<ApplicationAndroidComponentsExtension> {
                 it.name.contains(variant.name, ignoreCase = true)
             }.forEach { instrumentationTestTask ->
                 val coverageReportTaskName =
-                    "createManagedDevice${variant.name.capitalized()}AndroidTestCoverageReport"
+                    "createManagedDevice${variant.name.capitaliseFirstCharacter()}AndroidTestCoverageReport"
                 val androidCoverageReportTask =
                     project.tasks.named(
                         coverageReportTaskName,

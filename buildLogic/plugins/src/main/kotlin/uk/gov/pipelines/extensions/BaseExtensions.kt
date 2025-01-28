@@ -6,7 +6,6 @@ import com.android.build.gradle.internal.tasks.ManagedDeviceInstrumentationTestT
 import com.android.build.gradle.internal.tasks.ManagedDeviceSetupTask
 import org.gradle.api.Project
 import org.gradle.api.tasks.Exec
-import org.gradle.configurationcache.extensions.capitalized
 import org.gradle.kotlin.dsl.extra
 import org.gradle.kotlin.dsl.invoke
 import org.gradle.kotlin.dsl.maybeCreate
@@ -17,6 +16,7 @@ import uk.gov.pipelines.config.buildLogicDir
 import uk.gov.pipelines.emulator.SystemImageSource
 import uk.gov.pipelines.extensions.ProjectExtensions.versionCode
 import uk.gov.pipelines.extensions.ProjectExtensions.versionName
+import uk.gov.pipelines.extensions.StringExtensions.capitaliseFirstCharacter
 import uk.gov.pipelines.extensions.StringExtensions.proseToUpperCamelCase
 import java.io.File
 
@@ -95,7 +95,7 @@ object BaseExtensions {
         val systemImageSourceTaskSegment = source.sanitise()
 
         return systemImageSourceTaskSegment +
-            "${hardwareProfileTaskSegment.capitalized()}Api$apiLevel"
+            "${hardwareProfileTaskSegment.capitaliseFirstCharacter()}Api$apiLevel"
     }
 
     /**
