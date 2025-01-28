@@ -1,0 +1,22 @@
+name: 'Check expected packages are published'
+description: 'Check expected packages are published locally'
+
+inputs:
+  pipelines-directory:
+    description: 'Pipelines directory'
+    required: false
+    default: './mobile-android-pipelines'
+  expected-packages:
+    description: 'Expected packages to be published locally, separated by dots'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Publish API package locally
+      run: ${PIPELINES_DIRECTORY}/scripts/checkPackagesPublishedLocally.sh
+      shell: bash
+      env:
+        PIPELINES_DIRECTORY: ${{ inputs.pipelines-directory }}
+        EXPECTED_PACKAGES: ${{ inputs.expected-packages }}
+        

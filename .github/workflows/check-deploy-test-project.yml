@@ -47,6 +47,13 @@ jobs:
         uses: ./actions/maven-publish-local
         with:
           working-directory: 'test-project'
+      
+      - name: Check if expected packages are published
+        uses: ./actions/check-packages-published
+        with:
+          pipelines-directory: .
+          expected-packages:
+            'uk.gov.pipelines.android-module,uk.gov.pipelines.pure-kotlin-module'
 
       - name: Clean workspace
         uses: ./actions/clean-workspace
