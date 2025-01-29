@@ -47,6 +47,10 @@ jobs:
         uses: ./actions/maven-publish-local
         with:
           working-directory: 'test-project'
+          pipelines-directory: .
+          expected-packages: '
+            uk.gov.pipelines:android-module,
+            uk.gov.pipelines:pure-kotlin-module'
 
       - name: Clean workspace
         uses: ./actions/clean-workspace

@@ -3,7 +3,7 @@
 
 # Converting comma separated string input into a list of strings, replacing ":" with "/" for
 # module paths.
-IFS="," read -r -a MODULE_PATHS <<< "${MODULES_TO_BUNDLE/://}"
+IFS="," read -r -a MODULE_PATHS <<< "${MODULES_TO_BUNDLE//://}"
 echo Module paths: "${MODULE_PATHS[@]}"
 
 # Converting comma separated string input into a list of strings for input flavors.

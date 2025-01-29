@@ -6,6 +6,13 @@ inputs:
     description: 'The working directory for steps in this action'
     required: false
     default: '.'
+  pipelines-directory:
+    description: 'Pipelines directory'
+    required: false
+    default: './mobile-android-pipelines'
+  expected-packages:
+    description: 'Expected packages to be published locally, separated by dots'
+    required: true
 
 runs:
   using: "composite"
@@ -15,3 +22,10 @@ runs:
       run: ./gradlew publishToMavenLocal
       shell: bash
       working-directory: ${{ inputs.working-directory }}
+      
+    - name: Check expected packages are published locally
+      run: ${PIPELINES_DIRECTORY}/scripts/checkPackagesPublishedLocally.sh
+      shell: bash
+      env:
+        PIPELINES_DIRECTORY: ${{ inputs.pipelines-directory }}
+        EXPECTED_PACKAGES: ${{ inputs.expected-packages }}
