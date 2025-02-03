@@ -2,8 +2,8 @@ package uk.gov.pipelines.jacoco.tasks
 
 import com.android.build.gradle.internal.tasks.ManagedDeviceInstrumentationTestTask
 import org.gradle.api.Project
-import org.gradle.configurationcache.extensions.capitalized
 import uk.gov.pipelines.Filters
+import uk.gov.pipelines.extensions.StringExtensions.capitaliseFirstCharacter
 import uk.gov.pipelines.filetree.fetcher.FileTreeFetcher
 import uk.gov.pipelines.jacoco.config.JacocoManagedDeviceConfig
 
@@ -19,7 +19,7 @@ class JacocoManagedDeviceTaskGenerator(
             )
 
         testTasks.map { testTask ->
-            val jacocoTaskName = "jacoco${testTask.name.capitalized()}Report"
+            val jacocoTaskName = "jacoco${testTask.name.capitaliseFirstCharacter()}Report"
             testTask to
                 JacocoManagedDeviceConfig(
                     project = project,

@@ -29,7 +29,7 @@ object StringExtensions {
                 .capitaliseFirstCharacter()
         }
 
-    private fun String.capitaliseFirstCharacter() =
+    internal fun String.capitaliseFirstCharacter() =
         this.replaceFirstChar { char ->
             if (char.isLowerCase()) {
                 char.titlecase(Locale.getDefault())
