@@ -6,6 +6,7 @@
 (?i)JIRA
 (?i)Zsh
 (?i)ktlint
+ADR(s)?
 APIs
 DAD
 DCMAW
