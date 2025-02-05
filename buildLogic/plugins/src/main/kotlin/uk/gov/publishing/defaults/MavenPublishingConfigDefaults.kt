@@ -151,13 +151,13 @@ object MavenPublishingConfigDefaults {
                     "https://maven.pkg.github.com/govuk-one-login/$githubRepositoryName",
                 )
             credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
+                username = project.providers.gradleProperty("gpr.user").get()
+                password = project.providers.gradleProperty("gpr.token").get()
             }
         }
         maven {
             name = "localBuild"
-            url = project.uri("${project.buildDir}/repo")
+            url = project.uri("${project.layout.buildDirectory}/repo")
         }
     }
 
