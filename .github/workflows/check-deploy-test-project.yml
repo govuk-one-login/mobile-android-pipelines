@@ -29,9 +29,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup runner
-        uses: ./actions/setup-runner
-        with:
-          jdk-version: 21
+        uses: ./actions/common-prerequisites
 
       - name: Increment the release version using Conventional Commits
         id: versioning
@@ -67,9 +65,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup runner
-        uses: ./actions/setup-runner
-        with:
-          jdk-version: 21
+        uses: ./actions/common-prerequisites
 
       - name: Retrieve GitHub secrets
         id: retrieve-secrets
