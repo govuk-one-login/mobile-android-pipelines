@@ -15,6 +15,7 @@ GNU
 GPG
 JDK
 JRE
+JUnit
 LFS
 MAM
 MRZes
@@ -22,6 +23,7 @@ NIST
 OAuth
 RSPEC
 ReadID
+Robolectric
 VIZes
 [Aa]ndroid
 [Bb]io[Tt]oken
