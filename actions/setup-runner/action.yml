@@ -33,11 +33,14 @@ runs:
       # Didn't appear to use versioning!
       uses: Homebrew/actions/setup-homebrew@a7a36215df86859f163fbb774ebe0cecf9ec8547
 
-    - name: Install brew dependencies
-      run: |
-        brew install vale
-        brew install cocogitto
+    - name: Install vale
+      run: brew install vale
       shell: bash
+
+    - name: Install cocogitto
+      uses: cocogitto/cocogitto-action@ed62593c499c2d7697bb0177213946f1e2634119 # v3.10
+      with:
+        check: false
 
     - name: Install KVM hardware acceleration Dependencies
       # see docs: https://help.ubuntu.com/community/KVM/Installation
