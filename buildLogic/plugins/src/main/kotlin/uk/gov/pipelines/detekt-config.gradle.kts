@@ -33,7 +33,10 @@ fun setupDetekt(): DetektExtension.() -> Unit =
         source.from(
             fileTree("src") {
                 include(
-                    listOf("**/java/**/*.*"),
+                    listOf(
+                        "**/java/**/*.*",
+                        "**/kotlin/**/*.*",
+                    ),
                 )
             },
         )
