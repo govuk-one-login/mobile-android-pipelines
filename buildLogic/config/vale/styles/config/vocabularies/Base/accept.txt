@@ -30,6 +30,7 @@ VIZes
 [Cc]omposables?
 Dependabot
 [Gg]radle
+[Gg]radlew
 [Hh]amcrest
 [Hh]omebrew
 [Jj]acoco

@@ -26,8 +26,7 @@ If the GitHub Action was triggered by a different action, such as a merge or wor
 
 ## Updating gradle-wrapper
 
-Gradle SHA pinning is in place through the `distributionSha256Sum` attribute in gradle-wrapper.properties. This means the gradle-wrapper must be upgraded properly through the `./gradlew wrapper` command. 
-Example gradle-wrapper.properties
+Gradle secure hash algorithm (SHA) pinning is in place through the `distributionSha256Sum` attribute in gradle-wrapper.properties. This means the gradle-wrapper must upgrade through the `./gradlew wrapper` command.
 ```
 distributionBase=GRADLE_USER_HOME
 distributionPath=wrapper/dists
