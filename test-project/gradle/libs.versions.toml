@@ -1,6 +1,6 @@
 [versions]
 androidXActivityCompose = "1.10.0"
-androidXComposeBom = "2025.01.01"
+androidXComposeBom = "2025.02.00"
 androidXCoreKtx = "1.15.0"
 androidXLifecycleRuntimeKtx = "2.8.7"
 androidXTestCore = "1.6.1"
