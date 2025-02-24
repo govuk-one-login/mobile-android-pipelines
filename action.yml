@@ -29,7 +29,9 @@ runs:
 
     - name: Setup GitHub Runner workflow
       uses: ./mobile-android-pipelines/actions/setup-runner
-      
+
+    - uses: gradle/actions/wrapper-validation@v4
+
     - name: Verify Conventional commit standards against latest git tag
       uses: ./mobile-android-pipelines/actions/verify-conventional-commit
       
