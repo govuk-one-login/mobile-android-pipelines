@@ -4,7 +4,11 @@ description: 'Verify Conventional commit standards against latest git tag'
 runs:
   using: "composite"
   steps:
-    - name: Verify Conventional commit standards against latest git tag
-      uses: cocogitto/cocogitto-action@ed62593c499c2d7697bb0177213946f1e2634119 #v3
+    - name: Install Cocogitto
+      uses: cocogitto/cocogitto-action@ed62593c499c2d7697bb0177213946f1e2634119 # v3.10
       with:
-        check-latest-tag-only: true
+        check: false
+
+    - name: Verify Conventional commit standards against latest git tag
+      run: cog check -l
+      shell: bash
