@@ -93,5 +93,5 @@ runs:
 
     - name: Install project defined homebrew dependencies
       run: |
-        if [ -f Brewfile ]; then brew bundle --no-lock; fi
+        if [ -f Brewfile ]; then brew bundle; fi
       shell: bash
