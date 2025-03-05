@@ -54,7 +54,7 @@ function installHomebrewIfNecessary {
 # Installs all dependencies declared within the code base.
 function installProjectDependencies {
   echo "## Installing Brewfile dependencies... ##"
-  brew bundle --file="${GIT_ROOT}/Brewfile" --no-lock
+  brew bundle --file="${GIT_ROOT}/Brewfile"
 }
 
 ## SCRIPT STARTS HERE ##
