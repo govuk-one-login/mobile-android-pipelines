@@ -5,7 +5,7 @@
 
 android-gradle = "8.8.1" # https://developer.android.com/studio/releases/gradle-plugin
 buildconfig-gradle = "5.5.1" # https://github.com/gmazzo/gradle-buildconfig-plugin/releases
-detekt = "1.23.7" # https://github.com/detekt/detekt/releases
+detekt = "1.23.8" # https://github.com/detekt/detekt/releases
 hamcrest = "3.0"
 jacoco-tool = "0.8.12" # https://github.com/jacoco/jacoco/releases
 junit = "5.11.4" # https://github.com/junit-team/junit5/releases
