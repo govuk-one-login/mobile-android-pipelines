@@ -140,6 +140,7 @@ object BaseExtensions {
                 resources.excludes += "META-INF/LICENSE-W3C-TEST"
                 resources.excludes += "META-INF/DEPENDENCIES"
                 resources.excludes += "*.proto"
+                resources.excludes += "META-INF/versions/9/OSGI-INF/MANIFEST.MF"
             }
 
             testOptions {
