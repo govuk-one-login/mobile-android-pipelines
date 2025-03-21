@@ -13,7 +13,12 @@ runs:
       with:
         distribution: 'oracle'
         java-version: ${{ inputs.jdk-version }}
-        cache: gradle
+
+    - name: Setup Gradle
+      # Caches gradle tasks
+      uses: gradle/actions/setup-gradle@94baf225fe0a508e581a564467443d0e2379123b # v4.3.0
+      with:
+        cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' }}
 
     - name: Install Cocogitto
       uses: cocogitto/cocogitto-action@ed62593c499c2d7697bb0177213946f1e2634119 # v3.10
