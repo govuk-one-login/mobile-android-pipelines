@@ -16,7 +16,7 @@ runs:
         cache: gradle
 
     - name: Install Cocogitto
-      uses: cocogitto/cocogitto-action@ed62593c499c2d7697bb0177213946f1e2634119 # v3.10
+      uses: cocogitto/cocogitto-action@c7a74f5406bab86da17da0f0e460a69f8219a68c # v3.11
       with:
         check: false
 
