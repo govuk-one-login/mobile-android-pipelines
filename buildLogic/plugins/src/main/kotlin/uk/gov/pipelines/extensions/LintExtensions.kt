@@ -18,13 +18,14 @@ object LintExtensions {
                     "ConvertToWebp",
                     "UnusedIds",
                     "VectorPath",
+                    // Manage dependency updates using Dependabot
+                    // https://gds-way.digital.cabinet-office.gov.uk/standards/tracking-dependencies.html
+                    // Increases lint time when ignored, due to network calls
+                    "NewerVersionAvailable",
                 ),
             )
             informational.addAll(
                 setOf(
-                    // Manage dependency updates using Dependabot
-                    // https://gds-way.digital.cabinet-office.gov.uk/standards/tracking-dependencies.html
-                    "NewerVersionAvailable",
                     "AndroidGradlePluginVersion",
                 ),
             )
