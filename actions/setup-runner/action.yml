@@ -93,6 +93,7 @@ runs:
 
     - name: Install project defined homebrew dependencies
       run: |
-        brew doctor
-        if [ -f Brewfile ]; then brew doctor 2>/dev/null; then brew bundle; fi
+        brew update
+        brew upgrade
+        if [ -f Brewfile ]; then brew bundle; fi
       shell: bash
