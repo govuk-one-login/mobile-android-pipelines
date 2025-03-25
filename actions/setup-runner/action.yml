@@ -94,5 +94,5 @@ runs:
     - name: Install project defined homebrew dependencies
       run: |
         brew doctor
-        if [ -f Brewfile ]; then brew doctor --list-checks | grep -v stray_headers; then brew bundle; fi
+        if [ -f Brewfile ]; then brew doctor 2>/dev/null; then brew bundle; fi
       shell: bash
