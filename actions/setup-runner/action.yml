@@ -94,6 +94,6 @@ runs:
     - name: Install project defined homebrew dependencies
       run: |
         brew cleanup
-        brew tap homebrew/cask
+        brew tap homebrew/cask --force
         if [ -f Brewfile ]; then brew bundle; fi
       shell: bash
