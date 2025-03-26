@@ -1,6 +1,12 @@
 name: 'Bundle app for release'
 description: 'Build app for release'
 inputs:
+  github-actor:
+    description: 'Github actor. If not provided, defaults to `github.actor`.'
+    required: false
+  github-token:
+    description: 'Github token'
+    required: true
   keystore-file-path:
     description: 'Signing store file path (either absolute or relative to the working directory)'
     required: true
@@ -12,9 +18,6 @@ inputs:
     required: true
   keystore-key-password:
     description: 'Signing key password'
-    required: true
-  github-token:
-    description: 'Github token'
     required: true
   modules:
     description: 'Modules to be bundled (comma separated without spaces), for example: "app,modules/testWrapper"'
@@ -48,15 +51,15 @@ runs:
       run: |
         ${PIPELINES_DIRECTORY}/scripts/bundleRelease.sh
       env:
-        SIGNING_STORE_FILE_PATH: ${{ inputs.keystore-file-path }}
-        SIGNING_STORE_PASSWORD: ${{ inputs.keystore-password }}
+        GITHUB_ACTOR: ${{ inputs.github-actor || github.actor }}
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+        INPUT_FLAVORS: ${{ inputs.flavors }}
+        MODULES_TO_BUNDLE: ${{ inputs.modules }}
+        PIPELINES_DIRECTORY: ${{ inputs.pipelines-directory }}
         SIGNING_KEY_ALIAS: ${{ inputs.keystore-key-alias }}
         SIGNING_KEY_PASSWORD: ${{ inputs.keystore-key-password }}
-        GITHUB_TOKEN: ${{ inputs.github-token }}
-        MODULES_TO_BUNDLE: ${{ inputs.modules }}
-        INPUT_FLAVORS: ${{ inputs.flavors }}
-        GITHUB_ACTOR: ${{ github.actor }}
-        PIPELINES_DIRECTORY: ${{ inputs.pipelines-directory }}
+        SIGNING_STORE_FILE_PATH: ${{ inputs.keystore-file-path }}
+        SIGNING_STORE_PASSWORD: ${{ inputs.keystore-password }}
         VERSION_CODE: ${{ inputs.version-code }}
       shell: bash
       working-directory: ${{ inputs.working-directory }}
