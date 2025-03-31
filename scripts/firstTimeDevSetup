@@ -54,7 +54,16 @@ function installHomebrewIfNecessary {
 # Installs all dependencies declared within the code base.
 function installProjectDependencies {
   echo "## Installing Brewfile dependencies... ##"
-  brew bundle --file="${GIT_ROOT}/Brewfile"
+  # Use the address below to access the gist for the Brewfile and make any changes if required
+  git clone https://gist.github.com/BiancaMihaila/6473ba331c185aa8e9551fd51e5da4a9
+  # shellcheck disable=SC2046
+  # This will have to be amended to either grab the hash from the URL or always manually updated for the hash - less likely to change
+  cd 6473ba331c185aa8e9551fd51e5da4a9 || exit
+  brew bundle
+  cd ../
+  echo "## Deleting Brewfile after installations:... ##"
+  # This will have to be amended to either grab the hash from the URL or always manually updated for the hash - less likely to change
+  rm -rf 6473ba331c185aa8e9551fd51e5da4a9 2> /dev/null
 }
 
 ## SCRIPT STARTS HERE ##
