@@ -3,6 +3,11 @@
 BASH_CONFIG_FILE=~/.bash_profile
 GIT_ROOT=$(git rev-parse --show-toplevel)
 ZSH_CONFIG_FILE=~/.zshrc
+# Use the address below to access the gist for the Brewfile and make any changes if required
+# shellcheck disable=SC2034
+BREW_GIST=https://gist.github.com/BiancaMihaila/6473ba331c185aa8e9551fd51e5da4a9
+# This will have to be amended to either grab the hash from the above URL or always manually updated for the hash - less likely to change
+BREW_PATH="${GIT_ROOT}/6473ba331c185aa8e9551fd51e5da4a9"
 
 # Checks the provided file for provided EVAL_STRING. If not, appends to the config file if it exists.
 # Parameters:
@@ -54,7 +59,12 @@ function installHomebrewIfNecessary {
 # Installs all dependencies declared within the code base.
 function installProjectDependencies {
   echo "## Installing Brewfile dependencies... ##"
-  brew bundle --file="${GIT_ROOT}/Brewfile"
+  git clone BREW_GIST
+  cd "${BREW_PATH}" || exit
+  brew bundle
+  cd ../
+  echo "## Deleting Brewfile after installations:... ##"
+  rm -rf "${BREW_PATH}" 2> /dev/null
 }
 
 ## SCRIPT STARTS HERE ##
