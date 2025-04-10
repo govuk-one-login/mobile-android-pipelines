@@ -108,7 +108,7 @@ object MavenPublishingConfigDefaults {
                 this.version = project.versionName
 
                 project.afterEvaluate {
-                    from(project.components["default"])
+                    from(project.components["release"])
                     withBuildIdentifier()
                 }
                 pom {
@@ -126,8 +126,8 @@ object MavenPublishingConfigDefaults {
      */
     private fun LibraryExtension.configureAndroidPublishing() {
         publishing {
-            multipleVariants {
-                allVariants() // creates the 'default' component
+            // https://issuetracker.google.com/u/0/issues/197636221
+            singleVariant("release") {
                 withSourcesJar() // creates a Java Archive (JAR) with the source code
                 withJavadocJar() // creates a JAR with the java documentation
             }
