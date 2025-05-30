@@ -22,6 +22,11 @@ buildscript {
             "sonar.projectName" to "mobile-android-pipelines-test-project",
         )
     )
+
+    // https://issuetracker.google.com/issues/380600747
+    dependencies {
+        classpath(libs.bcutil.jdk18on)
+    }
 }
 
 val apkConfig by rootProject.extra(
