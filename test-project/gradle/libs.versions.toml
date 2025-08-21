@@ -8,7 +8,7 @@ androidXTestEspressoCore = "3.7.0"
 androidXTestJUnit = "1.3.0"
 androidXTestRunner = "1.7.0"
 androidXTestOrchestrator = "1.5.1"
-bcutilJdk18on = "1.80"
+bcutilJdk18on = "1.81"
 junit = "4.13.2"
 kotlin = "2.2.0"
 
