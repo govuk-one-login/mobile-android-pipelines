@@ -3,7 +3,7 @@
 
 [versions]
 
-android-gradle = "8.8.1" # https://developer.android.com/studio/releases/gradle-plugin
+android-gradle = "8.12.2" # https://developer.android.com/studio/releases/gradle-plugin
 buildconfig-gradle = "5.6.7" # https://github.com/gmazzo/gradle-buildconfig-plugin/releases
 detekt = "1.23.8" # https://github.com/detekt/detekt/releases
 hamcrest = "3.0"
