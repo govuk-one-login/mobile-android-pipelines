@@ -13,12 +13,16 @@ inputs:
     description: 'A prefix added to the Git tag before the app version number'
     default: 'v'
     required: false
+  GRADLE_CACHE_DISABLED:
+    description: 'Allowing for gradle cache on the runner'
+    required: false
+    default: 'false'
 
 runs:
   using: "composite"
   steps:
     - name: Checkout codebase
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       with:
         lfs: 'true'
         submodules: 'true'
@@ -29,6 +33,8 @@ runs:
 
     - name: Setup GitHub Runner workflow
       uses: ./mobile-android-pipelines/actions/setup-runner
+      with:
+        gradle-cache-disabled: ${{ inputs.GRADLE_CACHE_DISABLED }}
       
     - name: Verify Conventional commit standards against latest git tag
       uses: ./mobile-android-pipelines/actions/verify-conventional-commit

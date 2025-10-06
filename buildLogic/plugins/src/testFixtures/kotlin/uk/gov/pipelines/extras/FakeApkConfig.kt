@@ -8,7 +8,7 @@ class FakeApkConfig : ApkConfig {
     override val sdkVersions =
         object : ApkConfig.SdkVersions {
             override val minimum = 29
-            override val target = 34
+            override val target = 35
             override val compile = 35
         }
 }
