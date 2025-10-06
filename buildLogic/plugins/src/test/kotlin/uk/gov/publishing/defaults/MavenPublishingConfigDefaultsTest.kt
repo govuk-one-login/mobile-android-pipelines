@@ -63,6 +63,9 @@ class MavenPublishingConfigDefaultsTest {
             .expectMavenPublishingExtension()
             .expectDefaultPublication()
             .assertExpectedDefaults()
+
+        val releaseComponent = project.components.findByName("release")
+        assertNotNull(releaseComponent)
     }
 
     @Test
