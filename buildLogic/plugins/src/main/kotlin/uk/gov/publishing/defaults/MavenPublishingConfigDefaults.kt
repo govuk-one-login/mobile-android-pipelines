@@ -108,8 +108,7 @@ object MavenPublishingConfigDefaults {
                 this.version = project.versionName
 
                 from(project.components["release"])
-                    withBuildIdentifier()
-                }
+                withBuildIdentifier()
 
                 pom {
                     defaultPomSetup(
