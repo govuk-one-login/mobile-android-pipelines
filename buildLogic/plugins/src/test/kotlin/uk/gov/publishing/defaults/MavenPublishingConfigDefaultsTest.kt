@@ -59,6 +59,8 @@ class MavenPublishingConfigDefaultsTest {
 
         plugin.apply(project)
 
+        project.evaluationDependsOn(":")
+
         project
             .expectMavenPublishingExtension()
             .expectDefaultPublication()
