@@ -107,10 +107,10 @@ object MavenPublishingConfigDefaults {
                 this.artifactId = project.name
                 this.version = project.versionName
 
-                project.afterEvaluate {
-                    from(project.components["release"])
+                from(project.components["release"])
                     withBuildIdentifier()
                 }
+
                 pom {
                     defaultPomSetup(
                         extension.mavenConfigBlock,
