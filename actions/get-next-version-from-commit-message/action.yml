@@ -1,0 +1,44 @@
+name: 'Get next version from commit message'
+description: 'Gets the next version number from the release branch when merging into main or hotfix'
+
+outputs:
+  next-version:
+    description: 'Next version number determined from the commit message'
+    value: ${{ steps.get-latest-tag-from-commit-msg.outputs.next-version }}
+  next-version-pattern:
+    description: 'Pattern used in git describe calls for the next version number'
+    value: ${{ steps.get-next-version.outputs.next-version-pattern }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Get latest tagged version
+      id: get-latest-tag-from-commit-msg
+      # First line of commit must be in a format where the version is the last word
+      run: |
+        commit_title=$(git log -1 --pretty=%s | tail -n1)
+        IFS=/ read -ra version_list <<< "$commit_title"
+        version_list_length=${#version_list[@]}
+        commit_version=${version_list[version_list_length-1]}
+        
+        if [[ "commit_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
+        then
+          NEXT_VERSION="${BASH_REMATCH[0]}"
+        else
+          echo "Invalid version in commit: ($commit_title)"
+          exit 1
+        fi
+        
+        tag_version=$(cog -v get-version)
+        
+        if [[ "$NEXT_VERSION" < "$tag_version" ]]
+        then
+          echo "NEXT_VERSION = $NEXT_VERSION"
+          echo "next-version=$NEXT_VERSION" >> $GITHUB_OUTPUT
+          IFS=. read -r MAJOR MINOR PATCH <<< $NEXT_VERSION
+          echo "next-version-pattern=v${MAJOR}.${MINOR}.*" >> $GITHUB_OUTPUT
+        else
+          echo "Version found in commit message is not smaller than the tagged version"
+          exit 1
+        fi
+      shell: bash
