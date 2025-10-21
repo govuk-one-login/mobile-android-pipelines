@@ -163,7 +163,10 @@ object MavenPublishingConfigDefaults {
         }
         maven {
             name = "localBuild"
-            url = project.uri("${project.buildDir}/repo")
+            url =
+                project.layout.buildDirectory.dir("repo").map {
+                    it.asFile.toURI()
+                }.get()
         }
     }
 
