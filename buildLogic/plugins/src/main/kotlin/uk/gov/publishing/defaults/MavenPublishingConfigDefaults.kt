@@ -3,6 +3,7 @@ package uk.gov.publishing.defaults
 import com.android.build.api.dsl.LibraryExtension
 import org.gradle.api.Project
 import org.gradle.api.artifacts.dsl.RepositoryHandler
+import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPom
 import org.gradle.api.publish.maven.MavenPublication
@@ -56,6 +57,11 @@ object MavenPublishingConfigDefaults {
                 project: Project,
                 extension: MavenPublishingConfigExtension,
             ->
+
+            project.configure<JavaPluginExtension> {
+                withJavadocJar()
+                withSourcesJar()
+            }
 
             project.configure<PublishingExtension> {
                 configureJavaModuleMavenPublishing(project, extension)
