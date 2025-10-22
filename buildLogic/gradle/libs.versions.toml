@@ -23,6 +23,8 @@ ktlint-gradle = { group = "org.jlleitschuh.gradle", name = "ktlint-gradle", vers
 sonarqube-gradle = { module = "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin", version.ref = "sonarqube-gradle" }
 org-junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
 org-junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
+org-junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params" }
+
 org-junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 org-hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
 
