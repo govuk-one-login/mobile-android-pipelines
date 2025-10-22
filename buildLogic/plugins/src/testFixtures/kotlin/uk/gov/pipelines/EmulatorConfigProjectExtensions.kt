@@ -20,15 +20,11 @@ object EmulatorConfigProjectExtensions {
     ) {
         project.rootProject.extraProperties.set(
             "buildLogicDir",
-            BUILD_LOGIC_DIR,
+            buildLogicDir,
         )
         project.rootProject.extraProperties.set(
             "emulatorConfig",
-            EmulatorConfig(
-                systemImageSources = setOf(SystemImageSource.AOSP_ATD),
-                androidApiLevels = setOf(34),
-                deviceFilters = setOf("Pixel XL"),
-            ),
+            emulatorConfig,
         )
     }
 }
