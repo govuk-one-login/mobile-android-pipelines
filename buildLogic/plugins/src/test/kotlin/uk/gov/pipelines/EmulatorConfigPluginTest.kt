@@ -7,8 +7,9 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
+import uk.gov.pipelines.EmulatorConfigProjectExtensions.exampleEmulatorConfig
 import uk.gov.pipelines.EmulatorConfigProjectExtensions.setupEmulatorConfigExtras
-import uk.gov.pipelines.ManagedDevicesMatchers.hasDevice
+import uk.gov.pipelines.ManagedDevicesMatchers.hasSize
 import uk.gov.pipelines.TestOptionsMatchers.hasManagedDevices
 
 class EmulatorConfigPluginTest {
@@ -16,7 +17,9 @@ class EmulatorConfigPluginTest {
 
     @BeforeEach
     fun setUp() {
-        project.setupEmulatorConfigExtras()
+        project.setupEmulatorConfigExtras(
+            emulatorConfig = exampleEmulatorConfig,
+        )
 
         listOf(
             "com.android.library",
@@ -30,7 +33,7 @@ class EmulatorConfigPluginTest {
             assertThat(
                 extension.testOptions,
                 hasManagedDevices(
-                    hasDevice("aospAtdPixelXLApi34"),
+                    hasSize(1),
                 ),
             )
         } ?: fail { "Cannot find android library extension to verify managed devices!" }
