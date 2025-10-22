@@ -1,17 +1,19 @@
 package uk.gov.pipelines
 
 import com.android.build.gradle.BaseExtension
+import org.gradle.api.UnknownDomainObjectException
 import org.gradle.kotlin.dsl.findByType
 import org.gradle.testfixtures.ProjectBuilder
-import org.hamcrest.MatcherAssert.assertThat
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.fail
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import uk.gov.pipelines.EmulatorConfigProjectExtensions.exampleEmulatorConfig
+import uk.gov.pipelines.EmulatorConfigProjectExtensions.exampleManagedDeviceName
 import uk.gov.pipelines.EmulatorConfigProjectExtensions.setupEmulatorConfigExtras
-import uk.gov.pipelines.ManagedDevicesMatchers.hasSize
-import uk.gov.pipelines.TestOptionsMatchers.hasManagedDevices
 
 class EmulatorConfigPluginTest {
     private val project = ProjectBuilder.builder().build()
@@ -36,11 +38,35 @@ class EmulatorConfigPluginTest {
             "uk.gov.pipelines.emulator-config",
         ).forEach(project.pluginManager::apply)
 
-        project.extensions.findByType<BaseExtension>()?.let { extension ->
-            assertThat(
-                extension.testOptions,
-                hasManagedDevices(hasSize(1)),
-            )
-        } ?: fail { "Cannot find android library extension to verify managed devices!" }
+        // Throws an exception if the name cannot be found
+        project.extensions.findByType<BaseExtension>()
+            ?.testOptions
+            ?.managedDevices
+            ?.devices
+            ?.named(exampleManagedDeviceName)
+            ?: fail { "Cannot find managed device configuration" }
+    }
+
+    @Test
+    fun `Non existent managed devices throw exceptions`() {
+        listOf(
+            "com.android.library",
+            "uk.gov.pipelines.emulator-config",
+        ).forEach(project.pluginManager::apply)
+
+        val deviceName = "unknownDevice"
+        val exception: UnknownDomainObjectException =
+            assertThrows {
+                project.extensions.findByType<BaseExtension>()
+                    ?.testOptions
+                    ?.managedDevices
+                    ?.devices
+                    ?.named(deviceName)
+            }
+
+        assertEquals(
+            "Device with name '$deviceName' not found.",
+            exception.message,
+        )
     }
 }

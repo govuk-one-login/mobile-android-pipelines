@@ -13,6 +13,7 @@ object EmulatorConfigProjectExtensions {
             androidApiLevels = setOf(34),
             deviceFilters = setOf("Pixel XL"),
         )
+    val exampleManagedDeviceName = "aospAtdPixelXLApi34"
 
     fun Project.setupEmulatorConfigExtras(
         buildLogicDir: String = BUILD_LOGIC_DIR,
