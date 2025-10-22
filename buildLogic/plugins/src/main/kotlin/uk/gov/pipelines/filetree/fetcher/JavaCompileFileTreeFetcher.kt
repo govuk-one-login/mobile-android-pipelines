@@ -32,7 +32,9 @@ class JavaCompileFileTreeFetcher(
             ) ?: getJavaCompileFileTree(
                 "compile${capitalisedVariantFlavorName}JavaWithJavac",
             ) ?: project.fileTree(
-                "${project.buildDir}/intermediates/javac/$variant/classes",
+                project.layout.buildDirectory.dir(
+                    "intermediates/javac/$variant/classes",
+                ),
             )
         }.also {
             project.debugLog(

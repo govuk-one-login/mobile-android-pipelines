@@ -6,9 +6,6 @@ import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.process.ExecSpec
 import uk.gov.pipelines.config.buildLogicDir
-import uk.gov.pipelines.output.OutputStreamGroup
-import java.io.ByteArrayOutputStream
-import java.io.OutputStream
 
 /**
  * Default version code if no `versionCode` property is supplied to the build.
@@ -19,17 +16,10 @@ import java.io.OutputStream
 private const val DEFAULT_VERSION_CODE: Int = Integer.MAX_VALUE
 
 object ProjectExtensions {
-    fun Project.execWithOutput(spec: ExecSpec.() -> Unit) =
-        OutputStreamGroup().use { outputStreamGroup ->
-            val byteArrayOutputStream = ByteArrayOutputStream()
-            outputStreamGroup.add(byteArrayOutputStream)
-            exec {
-                this.spec()
-                outputStreamGroup.add(this.standardOutput)
-                this.standardOutput = outputStreamGroup
-            }
-            byteArrayOutputStream.toString().trim()
-        }
+    fun Project.execWithOutput(spec: ExecSpec.() -> Unit): String =
+        providers.exec {
+            this.spec()
+        }.standardOutput.asText.map(String::trim).get()
 
     /**
      * The version code for the application.
@@ -46,7 +36,6 @@ object ProjectExtensions {
             return execWithOutput {
                 workingDir = rootDir
                 executable = "bash"
-                standardOutput = OutputStream.nullOutputStream()
                 args =
                     listOf(
                         scriptsDir.resolve("getCurrentVersion").path,
