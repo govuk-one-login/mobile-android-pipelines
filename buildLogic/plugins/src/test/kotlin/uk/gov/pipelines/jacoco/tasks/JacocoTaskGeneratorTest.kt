@@ -47,7 +47,12 @@ class JacocoTaskGeneratorTest {
         private val project = ProjectBuilder.builder().build()
         private val fetcher = FileTreeFetcher { project.provider { project.fileTree("./") } }
 
+        /**
+         * Supresses `UnusedPrivateProperty` as JUnit 5 utilises it as part of parameterised
+         * testing.
+         */
         @JvmStatic
+        @Suppress("UnusedPrivateProperty")
         val generators =
             listOf(
                 arguments(

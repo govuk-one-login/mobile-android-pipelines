@@ -23,7 +23,12 @@ class BaseFileTreeFetcherTest {
     companion object {
         private val project = ProjectBuilder.builder().build()
 
+        /**
+         * Supresses `UnusedPrivateProperty` as JUnit 5 utilises it as part of parameterised
+         * testing.
+         */
         @JvmStatic
+        @Suppress("UnusedPrivateProperty")
         private val fetchers =
             listOf(
                 AsmFileTreeFetcher(
