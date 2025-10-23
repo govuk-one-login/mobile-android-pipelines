@@ -1,13 +1,13 @@
 package uk.gov.pipelines
 
-import com.android.build.api.dsl.ManagedDevices
 import com.android.build.api.dsl.TestOptions
 import org.hamcrest.Description
 import org.hamcrest.Matcher
+import org.hamcrest.Matchers.equalTo
 import org.hamcrest.TypeSafeMatcher
 
 object TestOptionsMatchers {
-    fun hasManagedDevices(matcher: Matcher<ManagedDevices>): Matcher<TestOptions> =
+    fun hasAnimationsDisabled(matcher: Matcher<Boolean>): Matcher<TestOptions> =
         object : TypeSafeMatcher<TestOptions>() {
             override fun describeTo(p0: Description?) {
                 matcher.describeTo(p0)
@@ -17,9 +17,31 @@ object TestOptionsMatchers {
                 item: TestOptions?,
                 mismatchDescription: Description?,
             ) {
-                matcher.describeMismatch(item?.managedDevices, mismatchDescription)
+                matcher.describeMismatch(item?.animationsDisabled, mismatchDescription)
             }
 
-            override fun matchesSafely(p0: TestOptions?): Boolean = matcher.matches(p0?.managedDevices)
+            override fun matchesSafely(p0: TestOptions?): Boolean = matcher.matches(p0?.animationsDisabled)
+        }
+
+    fun hasAnimationsDisabled(): Matcher<TestOptions> = hasAnimationsDisabled(equalTo(true))
+
+    fun hasAnimationsEnabled(): Matcher<TestOptions> = hasAnimationsDisabled(equalTo(false))
+
+    fun hasExecution(expected: String) = hasExecution(equalTo(expected))
+
+    fun hasExecution(matcher: Matcher<String>): Matcher<TestOptions> =
+        object : TypeSafeMatcher<TestOptions>() {
+            override fun describeTo(p0: Description?) {
+                matcher.describeTo(p0)
+            }
+
+            override fun describeMismatchSafely(
+                item: TestOptions?,
+                mismatchDescription: Description?,
+            ) {
+                matcher.describeMismatch(item?.execution, mismatchDescription)
+            }
+
+            override fun matchesSafely(p0: TestOptions?): Boolean = matcher.matches(p0?.execution)
         }
 }

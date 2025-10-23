@@ -1,19 +1,22 @@
 package uk.gov.pipelines
 
+import com.android.build.api.dsl.TestOptions
 import com.android.build.gradle.BaseExtension
 import org.gradle.api.UnknownDomainObjectException
 import org.gradle.kotlin.dsl.findByType
 import org.gradle.testfixtures.ProjectBuilder
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers.allOf
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.junit.jupiter.api.fail
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import uk.gov.pipelines.EmulatorConfigProjectExtensions.exampleEmulatorConfig
-import uk.gov.pipelines.EmulatorConfigProjectExtensions.exampleManagedDeviceName
 import uk.gov.pipelines.EmulatorConfigProjectExtensions.setupEmulatorConfigExtras
+import uk.gov.pipelines.TestOptionsMatchers.hasAnimationsDisabled
+import uk.gov.pipelines.TestOptionsMatchers.hasExecution
 
 class EmulatorConfigPluginTest {
     private val project = ProjectBuilder.builder().build()
@@ -32,19 +35,21 @@ class EmulatorConfigPluginTest {
             "com.android.library",
         ],
     )
-    fun `Plugin creates a device based on EmulatorConfig`(androidPlugin: String) {
+    fun `Plugin sets TestOptions properties`(androidPlugin: String) {
         listOf(
             androidPlugin,
             "uk.gov.pipelines.emulator-config",
         ).forEach(project.pluginManager::apply)
 
-        // Throws an exception if the name cannot be found
-        project.extensions.findByType<BaseExtension>()
-            ?.testOptions
-            ?.managedDevices
-            ?.devices
-            ?.named(exampleManagedDeviceName)
-            ?: fail { "Cannot find managed device configuration" }
+        project.extensions.findByType<BaseExtension>()?.let { extension ->
+            assertThat(
+                extension.testOptions,
+                allOf(
+                    hasAnimationsDisabled(),
+                    hasExecution(ANDROIDX_TEST_ORCHESTRATOR),
+                ),
+            )
+        }
     }
 
     @Test
@@ -68,5 +73,13 @@ class EmulatorConfigPluginTest {
             "Device with name '$deviceName' not found.",
             exception.message,
         )
+    }
+
+    companion object {
+        /**
+         * As part of applying the value to [TestOptions.execution], it seemingly gets lowercased
+         * by the plugin.
+         */
+        private const val ANDROIDX_TEST_ORCHESTRATOR = "androidx_test_orchestrator"
     }
 }
