@@ -1,6 +1,5 @@
 package uk.gov.pipelines
 
-import com.android.build.api.dsl.TestOptions
 import com.android.build.gradle.BaseExtension
 import org.gradle.api.UnknownDomainObjectException
 import org.gradle.kotlin.dsl.findByType
@@ -63,13 +62,5 @@ class EmulatorConfigPluginTest {
             "Device with name '$deviceName' not found.",
             exception.message,
         )
-    }
-
-    companion object {
-        /**
-         * As part of applying the value to [TestOptions.execution], it seemingly gets lowercased
-         * by the plugin.
-         */
-        private const val ANDROIDX_TEST_ORCHESTRATOR = "androidx_test_orchestrator"
     }
 }
