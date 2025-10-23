@@ -36,8 +36,18 @@ dependencies {
     }
 
     listOf(
+        libs.android.build.tool,
+        libs.org.hamcrest,
+    ).forEach(::testFixturesApi)
+
+    listOf(
+        libs.kotlin.gradle.plugin,
+    ).forEach(::testFixturesImplementation)
+
+    listOf(
         platform(libs.org.junit.bom),
-        libs.org.junit.jupiter,
+        libs.org.junit.jupiter.asProvider(),
+        libs.org.junit.jupiter.params,
         libs.org.hamcrest,
     ).forEach { dep: Provider<MinimalExternalModuleDependency> ->
         testImplementation(dep)

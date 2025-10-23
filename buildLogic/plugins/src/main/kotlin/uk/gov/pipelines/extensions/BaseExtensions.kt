@@ -5,6 +5,8 @@ import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.internal.tasks.ManagedDeviceInstrumentationTestTask
 import com.android.build.gradle.internal.tasks.ManagedDeviceSetupTask
 import org.gradle.api.Project
+import org.gradle.api.file.RegularFile
+import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.Exec
 import org.gradle.kotlin.dsl.extra
 import org.gradle.kotlin.dsl.invoke
@@ -18,7 +20,6 @@ import uk.gov.pipelines.extensions.ProjectExtensions.versionCode
 import uk.gov.pipelines.extensions.ProjectExtensions.versionName
 import uk.gov.pipelines.extensions.StringExtensions.capitaliseFirstCharacter
 import uk.gov.pipelines.extensions.StringExtensions.proseToUpperCamelCase
-import java.io.File
 
 object BaseExtensions {
     private val filter = Regex("[/\\\\:<>\"?*| ()]")
@@ -31,15 +32,15 @@ object BaseExtensions {
      */
     fun BaseExtension.generateGetHardwareProfilesTask(
         project: Project,
-        hardwareProfilesOutput: File,
+        hardwareProfilesOutput: Provider<RegularFile>,
     ) = project.tasks.register("getHardwareProfiles", Exec::class) {
         commandLine(
             "bash",
             "${project.buildLogicDir}/scripts/getAllHardwareProfileNames",
-            hardwareProfilesOutput.absolutePath,
+            hardwareProfilesOutput.map { it.asFile.absolutePath }.get(),
         )
         onlyIf("The output file doesn't exist") {
-            !hardwareProfilesOutput.exists()
+            !hardwareProfilesOutput.map { it.asFile.exists() }.get()
         }
     }
 

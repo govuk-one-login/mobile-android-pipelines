@@ -32,7 +32,9 @@ class KotlinCompileFileTreeFetcher(
             ) ?: getKotlinCompileFileTree(
                 "compile${capitalisedVariantFlavorName}Kotlin",
             ) ?: project.fileTree(
-                "${project.buildDir}/tmp/kotlin-classes/$variant",
+                project.layout.buildDirectory.dir(
+                    "tmp/kotlin-classes/$variant",
+                ),
             )
         }.also {
             project.debugLog(

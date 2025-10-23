@@ -33,7 +33,7 @@ abstract class BaseFileTreeFetcher(
     /**
      * Obtain the original [FileTree] for an implementation. This has no filtration on the object.
      */
-    protected abstract fun getBaseFileTree(): Provider<FileTree>
+    internal abstract fun getBaseFileTree(): Provider<FileTree>
 
     /**
      * Run the higher-order function stored within [action] on the [name]d task.

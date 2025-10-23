@@ -2,6 +2,7 @@ package uk.gov.pipelines
 
 listOf(
     "java-library",
+    "java-test-fixtures",
     "org.jetbrains.kotlin.jvm",
     "uk.gov.publishing.config",
 ).forEach {

@@ -34,7 +34,9 @@ class AsmFileTreeFetcher(
             ) ?: getAsmClassesFileTree(
                 "transform${capitalisedVariantFlavorName}ClassesWithAsm",
             ) ?: project.fileTree(
-                "${project.buildDir}/intermediates/asm_instrumented_project_classes/$variant/",
+                project.layout.buildDirectory.dir(
+                    "intermediates/asm_instrumented_project_classes/$variant/",
+                ),
             )
         }.also {
             project.debugLog(
