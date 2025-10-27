@@ -10,7 +10,10 @@ import uk.gov.pipelines.jacoco.config.JacocoManagedDeviceConfig
 class JacocoManagedDeviceTaskGenerator(
     private val project: Project,
     private val classDirectoriesFetcher: FileTreeFetcher,
-    private val reportDirectoryPrefix: String = "${project.buildDir}/reports/jacoco",
+    private val reportDirectoryPrefix: String =
+        project.layout.buildDirectory.dir(
+            "reports/jacoco",
+        ).map { it.asFile.absolutePath }.get(),
 ) : JacocoTaskGenerator {
     override fun generate() {
         val testTasks: Iterable<ManagedDeviceInstrumentationTestTask> =

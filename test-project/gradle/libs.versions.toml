@@ -7,10 +7,10 @@ androidXTestCore = "1.7.0"
 androidXTestEspressoCore = "3.7.0"
 androidXTestJUnit = "1.3.0"
 androidXTestRunner = "1.7.0"
-androidXTestOrchestrator = "1.5.1"
+androidXTestOrchestrator = "1.6.1"
 bcutilJdk18on = "1.81"
 junit = "4.13.2"
-kotlin = "2.2.0"
+kotlin = "2.2.20"
 
 [plugins]
 kotlin-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
