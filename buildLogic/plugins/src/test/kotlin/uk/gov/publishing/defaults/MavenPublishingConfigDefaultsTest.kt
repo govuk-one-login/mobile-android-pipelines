@@ -16,6 +16,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertInstanceOf
 import uk.gov.pipelines.extensions.ProjectExtensions.versionName
 import uk.gov.pipelines.extras.BUILD_LOGIC_DIR
+import uk.gov.pipelines.publishing.MavenPublishingConfigProjectExtensions
+import uk.gov.pipelines.publishing.MavenPublishingConfigProjectExtensions.configurePublishingPlugin
 import uk.gov.publishing.MavenPublishingConfigExtension.Companion.mavenPublishingConfig
 import uk.gov.publishing.MavenPublishingConfigPlugin
 import uk.gov.publishing.handlers.MavenPublishingConfigHandler
@@ -35,8 +37,10 @@ class MavenPublishingConfigDefaultsTest {
 
     @BeforeEach
     fun setUp() {
-        project.rootProject.extraProperties.set("githubRepositoryName", GITHUB_REPOSITORY_NAME)
-        project.rootProject.extraProperties.set("mavenGroupId", MAVEN_GROUP_ID)
+        project.configurePublishingPlugin(
+            githubRepositoryName = MavenPublishingConfigProjectExtensions.GITHUB_REPOSITORY_NAME,
+            mavenGroupId = MavenPublishingConfigProjectExtensions.MAVEN_GROUP_ID,
+        )
         project.rootProject.extraProperties.set(
             "buildLogicDir",
             BUILD_LOGIC_DIR,

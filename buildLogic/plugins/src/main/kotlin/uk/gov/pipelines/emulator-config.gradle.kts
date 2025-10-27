@@ -5,7 +5,6 @@ import uk.gov.pipelines.emulator.EmulatorConfig
 import uk.gov.pipelines.extensions.BaseExtensions.generateDeviceConfigurations
 import uk.gov.pipelines.extensions.BaseExtensions.generateGetHardwareProfilesTask
 import java.io.BufferedReader
-import java.io.ByteArrayOutputStream
 import java.io.FileReader
 
 plugins {
@@ -23,27 +22,28 @@ val emulatorConfig: EmulatorConfig by rootProject.extra
  * made.
  */
 configure<BaseExtension> {
-    val consoleOutputStream = ByteArrayOutputStream()
     val hardwareProfilesList =
-        rootProject.file(
-            "${rootProject.buildDir}/outputs/managedDeviceHardwareProfiles.txt",
+        rootProject.layout.buildDirectory.file(
+            "outputs/managedDeviceHardwareProfiles.txt",
         )
+
     val hardwareProfilesTask = generateGetHardwareProfilesTask(project, hardwareProfilesList)
 
-    if (!hardwareProfilesList.exists()) {
+    if (!hardwareProfilesList.map { it.asFile.exists() }.get()) {
         /**
          * Call the hardware profiles task within the gradle configuration stage for the sake of
          * building out the various hardware profiles.
          */
-        exec {
+        providers.exec {
             commandLine = hardwareProfilesTask.get().commandLine
             args = hardwareProfilesTask.get().args
-            standardOutput = consoleOutputStream
-        }
+        }.result.get().exitValue
     }
 
     val hardwareProfileStrings: List<String> =
-        BufferedReader(FileReader(hardwareProfilesList))
+        BufferedReader(
+            hardwareProfilesList.map { FileReader(it.asFile) }.get(),
+        )
             .readLines()
             .filter { profile ->
                 emulatorConfig.deviceFilters.any { filter ->
