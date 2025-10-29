@@ -7,6 +7,9 @@ inputs:
     description: 'Allowing for gradle cache on the runner'
     required: false
     default: 'false'
+  SCREENSHOT_TEST_COMMAND:
+    description: 'The paparazzi command(s) needed to run the screenshot tests'
+    required: false
 
 runs:
   using: "composite"
@@ -33,5 +36,21 @@ runs:
     - name: Lint script files
       uses: ./mobile-android-pipelines/actions/lint
 
-    - name: Run instrumentation tests
-      uses: ./mobile-android-pipelines/actions/run-instrumentation-tests
+    - name: Run gradle testing suite
+      uses: ./mobile-android-pipelines/actions/run-testing-suite
+      with:
+        SCREENSHOT_TEST_COMMAND: ${{ inputs.SCREENSHOT_TEST_COMMAND }}
+
+    - name: Sonar scan
+      uses: ./mobile-android-pipelines/actions/sonar-scan
+      with:
+        sonar-token: ${{ inputs.SONAR_TOKEN }}
+
+    - name: Bundle reports folder
+      uses: ./mobile-android-pipelines/actions/bundle-reports
+
+    - name: Test local publish
+      uses: ./mobile-android-pipelines/actions/maven-publish-local
+
+    - name: Clean workspace
+      uses: ./mobile-android-pipelines/actions/clean-workspace
