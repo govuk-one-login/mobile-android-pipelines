@@ -1,0 +1,28 @@
+name: 'Hotfix unit tests and sonar'
+description: 'Github actions to run unit tests and sonar report'
+icon: 'check-circle'
+color: 'blue'
+inputs:
+  SONAR_TOKEN:
+    description: 'A token for SonarCloud to enable the workflow to read and upload new quality reports.'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run unit tests
+      uses: ./mobile-android-pipelines/actions/run-unit-tests
+
+    - name: Sonar scan
+      uses: ./mobile-android-pipelines/actions/sonar-scan
+      with:
+        sonar-token: ${{ inputs.SONAR_TOKEN }}
+
+    - name: Bundle reports folder
+      uses: ./mobile-android-pipelines/actions/bundle-reports
+
+    - name: Test local publish
+      uses: ./mobile-android-pipelines/actions/maven-publish-local
+
+    - name: Clean workspace
+      uses: ./mobile-android-pipelines/actions/clean-workspace

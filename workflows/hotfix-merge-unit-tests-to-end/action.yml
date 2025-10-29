@@ -1,0 +1,43 @@
+name: 'Hotfix unit tests and sonar'
+description: 'Github actions to run unit tests and sonar report'
+icon: 'check-circle'
+color: 'blue'
+inputs:
+  GITHUB_TOKEN:
+    description: 'A GitHub API token that is automatically created by the workflow. This is required for release workflows to upload new release artefacts.'
+    required: false
+  SONAR_TOKEN:
+    description: 'A token for SonarCloud to enable the workflow to read and upload new quality reports.'
+    required: true
+  VERSION_PREFIX:
+    description: 'A prefix added to the Git tag before the app version number'
+    default: 'v'
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run unit tests
+      uses: ./mobile-android-pipelines/actions/run-unit-tests
+
+    - name: Sonar scan
+      uses: ./mobile-android-pipelines/actions/sonar-scan
+      with:
+        sonar-token: ${{ inputs.SONAR_TOKEN }}
+
+    - name: Bundle reports folder
+      uses: ./mobile-android-pipelines/actions/bundle-reports
+
+    - name: Publish package
+      uses: ./mobile-android-pipelines/actions/maven-publish
+      with:
+        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+        GITHUB_ACTOR: ${{ github.actor }}
+
+    - name: Delete hotfix branch
+      uses: ./mobile-android-pipelines/actions/delete-hotfix-branch
+      with:
+        branch_name: ${GITHUB_REF#refs/heads/}
+
+    - name: Clean workspace
+      uses: ./mobile-android-pipelines/actions/clean-workspace
