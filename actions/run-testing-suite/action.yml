@@ -4,12 +4,16 @@ inputs:
   SCREENSHOT_TEST_COMMAND:
     description: 'The paparazzi command(s) needed to run the screenshot tests'
     required: false
+  PIPELINE_DIRECTORY:
+    description: 'The location to run commands from'
+    required: false
+    default: 'mobile-android-pipelines/'
 
 runs:
   using: "composite"
   steps:
     - name: Run instrumentation tests
-      run: ./mobile-android-pipelines/scripts/runInstrumentationTests.sh
+      run: ./${{ inputs.PIPELINE_DIRECTORY }}scripts/runInstrumentationTests.sh
       shell: bash
 
     - name: Run screenshot tests
@@ -22,5 +26,5 @@ runs:
       shell: bash
 
     - name: Run unit tests
-      run: ./mobile-android-pipelines/scripts/runUnitTests.sh
+      run: ./${{ inputs.PIPELINE_DIRECTORY }}scripts/runUnitTests.sh
       shell: bash

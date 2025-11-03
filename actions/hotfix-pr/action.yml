@@ -9,6 +9,14 @@ inputs:
   SCREENSHOT_TEST_COMMAND:
     description: 'The paparazzi command(s) needed to run the screenshot tests'
     required: false
+  PIPELINE_DIRECTORY:
+    description: 'The location to run commands from'
+    required: false
+    default: 'mobile-android-pipelines/'
+  TEST_DIRECTORY:
+    description: 'The location to run tests and linting from'
+    required: false
+    default: ''
 
 runs:
   using: "composite"
@@ -21,46 +29,46 @@ runs:
         fetch-depth: 0
 
     - name: Clean workspace
-      uses: ./actions/clean-workspace
+      uses: ./${{ inputs.PIPELINE_DIRECTORY }}actions/clean-workspace
       with:
         pipelines-directory: .
 
     - name: Setup GitHub Runner workflow
-      uses: ./actions/setup-runner
+      uses: ./${{ inputs.PIPELINE_DIRECTORY }}actions/setup-runner
       with:
         gradle-cache-disabled: ${{ inputs.GRADLE_CACHE_DISABLED }}
 
     - name: Verify Conventional commit standards against latest hotfix git tag
       id: verify-version
-      uses: ./actions/get-next-version-from-branch
+      uses: ./${{ inputs.PIPELINE_DIRECTORY }}actions/get-next-version-from-branch
 
-    - name: Current file location
+    - name: Current test location
+      if: ${{ inputs.TEST_DIRECTORY != '' }}
       run: |
-        echo "Current file location"
-        pwd
-        ls
+        cd ${{ inputs.TEST_DIRECTORY }}
       shell: bash
 
     - name: Lint script files
-      uses: ./actions/lint
+      uses: ./${{ inputs.PIPELINE_DIRECTORY }}actions/lint
 
     - name: Run gradle testing suite
-      uses: ./actions/run-testing-suite
+      uses: ./${{ inputs.PIPELINE_DIRECTORY }}actions/run-testing-suite
       with:
         SCREENSHOT_TEST_COMMAND: ${{ inputs.SCREENSHOT_TEST_COMMAND }}
+        PIPELINE_DIRECTORY: ${{ inputs.PIPELINE_DIRECTORY }}
 
     - name: Sonar scan
-      uses: ./actions/sonar-scan
+      uses: ./${{ inputs.PIPELINE_DIRECTORY }}actions/sonar-scan
       with:
         sonar-token: ${{ inputs.SONAR_TOKEN }}
 
     - name: Bundle reports folder
-      uses: ./actions/bundle-reports
+      uses: ./${{ inputs.PIPELINE_DIRECTORY }}actions/bundle-reports
 
     - name: Test local publish
-      uses: ./actions/maven-publish-local
+      uses: ./${{ inputs.PIPELINE_DIRECTORY }}actions/maven-publish-local
 
     - name: Clean workspace
-      uses: ./actions/clean-workspace
+      uses: ./${{ inputs.PIPELINE_DIRECTORY }}actions/clean-workspace
       with:
         pipelines-directory: .
