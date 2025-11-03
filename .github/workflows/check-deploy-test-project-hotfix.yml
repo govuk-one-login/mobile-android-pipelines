@@ -1,0 +1,24 @@
+name: Check deploy test project
+
+on:
+  pull_request:
+    branches:
+      - 'hotfix/**'
+    types:
+      - opened
+      - reopened
+      - synchronize
+  merge_group:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-deploy-test-app:
+    name: Run hotfix pr checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run hotfix pr checks
+        uses: ./mobile-android-pipelines/workflows/hotfix-pr
