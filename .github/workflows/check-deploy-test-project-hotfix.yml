@@ -2,8 +2,6 @@ name: Check deploy hotfix test project
 
 on:
   pull_request:
-    branches:
-      - 'hotfix/**'
     types:
       - opened
       - reopened
@@ -18,6 +16,7 @@ concurrency:
 jobs:
   check-deploy-test-app:
     name: Run hotfix pr checks
+    if: startsWith(github.head_ref, 'hotfix/**')
     runs-on: ubuntu-latest
     steps:
       - name: Run hotfix pr checks
