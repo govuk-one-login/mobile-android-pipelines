@@ -15,13 +15,14 @@ runs:
     - name: Get latest tagged version
       id: get-latest-tag
       run: |
-        IFS=/ read -r BRANCH_PREFIX BRANCH_SUFFIX <<< "${GITHUB_REF#refs/heads/}"
+        IFS=/ read -r BRANCH_PREFIX BRANCH_SUFFIX <<< "${GITHUB_HEAD_REF#refs/heads/}"
         
         if [[ "$BRANCH_SUFFIX" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
         then
           NEXT_VERSION="${BASH_REMATCH[0]}"
         else
-          echo "Invalid version in branch name ($GITHUB_REF)"
+          echo "Invalid version in branch name ($GITHUB_HEAD_REF#refs/heads/)"
+          echo "Invalid version in branch name ($GITHUB_HEAD_REF)"
           exit 1
         fi
         
