@@ -1,7 +1,6 @@
-name: 'Hotfix setup to instrumentation tests'
-description: 'Github actions to verify version and run instrumentation tests'
-icon: 'check-circle'
-color: 'blue'
+name: 'Hotfix workflow'
+description: 'Github actions to verify version and run all tests and reports'
+
 inputs:
   GRADLE_CACHE_DISABLED:
     description: 'Allowing for gradle cache on the runner'
