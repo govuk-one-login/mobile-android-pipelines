@@ -1,4 +1,4 @@
-name: Check deploy test project
+name: Check deploy hotfix test project
 
 on:
   pull_request:
