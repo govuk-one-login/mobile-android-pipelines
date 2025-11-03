@@ -37,8 +37,6 @@ runs:
     - name: Current file location
       run: |
         pwd
-        cd test-project
-        pwd
       shell: bash
 
     - name: Lint script files
