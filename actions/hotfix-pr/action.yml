@@ -34,6 +34,12 @@ runs:
       id: verify-version
       uses: ./actions/get-next-version-from-branch
 
+    - name: Current file location
+      run: |
+        echo "Current file location"
+        pwd
+      shell: bash
+
     - name: Lint script files
       uses: ./actions/lint
 
