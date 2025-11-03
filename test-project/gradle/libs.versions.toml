@@ -8,7 +8,6 @@ androidXTestEspressoCore = "3.7.0"
 androidXTestJUnit = "1.3.0"
 androidXTestRunner = "1.7.0"
 androidXTestOrchestrator = "1.6.1"
-bcutilJdk18on = "1.81"
 junit = "4.13.2"
 kotlin = "2.2.20"
 
@@ -33,5 +32,4 @@ androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref
 androidx-test-core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "androidXTestCore" }
 androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidXTestRunner" }
 androidx-test-orchestrator = { module = "androidx.test:orchestrator", version.ref = "androidXTestOrchestrator" }
-bcutil-jdk18on = { module = "org.bouncycastle:bcutil-jdk18on", version.ref = "bcutilJdk18on" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
