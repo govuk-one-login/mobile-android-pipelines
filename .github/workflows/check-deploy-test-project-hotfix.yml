@@ -14,7 +14,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  check-deploy-test-app:
+  check-deploy-hotfix:
     name: Run hotfix pr checks
     if: startsWith(github.head_ref, 'hotfix/')
     runs-on: ubuntu-latest
