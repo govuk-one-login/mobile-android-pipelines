@@ -20,4 +20,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run hotfix pr checks
-        uses: ./workflows/hotfix-pr
+        uses: ./actions/hotfix-pr
