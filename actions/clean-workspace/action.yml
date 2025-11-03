@@ -23,7 +23,6 @@ runs:
 
     - name: Stop all emulators
       run: |
-        pwd
         ${PIPELINES_DIRECTORY}/scripts/stopAllEmulators.sh
       env:
         PIPELINES_DIRECTORY: ${{ inputs.pipelines-directory }}
