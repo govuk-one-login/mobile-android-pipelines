@@ -29,7 +29,7 @@ runs:
         fetch-depth: 0
 
     - name: Clean workspace
-      uses: ./${{ inputs.PIPELINE_DIRECTORY }}actions/clean-workspace
+      uses: './${ inputs.PIPELINE_DIRECTORY }actions/clean-workspace'
       with:
         pipelines-directory: .
 
