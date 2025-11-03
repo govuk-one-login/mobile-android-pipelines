@@ -20,6 +20,21 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Checkout codebase
+      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      with:
+        lfs: 'true'
+        submodules: 'true'
+        fetch-depth: 0
+
+    - name: Clean workspace
+      uses: ./mobile-android-pipelines/actions/clean-workspace
+
+    - name: Setup GitHub Runner workflow
+      uses: ./mobile-android-pipelines/actions/setup-runner
+      with:
+        gradle-cache-disabled: ${{ inputs.GRADLE_CACHE_DISABLED }}
+
     - name: Verify Conventional commit standards against latest hotfix git tag
       id: verify-version
       uses: ./mobile-android-pipelines/actions/get-next-version-from-branch
