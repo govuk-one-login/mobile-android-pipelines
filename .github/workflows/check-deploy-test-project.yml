@@ -2,6 +2,8 @@ name: Check deploy test project
 
 on:
   pull_request:
+    branches-ignore:
+      - 'hotfix/**'
     types:
       - opened
       - reopened
