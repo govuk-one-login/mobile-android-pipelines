@@ -38,6 +38,7 @@ runs:
       run: |
         echo "Current file location"
         pwd
+        ls
       shell: bash
 
     - name: Lint script files
