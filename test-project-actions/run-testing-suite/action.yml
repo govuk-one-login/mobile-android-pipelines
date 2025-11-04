@@ -35,5 +35,6 @@ runs:
 
     - name: Run unit tests
       run: |
+        cd test-project
         ./gradlew check
       shell: bash
