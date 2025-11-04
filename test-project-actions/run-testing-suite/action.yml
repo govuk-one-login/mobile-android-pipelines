@@ -34,5 +34,6 @@ runs:
       shell: bash
 
     - name: Run unit tests
-      run: ./${{ inputs.PIPELINE_DIRECTORY }}scripts/runUnitTests.sh
+      run: |
+        ./gradlew check
       shell: bash
