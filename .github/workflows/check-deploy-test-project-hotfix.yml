@@ -27,4 +27,5 @@ jobs:
       - name: Run hotfix pr checks
         uses: ./actions/hotfix-pr
         with:
-
+          GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
