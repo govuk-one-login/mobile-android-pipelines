@@ -15,6 +15,9 @@ inputs:
   GITHUB_TOKEN:
     description: 'Github token'
     required: false
+  SONAR_TOKEN:
+    description: 'A token for SonarCloud to enable the workflow to read and upload new quality reports.'
+    required: true
 
 runs:
   using: "composite"
