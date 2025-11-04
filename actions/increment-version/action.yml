@@ -1,28 +1,49 @@
 name: 'Increment version'
-description: 'Increment the release version using Conventional Commits'
+description: |
+  Increment the release version based on Conventional Commits.
+
+  If there are releasable changes (e.g. fix or feature commits) since the
+  previous release then this action will tag a new version.
+
+  If there are no releasable changes (e.g. only ci or docs commits) since the
+  previous release, this action does nothing.
+inputs:
+  pre-release:
+    type: string
+    required: false
+    description: 'The pre-release version to append, for example "alpha.123"'
 
 outputs:
   current_version:
-    description: 'current semantic version'
+    description: |
+      The semantic version, prior to the version increment.
+
+      If a pre-release version is supplied to the action, and the latest
+      version was a pre-release, this will be a pre-release.
     value: ${{ steps.versioning.outputs.current_version }}
   new_version:
-    description: 'new semantic version'
+    description: |
+      If this action bumped the version, this is the new version.
+
+      If this action didn't bump the version, this will be the same as the
+      current version.
+
+      If a pre-release version is supplied to the action, this may be a
+      new pre-release.
     value: ${{ steps.versioning.outputs.new_version }}
 
 runs:
   using: "composite"
   steps:
-    - name: Increment the release version using Conventional Commits
-      id: versioning
+    - name: Configure Git user
       run: |
         git config user.name github-actions
         git config user.email github-actions@github.com
-
-        current_version=$(cog -v get-version)
-        echo "current_version=$current_version" >> $GITHUB_OUTPUT
-
-        cog bump --auto
-
-        new_version=$(cog -v get-version)
-        echo "new_version=$new_version" >> $GITHUB_OUTPUT
       shell: bash
+
+    - name: Increment the release version using Conventional Commits
+      run: |
+        "${{ github.action_path }}/increment_version.bash" "$PRE_RELEASE" >> $GITHUB_OUTPUT
+      shell: bash
+      env:
+        PRE_RELEASE: ${{ inputs.pre-release }}
