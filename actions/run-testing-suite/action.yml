@@ -19,7 +19,10 @@ runs:
   using: "composite"
   steps:
     - name: Run instrumentation tests
-      run: ./${{ inputs.PIPELINE_DIRECTORY }}scripts/runInstrumentationTests.sh
+      run: |
+        pwd
+        cd test-project
+        ./${{ inputs.PIPELINE_DIRECTORY }}scripts/runInstrumentationTests.sh
       shell: bash
 
     - name: Run screenshot tests
