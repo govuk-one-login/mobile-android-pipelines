@@ -20,7 +20,8 @@ runs:
   steps:
     - name: Run instrumentation tests
       run: |
-        ./${{ inputs.PIPELINE_DIRECTORY }}scripts/runInstrumentationTests.sh
+        cd test-project
+        ./gradlew allDevicesCheck
       shell: bash
 
     - name: Run screenshot tests

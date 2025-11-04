@@ -6,6 +6,7 @@ runs:
   steps:
     - name: Lint
       run: |
+        cd test-project
         echo "::group::Lint documentation with vale"
         ./gradlew vale
         echo "::endgroup::"
