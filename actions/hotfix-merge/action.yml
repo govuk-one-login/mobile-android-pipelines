@@ -1,7 +1,6 @@
 name: 'Hotfix setup to instrumentation tests'
 description: 'Github actions to verify version and run instrumentation tests'
-icon: 'check-circle'
-color: 'blue'
+
 inputs:
   GITHUB_TOKEN:
     description: 'A GitHub API token that is automatically created by the workflow. This is required for release workflows to upload new release artefacts.'
@@ -15,6 +14,9 @@ inputs:
   VERSION_PREFIX:
     description: 'A prefix added to the Git tag before the app version number'
     default: 'v'
+    required: false
+  GITHUB_ACTOR:
+    description: 'Github username'
     required: false
 
 runs:
@@ -51,6 +53,8 @@ runs:
       uses: ./mobile-android-pipelines/actions/run-testing-suite
       with:
         SCREENSHOT_TEST_COMMAND: ${{ inputs.SCREENSHOT_TEST_COMMAND }}
+        GITHUB_ACTOR: ${{ inputs.GITHUB_ACTOR }}
+        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
 
     - name: Sonar scan
       uses: ./mobile-android-pipelines/actions/sonar-scan

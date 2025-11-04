@@ -1,19 +1,22 @@
-name: 'Test project Hotfix workflow'
-description: 'Github actions to verify version and run all tests and reports'
+name: 'Hotfix setup to instrumentation tests'
+description: 'Github actions to verify version and run instrumentation tests'
 
 inputs:
-  GRADLE_CACHE_DISABLED:
-    description: 'Allowing for gradle cache on the runner'
+  GITHUB_TOKEN:
+    description: 'A GitHub API token that is automatically created by the workflow. This is required for release workflows to upload new release artefacts.'
     required: false
-    default: 'false'
   SCREENSHOT_TEST_COMMAND:
     description: 'The paparazzi command(s) needed to run the screenshot tests'
     required: false
+  SONAR_TOKEN:
+    description: 'A token for SonarCloud to enable the workflow to read and upload new quality reports.'
+    required: true
+  VERSION_PREFIX:
+    description: 'A prefix added to the Git tag before the app version number'
+    default: 'v'
+    required: false
   GITHUB_ACTOR:
     description: 'Github username'
-    required: false
-  GITHUB_TOKEN:
-    description: 'Github token'
     required: false
 
 runs:
@@ -40,6 +43,11 @@ runs:
       id: verify-version
       uses: ./actions/get-next-version-from-branch
 
+    - name: Increment and push hotfix git tag
+      uses: ./actions/increment-hotfix-tag
+      with:
+        version-name: ${{ steps.verify-version.next-version}}
+
     - name: Lint script files
       uses: ./test-project-actions/lint
 
@@ -49,19 +57,25 @@ runs:
         SCREENSHOT_TEST_COMMAND: ${{ inputs.SCREENSHOT_TEST_COMMAND }}
         GITHUB_ACTOR: ${{ inputs.GITHUB_ACTOR }}
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
-        PIPELINE_DIRECTORY: ''
 
     - name: Sonar scan
       uses: ./actions/sonar-scan
       with:
         sonar-token: ${{ inputs.SONAR_TOKEN }}
-        pipelines-directory: .
 
     - name: Bundle reports folder
       uses: ./actions/bundle-reports
 
-    - name: Test local publish
-      uses: ./actions/maven-publish-local
+    - name: Publish package
+      uses: ./actions/maven-publish
+      with:
+        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+        GITHUB_ACTOR: ${{ github.actor }}
+
+    - name: Delete hotfix branch
+      uses: ./actions/delete-hotfix-branch
+      with:
+        branch_name: ${GITHUB_REF#refs/heads/}
 
     - name: Clean workspace
       uses: ./actions/clean-workspace
