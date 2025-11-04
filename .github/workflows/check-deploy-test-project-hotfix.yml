@@ -27,5 +27,4 @@ jobs:
       - name: Run hotfix pr checks
         uses: ./actions/hotfix-pr
         with:
-          PIPELINE_DIRECTORY: ''
-          TEST_DIRECTORY: 'test-project'
+

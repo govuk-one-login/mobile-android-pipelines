@@ -8,6 +8,12 @@ inputs:
     description: 'The location to run commands from'
     required: false
     default: 'mobile-android-pipelines/'
+  GITHUB_ACTOR:
+    description: 'Github username'
+    required: false
+  GITHUB_TOKEN:
+    description: 'Github token'
+    required: false
 
 runs:
   using: "composite"
@@ -21,8 +27,8 @@ runs:
       run: |
         ./gradlew ${{ inputs.SCREENSHOT_TEST_COMMAND }} \
         --continue \
-        -Pgpr.user=${{ secrets.GITHUB_ACTOR }} \
-        -Pgpr.token=${{ secrets.GITHUB_TOKEN }}
+        -Pgpr.user=${{ inputs.GITHUB_ACTOR }} \
+        -Pgpr.token=${{ inputs.GITHUB_TOKEN }}
       shell: bash
 
     - name: Run unit tests

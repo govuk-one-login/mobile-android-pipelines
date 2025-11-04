@@ -9,6 +9,12 @@ inputs:
   SCREENSHOT_TEST_COMMAND:
     description: 'The paparazzi command(s) needed to run the screenshot tests'
     required: false
+  GITHUB_ACTOR:
+    description: 'Github username'
+    required: false
+  GITHUB_TOKEN:
+    description: 'Github token'
+    required: false
 
 runs:
   using: "composite"
@@ -46,6 +52,8 @@ runs:
       uses: ./actions/run-testing-suite
       with:
         SCREENSHOT_TEST_COMMAND: ${{ inputs.SCREENSHOT_TEST_COMMAND }}
+        GITHUB_ACTOR: ${{ inputs.GITHUB_ACTOR }}
+        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
 
     - name: Sonar scan
       uses: ./actions/sonar-scan
