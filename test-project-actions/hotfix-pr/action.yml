@@ -52,7 +52,7 @@ runs:
         PIPELINE_DIRECTORY: ''
 
     - name: Sonar scan
-      uses: ./actions/sonar-scan
+      uses: ./test-project-actions/sonar-scan
       with:
         sonar-token: ${{ inputs.SONAR_TOKEN }}
         pipelines-directory: .

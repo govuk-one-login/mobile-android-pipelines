@@ -1,0 +1,71 @@
+name: 'Run SonarCloud Analysis'
+description: 'Runs SonarCloud analysis, uploading results and - if analysis type is PR - failing based on analysis result'
+inputs:
+  sonar-token:
+    description: 'A token for SonarCloud to enable the workflow to read and upload new quality reports.'
+    required: true
+  pipelines-directory:
+    description: 'Pipelines directory'
+    required: false
+    default: './mobile-android-pipelines'
+  working-directory:
+    description: 'The working directory for steps in this action'
+    required: false
+    default: '.'
+
+
+runs:
+  using: "composite"
+  steps:
+    - name: Determine analysis type
+      run: |
+        if [ "${EVENT_NAME}" = "pull_request" ]; then
+          echo "ANALYSIS_TYPE=PR" >> "$GITHUB_ENV"
+        else
+          echo "ANALYSIS_TYPE=BRANCH" >> "$GITHUB_ENV"
+        fi
+
+        case "${ANALYSIS_TYPE}" in
+          "PR")
+            REF=${{ github.head_ref }}
+            ;;
+          "BRANCH")
+            REF=${{ github.ref_name }}
+            ;;
+          *)
+            REF=""
+            ;;
+        esac
+      env:
+        EVENT_NAME: ${{ github.event_name }}
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+
+    - name: Sonar scan
+      env:
+        SONAR_TOKEN: ${{ inputs.sonar-token }}
+        PIPELINES_DIRECTORY: ${{ inputs.pipelines-directory }}
+      run: |
+        case "${ANALYSIS_TYPE}" in
+          "PR")
+            REF=${{ github.head_ref }}
+            ;;
+          "BRANCH")
+            REF=${{ github.ref_name }}
+            ;;
+          *)
+            REF=""
+            ;;
+        esac
+        ${PIPELINES_DIRECTORY}/test-project-scripts/sonar/scan "${ANALYSIS_TYPE}" "$REF" ${{ github.event.number }}
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+
+    - name: SonarQube Quality Gate check
+      id: sonarqube-quality-gate-check
+      uses: sonarsource/sonarqube-quality-gate-action@cf038b0e0cdecfa9e56c198bbb7d21d751d62c3b # pin@v1.2.0
+      if: env.ANALYSIS_TYPE == 'PR'
+      env:
+        SONAR_TOKEN: ${{ inputs.sonar-token }}
+      with:
+        scanMetadataReportFile: ${{ inputs.working-directory }}/build/sonar/report-task.txt
