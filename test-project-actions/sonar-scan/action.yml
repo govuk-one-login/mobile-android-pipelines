@@ -43,5 +43,5 @@ runs:
       uses: ./actions/sonar-scan
       with:
         pipelines-directory: ..
-        sonar-token: ${{ secrets.SONAR_TOKEN }}
+        sonar-token: ${{ inputs.SONAR_TOKEN }}
         working-directory: ./test-project
