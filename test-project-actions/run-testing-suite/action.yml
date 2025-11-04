@@ -24,6 +24,11 @@ runs:
         ./gradlew allDevicesCheck
       shell: bash
 
+    - name: Upload coverage reports
+      uses: ./actions/upload-coverage-reports
+      with:
+        artifact-name: test-project-instrumentation-test-coverage
+
     - name: Run screenshot tests
       if: ${{ inputs.SCREENSHOT_TEST_COMMAND != '' }}
       run: |
@@ -38,3 +43,8 @@ runs:
         cd test-project
         ./gradlew check
       shell: bash
+
+    - name: Upload coverage reports
+      uses: ./actions/upload-coverage-reports
+      with:
+        artifact-name: test-project-unit-test-coverage

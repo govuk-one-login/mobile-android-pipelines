@@ -57,9 +57,6 @@ runs:
         sonar-token: ${{ inputs.SONAR_TOKEN }}
         pipelines-directory: .
 
-    - name: Bundle reports folder
-      uses: ./actions/bundle-reports
-
     - name: Test local publish
       uses: ./actions/maven-publish-local
 

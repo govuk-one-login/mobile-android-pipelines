@@ -17,55 +17,31 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Determine analysis type
-      run: |
-        if [ "${EVENT_NAME}" = "pull_request" ]; then
-          echo "ANALYSIS_TYPE=PR" >> "$GITHUB_ENV"
-        else
-          echo "ANALYSIS_TYPE=BRANCH" >> "$GITHUB_ENV"
-        fi
+    - name: 'Checkout codebase'
+      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      with:
+        lfs: 'true'
+        fetch-depth: 0
 
-        case "${ANALYSIS_TYPE}" in
-          "PR")
-            REF=${{ github.head_ref }}
-            ;;
-          "BRANCH")
-            REF=${{ github.ref_name }}
-            ;;
-          *)
-            REF=""
-            ;;
-        esac
-      env:
-        EVENT_NAME: ${{ github.event_name }}
-      shell: bash
-      working-directory: ${{ inputs.working-directory }}
+    - name: Setup runner
+      uses: ./actions/common-prerequisites
+
+    - name: Download unit test coverage reports
+      uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 #v5.0.0
+      with:
+        name: test-project-unit-test-coverage
+
+    - name: Download instrumentation test coverage reports
+      uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 #v5.0.0
+      with:
+        name: test-project-instrumentation-test-coverage
+
+    - name: Bundle reports folder
+      uses: ./actions/bundle-reports
 
     - name: Sonar scan
-      env:
-        SONAR_TOKEN: ${{ inputs.sonar-token }}
-        PIPELINES_DIRECTORY: ${{ inputs.pipelines-directory }}
-      run: |
-        case "${ANALYSIS_TYPE}" in
-          "PR")
-            REF=${{ github.head_ref }}
-            ;;
-          "BRANCH")
-            REF=${{ github.ref_name }}
-            ;;
-          *)
-            REF=""
-            ;;
-        esac
-        ${PIPELINES_DIRECTORY}/test-project-scripts/sonar/scan "${ANALYSIS_TYPE}" "$REF" ${{ github.event.number }}
-      shell: bash
-      working-directory: ${{ inputs.working-directory }}
-
-    - name: SonarQube Quality Gate check
-      id: sonarqube-quality-gate-check
-      uses: sonarsource/sonarqube-quality-gate-action@cf038b0e0cdecfa9e56c198bbb7d21d751d62c3b # pin@v1.2.0
-      if: env.ANALYSIS_TYPE == 'PR'
-      env:
-        SONAR_TOKEN: ${{ inputs.sonar-token }}
+      uses: ./actions/sonar-scan
       with:
-        scanMetadataReportFile: ${{ inputs.working-directory }}/build/sonar/report-task.txt
+        pipelines-directory: ..
+        sonar-token: ${{ secrets.SONAR_TOKEN }}
+        working-directory: ./test-project
