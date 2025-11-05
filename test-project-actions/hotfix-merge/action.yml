@@ -55,17 +55,15 @@ runs:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
 
     - name: Sonar scan
-      uses: ./actions/sonar-scan
+      uses: ./test-project-actions/sonar-scan
       with:
         sonar-token: ${{ inputs.SONAR_TOKEN }}
-
-    - name: Bundle reports folder
-      uses: ./actions/bundle-reports
+        pipelines-directory: .
 
     - name: Delete hotfix branch
       uses: ./actions/delete-hotfix-branch
       with:
-        branch_name: ${GITHUB_REF#refs/heads/}
+        branch_name: ${{ steps.verify-version.next-version}}
 
     - name: Clean workspace
       uses: ./actions/clean-workspace
