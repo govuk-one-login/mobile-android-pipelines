@@ -37,9 +37,7 @@ runs:
 
     - name: Verify Conventional commit standards against latest hotfix git tag
       id: verify-version
-      uses: ./actions/get-next-version-from-branch
-      with:
-        branch-name: ${{ GITHUB_REF#refs/heads/ }}
+      uses: ./actions/get-next-version-from-merge-branch
 
     - name: Increment and push hotfix git tag
       uses: ./actions/increment-hotfix-tag

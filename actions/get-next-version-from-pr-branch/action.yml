@@ -1,11 +1,6 @@
 name: 'Get next version from branch'
 description: 'Gets the next version number from the release branch'
 
-inputs:
-  branch-name:
-    description: 'Hotfix branch name'
-    required: true
-
 outputs:
   next-version:
     description: 'Next version number determined from the release branch name'
@@ -20,13 +15,13 @@ runs:
     - name: Get latest tagged version
       id: get-latest-tag
       run: |
-        IFS=/ read -r BRANCH_PREFIX BRANCH_SUFFIX <<< ${inputs.branch-name}
+        IFS=/ read -r BRANCH_PREFIX BRANCH_SUFFIX <<< "${GITHUB_HEAD_REF#refs/heads/}"
         
         if [[ "$BRANCH_SUFFIX" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
         then
           NEXT_VERSION="${BASH_REMATCH[0]}"
         else
-          echo "Invalid version in branch name (${inputs.branch-name})"
+          echo "Invalid version in branch name ($GITHUB_HEAD_REF)"
           exit 1
         fi
         
