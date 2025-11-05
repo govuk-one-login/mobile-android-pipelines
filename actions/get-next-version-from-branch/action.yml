@@ -20,7 +20,7 @@ runs:
     - name: Get latest tagged version
       id: get-latest-tag
       run: |
-        IFS=/ read -r BRANCH_PREFIX BRANCH_SUFFIX <<< "${inputs.branch-name}"
+        IFS=/ read -r BRANCH_PREFIX BRANCH_SUFFIX <<< ${inputs.branch-name}
         
         if [[ "$BRANCH_SUFFIX" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
         then
