@@ -11,10 +11,6 @@ inputs:
   SONAR_TOKEN:
     description: 'A token for SonarCloud to enable the workflow to read and upload new quality reports.'
     required: true
-  VERSION_PREFIX:
-    description: 'A prefix added to the Git tag before the app version number'
-    default: 'v'
-    required: false
   GITHUB_ACTOR:
     description: 'Github username'
     required: false
