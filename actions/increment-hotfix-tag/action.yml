@@ -12,7 +12,9 @@ runs:
     - name: Create a tag or increment if it already exists then publish it
       run: |
         version_tags=()
-        for tag in $(git tag -l '${inputs.version-name}*')
+        version_name=${inputs.version-name}
+        echo "Search for tags containing version $version_name"
+        for tag in $(git tag -l '$version_name*')
         do
           version_tags+=( $tag )
         done
@@ -20,7 +22,7 @@ runs:
         version_list_length=${#version_tags[@]}
         if [[ version_list_length==0 ]]
         then
-          tag_name="v${inputs.version-name}-fix1"
+          tag_name="v$version_name-fix1"
         else
           latest_tag=version_tags[version_list_length-1]
           current_version=${latest_tag##*fix}
