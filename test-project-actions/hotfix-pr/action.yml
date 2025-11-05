@@ -52,16 +52,12 @@ runs:
         SCREENSHOT_TEST_COMMAND: ${{ inputs.SCREENSHOT_TEST_COMMAND }}
         GITHUB_ACTOR: ${{ inputs.GITHUB_ACTOR }}
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
-        PIPELINE_DIRECTORY: ''
 
     - name: Sonar scan
       uses: ./test-project-actions/sonar-scan
       with:
         sonar-token: ${{ inputs.SONAR_TOKEN }}
         pipelines-directory: .
-
-    - name: Test local publish
-      uses: ./actions/maven-publish-local
 
     - name: Clean workspace
       uses: ./actions/clean-workspace

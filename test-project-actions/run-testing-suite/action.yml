@@ -4,10 +4,6 @@ inputs:
   SCREENSHOT_TEST_COMMAND:
     description: 'The paparazzi command(s) needed to run the screenshot tests'
     required: false
-  PIPELINE_DIRECTORY:
-    description: 'The location to run commands from'
-    required: false
-    default: 'mobile-android-pipelines/'
   GITHUB_ACTOR:
     description: 'Github username'
     required: false

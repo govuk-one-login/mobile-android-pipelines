@@ -66,12 +66,6 @@ runs:
     - name: Bundle reports folder
       uses: ./actions/bundle-reports
 
-    - name: Publish package
-      uses: ./actions/maven-publish
-      with:
-        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
-        GITHUB_ACTOR: ${{ github.actor }}
-
     - name: Delete hotfix branch
       uses: ./actions/delete-hotfix-branch
       with:
