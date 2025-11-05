@@ -19,11 +19,11 @@ runs:
         version_list_length=${#version_list[@]}
         commit_version=${version_list[version_list_length-1]}
         
-        if [[ "commit_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
+        if [[ "$commit_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
         then
           NEXT_VERSION="${BASH_REMATCH[0]}"
         else
-          echo "Invalid version in commit: ($commit_title)"
+          echo "Invalid version $commit_version in commit: ($commit_title)"
           exit 1
         fi
         
