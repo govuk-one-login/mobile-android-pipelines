@@ -11,5 +11,7 @@ runs:
   steps:
     - name: Delete the hotfix branch
       run: |
-        git push -d origin $BRANCH-NAME
+        hotfix_branch="hotfix/${inputs.branch-name}"
+        echo "Delete branch $hotfix_branch"
+        git push -d origin $hotfix_branch
       shell: bash
