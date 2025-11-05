@@ -20,7 +20,7 @@ runs:
         version_list_length=${#version_tags[@]}
         if [[ version_list_length==0 ]]
         then
-          tag_name="${VERSION-NAME}-fix1"
+          tag_name="v${VERSION-NAME}-fix1"
         else
           latest_tag=version_tags[version_list_length-1]
           current_version=${latest_tag##*fix}
