@@ -40,6 +40,8 @@ runs:
     - name: Verify Conventional commit standards against latest hotfix git tag
       id: verify-version
       uses: ./mobile-android-pipelines/actions/get-next-version-from-branch
+      with:
+        branch-name: ${{ GITHUB_REF#refs/heads/ }}
 
     - name: Increment and push hotfix git tag
       uses: ./mobile-android-pipelines/actions/increment-hotfix-tag
