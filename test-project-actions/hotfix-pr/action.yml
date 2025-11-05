@@ -43,7 +43,7 @@ runs:
       id: verify-version
       uses: ./actions/get-next-version-from-branch
       with:
-        branch-name: ${{ github.head_ref#refs/heads/ }}
+        branch-name: ${{ github.head_ref }}
 
     - name: Lint script files
       uses: ./test-project-actions/lint
