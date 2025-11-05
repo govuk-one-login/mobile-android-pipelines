@@ -1,0 +1,73 @@
+name: 'Hotfix setup to instrumentation tests'
+description: 'Github actions to verify version and run instrumentation tests'
+
+inputs:
+  GITHUB_TOKEN:
+    description: 'A GitHub API token that is automatically created by the workflow. This is required for release workflows to upload new release artefacts.'
+    required: false
+  SCREENSHOT_TEST_COMMAND:
+    description: 'The paparazzi command(s) needed to run the screenshot tests'
+    required: false
+  SONAR_TOKEN:
+    description: 'A token for SonarCloud to enable the workflow to read and upload new quality reports.'
+    required: true
+  GITHUB_ACTOR:
+    description: 'Github username'
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout codebase
+      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      with:
+        lfs: 'true'
+        submodules: 'true'
+        fetch-depth: 0
+
+    - name: Clean workspace
+      uses: ./actions/clean-workspace
+      with:
+        pipelines-directory: .
+
+    - name: Setup GitHub Runner workflow
+      uses: ./actions/setup-runner
+      with:
+        gradle-cache-disabled: ${{ inputs.GRADLE_CACHE_DISABLED }}
+
+    - name: Verify Conventional commit standards against latest hotfix git tag
+      id: verify-version
+      uses: ./actions/get-next-version-from-branch
+
+    - name: Increment and push hotfix git tag
+      uses: ./actions/increment-hotfix-tag
+      with:
+        version-name: ${{ steps.verify-version.next-version}}
+
+    - name: Lint script files
+      uses: ./test-project-actions/lint
+
+    - name: Run gradle testing suite
+      uses: ./test-project-actions/run-testing-suite
+      with:
+        SCREENSHOT_TEST_COMMAND: ${{ inputs.SCREENSHOT_TEST_COMMAND }}
+        GITHUB_ACTOR: ${{ inputs.GITHUB_ACTOR }}
+        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+
+    - name: Sonar scan
+      uses: ./actions/sonar-scan
+      with:
+        sonar-token: ${{ inputs.SONAR_TOKEN }}
+
+    - name: Bundle reports folder
+      uses: ./actions/bundle-reports
+
+    - name: Delete hotfix branch
+      uses: ./actions/delete-hotfix-branch
+      with:
+        branch_name: ${GITHUB_REF#refs/heads/}
+
+    - name: Clean workspace
+      uses: ./actions/clean-workspace
+      with:
+        pipelines-directory: .
