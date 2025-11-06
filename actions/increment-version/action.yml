@@ -41,9 +41,14 @@ runs:
         git config user.email github-actions@github.com
       shell: bash
 
+    - name: Set Github Action path
+      run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
+      shell: bash
+      env:
+        GITHUB_ACTION_PATH: ${{ github.action_path }}
+
     - name: Increment the release version using Conventional Commits
-      run: |
-        "${{ github.action_path }}/increment_version.bash" "$PRE_RELEASE" >> $GITHUB_OUTPUT
+      run: increment_version.bash "$PRE_RELEASE" >> $GITHUB_OUTPUT
       shell: bash
       env:
         PRE_RELEASE: ${{ inputs.pre-release }}
