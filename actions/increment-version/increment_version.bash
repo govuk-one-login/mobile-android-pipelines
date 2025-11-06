@@ -5,11 +5,11 @@ pre_release=$1
 if [[ -n "${pre_release:-}" ]]; then
   echo "This is a pre-release: $pre_release" >&2
   cog_get_version_flags=(--include-prereleases)
-  cog_bump_flags=(--auto --pre "$pre_release")
+  cog_bump_flags=(--auto --pre "$pre_release" --skip-untracked)
 else
   echo "This is a not a pre-release" >&2
   cog_get_version_flags=()
-  cog_bump_flags=(--auto)
+  cog_bump_flags=(--auto --skip-untracked)
 fi
 
 echo "cog_get_version_flags=${cog_get_version_flags[*]}" >&2
