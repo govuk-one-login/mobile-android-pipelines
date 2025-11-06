@@ -12,6 +12,7 @@ runs:
     - name: Create a tag or increment if it already exists then publish it
       run: |
         version_tags=()
+        version_name=${{ inputs.version-name }}
         echo "Search for tags containing version $version_name"
         tags=$(git tag -l "v$version_name*" | sort -V)
         version_tags=($tags)
