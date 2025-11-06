@@ -42,7 +42,7 @@ runs:
     - name: Increment and push hotfix git tag
       uses: ./actions/increment-hotfix-tag
       with:
-        version-name: ${{ steps.verify-version.next-version }}
+        version-name: ${{ steps.verify-version.outputs.next-version }}
 
     - name: Lint script files
       uses: ./test-project-actions/lint
@@ -63,7 +63,7 @@ runs:
     - name: Delete hotfix branch
       uses: ./actions/delete-hotfix-branch
       with:
-        branch-name: ${{ steps.verify-version.next-version }}
+        branch-name: ${{ steps.verify-version.outputs.next-version }}
 
     - name: Clean workspace
       uses: ./actions/clean-workspace
