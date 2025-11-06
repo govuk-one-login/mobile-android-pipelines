@@ -62,8 +62,6 @@ runs:
 
     - name: Delete hotfix branch
       uses: ./actions/delete-hotfix-branch
-      with:
-        branch-name: ${{ GITHUB_REF }}
 
     - name: Clean workspace
       uses: ./actions/clean-workspace
