@@ -44,7 +44,7 @@ runs:
     - name: Increment and push hotfix git tag
       uses: ./mobile-android-pipelines/actions/increment-hotfix-tag
       with:
-        version-name: ${{ steps.verify-version.next-version}}
+        version-name: ${{ steps.verify-version.outputs.next-version }}
 
     - name: Lint script files
       uses: ./mobile-android-pipelines/actions/lint
@@ -72,8 +72,6 @@ runs:
 
     - name: Delete hotfix branch
       uses: ./mobile-android-pipelines/actions/delete-hotfix-branch
-      with:
-        branch_name: ${GITHUB_REF#refs/heads/}
 
     - name: Clean workspace
       uses: ./mobile-android-pipelines/actions/clean-workspace
