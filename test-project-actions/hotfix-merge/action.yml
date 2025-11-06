@@ -63,7 +63,7 @@ runs:
     - name: Delete hotfix branch
       uses: ./actions/delete-hotfix-branch
       with:
-        branch_name: ${{ steps.verify-version.next-version}}
+        branch-name: ${{ steps.verify-version.next-version }}
 
     - name: Clean workspace
       uses: ./actions/clean-workspace

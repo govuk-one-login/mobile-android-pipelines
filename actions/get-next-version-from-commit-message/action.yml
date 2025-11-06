@@ -35,6 +35,6 @@ runs:
           exit 1
         else
           echo "NEXT_VERSION = $NEXT_VERSION"
-          echo "next-version=$NEXT_VERSION" >> $GITHUB_OUTPUT
+          echo "next-version=${NEXT_VERSION}" >> "$GITHUB_OUTPUT"
         fi
       shell: bash
