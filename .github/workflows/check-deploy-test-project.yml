@@ -31,7 +31,12 @@ jobs:
       - name: Setup runner
         uses: ./actions/common-prerequisites
 
-      - name: Increment the release version using Conventional Commits
+      - name: Increment the pre-release version using Conventional Commits
+        uses: ./actions/increment-version
+        with:
+          pre-release: alpha.1
+
+      - name: Increment the stable version using Conventional Commits
         id: versioning
         uses: ./actions/increment-version
 
