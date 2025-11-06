@@ -72,8 +72,6 @@ runs:
 
     - name: Delete hotfix branch
       uses: ./mobile-android-pipelines/actions/delete-hotfix-branch
-      with:
-        branch_name: ${{ GITHUB_REF }}
 
     - name: Clean workspace
       uses: ./mobile-android-pipelines/actions/clean-workspace
