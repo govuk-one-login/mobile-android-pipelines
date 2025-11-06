@@ -8,10 +8,13 @@ description: |
   If there are no releasable changes (e.g. only ci or docs commits) since the
   previous release, this action does nothing.
 inputs:
-  pre-release:
+  pre-release-type:
     type: string
     required: false
-    description: 'The pre-release version to append, for example "alpha.123"'
+    description: |
+      The pre-release version type, for example "alpha".
+
+      A numeric identifier will be appended and incremented automatically.
 
 outputs:
   current_version:
@@ -47,8 +50,16 @@ runs:
       env:
         GITHUB_ACTION_PATH: ${{ github.action_path }}
 
+    - name: Calculate the pre-release version
+      id: pre-release
+      if: ${{ inputs.pre-release-type != '' }}
+      run: calculate_prerelease.bash "$PRE_RELEASE_TYPE" >> $GITHUB_OUTPUT
+      shell: bash
+      env:
+        PRE_RELEASE_TYPE: ${{ inputs.pre-release-type }}
+
     - name: Increment the release version using Conventional Commits
       run: increment_version.bash "$PRE_RELEASE" >> $GITHUB_OUTPUT
       shell: bash
       env:
-        PRE_RELEASE: ${{ inputs.pre-release }}
+        PRE_RELEASE: ${{ steps.pre-release.outputs.version }}

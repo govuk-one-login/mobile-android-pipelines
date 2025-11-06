@@ -34,7 +34,7 @@ jobs:
       - name: Increment the pre-release version using Conventional Commits
         uses: ./actions/increment-version
         with:
-          pre-release: alpha.1
+          pre-release-type: alpha
 
       - name: Increment the stable version using Conventional Commits
         id: versioning
