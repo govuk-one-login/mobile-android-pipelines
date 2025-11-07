@@ -40,6 +40,15 @@ jobs:
         id: versioning
         uses: ./actions/increment-version
 
+      - name: Show increment-version outputs
+        run: |
+          echo "Current version is $CURRENT_VERSION"
+          echo "New version is $NEW_VERSION"
+        shell: bash
+        env:
+          CURRENT_VERSION: ${{ steps.versioning.outputs.current_version }}
+          NEW_VERSION: ${{ steps.versioning.outputs.new_version }}
+
       - name: Generate Changelog
         uses: ./actions/generate-and-upload-changelog
         with:

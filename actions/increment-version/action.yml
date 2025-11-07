@@ -59,6 +59,7 @@ runs:
         PRE_RELEASE_TYPE: ${{ inputs.pre-release-type }}
 
     - name: Increment the release version using Conventional Commits
+      id: versioning
       run: increment_version.bash "$PRE_RELEASE" >> $GITHUB_OUTPUT
       shell: bash
       env:
