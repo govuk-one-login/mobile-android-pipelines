@@ -15,8 +15,15 @@ runs:
   using: "composite"
   steps:
     - name: Run instrumentation tests
-      run: ./mobile-android-pipelines/scripts/runInstrumentationTests.sh
+      run: |
+        cd test-project
+        ./gradlew allDevicesCheck
       shell: bash
+
+    - name: Upload coverage reports
+      uses: ./actions/upload-coverage-reports
+      with:
+        artifact-name: test-project-instrumentation-test-coverage
 
     - name: Run screenshot tests
       if: ${{ inputs.SCREENSHOT_TEST_COMMAND != '' }}
@@ -28,5 +35,12 @@ runs:
       shell: bash
 
     - name: Run unit tests
-      run: ./mobile-android-pipelines/scripts/runUnitTests.sh
+      run: |
+        cd test-project
+        ./gradlew check
       shell: bash
+
+    - name: Upload coverage reports
+      uses: ./actions/upload-coverage-reports
+      with:
+        artifact-name: test-project-unit-test-coverage
