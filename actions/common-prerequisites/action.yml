@@ -9,16 +9,16 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
+    - uses: actions/setup-java@dded0888837ed1f317902acf8a20df0ad188d165 # v5.0.0
       with:
         distribution: 'oracle'
         java-version: ${{ inputs.jdk-version }}
         cache: gradle
 
     - name: Install Cocogitto
-      uses: cocogitto/cocogitto-action@c7a74f5406bab86da17da0f0e460a69f8219a68c # v3.11
+      uses: cocogitto/cocogitto-action@9a9fe03b31c47444290c0d7f9b1ee1b44ee13f20 # v4.1.0
       with:
-        check: false
+        command: help # A no-op command
 
     - name: Set up Homebrew
       id: set-up-homebrew
