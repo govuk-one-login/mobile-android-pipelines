@@ -19,11 +19,11 @@ runs:
         version_list_length=${#version_list[@]}
         commit_version=${version_list[version_list_length-1]}
         
-        if [[ "commit_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
+        if [[ "$commit_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
         then
           NEXT_VERSION="${BASH_REMATCH[0]}"
         else
-          echo "Invalid version in commit: ($commit_title)"
+          echo "Invalid version $commit_version in commit: ($commit_title)"
           exit 1
         fi
         
@@ -31,10 +31,10 @@ runs:
         
         if [[ "$NEXT_VERSION" < "$tag_version" ]]
         then
-          echo "NEXT_VERSION = $NEXT_VERSION"
-          echo "next-version=$NEXT_VERSION" >> $GITHUB_OUTPUT
-        else
-          echo "Version found in commit message is not smaller than the tagged version"
+          echo "Version found in commit message $NEXT_VERSION is smaller than the tagged version $tag_version"
           exit 1
+        else
+          echo "NEXT_VERSION = $NEXT_VERSION"
+          echo "next-version=${NEXT_VERSION}" >> "$GITHUB_OUTPUT"
         fi
       shell: bash
