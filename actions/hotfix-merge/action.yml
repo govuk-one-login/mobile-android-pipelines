@@ -64,6 +64,9 @@ runs:
     - name: Bundle reports folder
       uses: ./mobile-android-pipelines/actions/bundle-reports
 
+    - name: Test local publish
+      uses: ./mobile-android-pipelines/actions/maven-publish-local
+
     - name: Publish package
       uses: ./mobile-android-pipelines/actions/maven-publish
       with:
