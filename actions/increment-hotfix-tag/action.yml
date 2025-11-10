@@ -19,7 +19,7 @@ runs:
         echo "version list: $version_tags"
         tag_name=""
         version_list_length=${#version_tags[@]}
-        if [ version_list_length = 0 ];
+        if [[ "$version_list_length" = 0 || "${version_tags[version_list_length-1]}" != *"-fix"* ]];
         then
           tag_name="v$version_name-fix1"
         else
