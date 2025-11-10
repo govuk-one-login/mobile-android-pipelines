@@ -19,20 +19,15 @@ runs:
         echo "version list: $version_tags"
         tag_name=""
         version_list_length=${#version_tags[@]}
-        if [ "$version_list_length" = 0 ];
+        if [[ "$version_list_length" = 0 || "${version_tags[version_list_length-1]}" != *"-fix"* ]];
         then
           tag_name="v$version_name-fix1"
         else
           latest_tag=${version_tags[version_list_length-1]}
-          if [[ $latest_tag =~ "-fix" ]]; 
-          then
-            current_version=${latest_tag##*fix}
-            latest_tag_without_version=${latest_tag%$current_version}
-            incremented_version=$((current_version+1))
-            tag_name="$latest_tag_without_version$incremented_version"
-          else
-            tag_name="v$version_name-fix1"
-          fi
+          current_version=${latest_tag##*fix}
+          latest_tag_without_version=${latest_tag%$current_version}
+          incremented_version=$((current_version+1))
+          tag_name="$latest_tag_without_version$incremented_version"
         fi
         git tag $tag_name
         git push origin $tag_name
