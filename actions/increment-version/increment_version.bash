@@ -16,7 +16,7 @@ echo "cog_get_version_flags=${cog_get_version_flags[*]}" >&2
 echo "cog_bump_flags=${cog_bump_flags[*]}" >&2
 
 current_version=$(cog -v get-version "${cog_get_version_flags[@]}")
-cog bump "${cog_bump_flags[@]}"
+cog bump "${cog_bump_flags[@]}" >&2
 new_version=$(cog -v get-version "${cog_get_version_flags[@]}")
 
 # Output is formatted for Github Actions step output
