@@ -30,5 +30,5 @@ runs:
           tag_name="$latest_tag_without_version$incremented_version"
         fi
         git tag $tag_name
-        git push origin $tag_name
+        git push --follow-tags && git push --tags
       shell: bash
