@@ -5,6 +5,5 @@ runs:
   using: "composite"
   steps:
     - name: Publish the release tag
-      run: |
-        git push --follow-tags && git push --tags
+      run: git push --tags
       shell: bash
