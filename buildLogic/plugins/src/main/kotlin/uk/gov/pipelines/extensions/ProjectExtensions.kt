@@ -28,26 +28,29 @@ object ProjectExtensions {
      * defaults to [DEFAULT_VERSION_CODE].
      */
     val Project.versionCode
-        get() = prop("versionCode", DEFAULT_VERSION_CODE).toInt()
+        get() = prop("versionCode") { DEFAULT_VERSION_CODE }.toInt()
 
     val Project.versionName: String
-        get() {
-            val scriptsDir = buildLogicDir.resolve("scripts/")
-            return execWithOutput {
-                workingDir = rootDir
-                executable = "bash"
-                args =
-                    listOf(
-                        scriptsDir.resolve("getCurrentVersion").path,
-                    )
+        get() =
+            prop("versionName") {
+                val scriptsDir = buildLogicDir.resolve("scripts/")
+                execWithOutput {
+                    workingDir = rootDir
+                    executable = "bash"
+                    args =
+                        listOf(
+                            scriptsDir.resolve("getCurrentVersion").path,
+                        )
+                }
             }
-        }
 
     private fun Project.prop(
         key: String,
-        default: Any,
+        default: () -> Any,
     ): String {
-        return providers.gradleProperty(key).getOrElse(default.toString())
+        return providers.gradleProperty(key)
+            .orNull.takeUnless { it.isNullOrEmpty() }
+            ?: default().toString()
     }
 
     fun Project.debugLog(messageSuffix: String) {

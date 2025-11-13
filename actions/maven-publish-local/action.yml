@@ -13,15 +13,20 @@ inputs:
   expected-packages:
     description: 'Expected packages to be published locally, separated by dots'
     required: true
+  version-name:
+    description: 'The version name for the build'
+    required: false
 
 runs:
   using: "composite"
   steps:
     - name: Publish API package locally
       id: maven-publish-local
-      run: ./gradlew publishToMavenLocal
+      run: ./gradlew publishToMavenLocal -PversionName="${VERSION_NAME}"
       shell: bash
       working-directory: ${{ inputs.working-directory }}
+      env:
+        VERSION_NAME: ${{ inputs.version-name }}
       
     - name: Check expected packages are published locally
       run: ${PIPELINES_DIRECTORY}/scripts/checkPackagesPublishedLocally.sh
