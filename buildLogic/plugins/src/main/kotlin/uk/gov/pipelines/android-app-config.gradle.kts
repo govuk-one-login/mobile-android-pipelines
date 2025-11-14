@@ -11,3 +11,4 @@ listOf(
 ).forEach {
     project.plugins.apply(it)
 }
+
