@@ -32,6 +32,7 @@ jobs:
         uses: ./actions/common-prerequisites
 
       - name: Increment the pre-release version using Conventional Commits
+        id: versioning-alpha
         uses: ./actions/increment-version
         with:
           pre-release-type: alpha
@@ -55,7 +56,17 @@ jobs:
           current-version: ${{ steps.versioning.outputs.current_version }}
           new-version: ${{ steps.versioning.outputs.new_version }}
 
-      - name: Publish package locally
+      - name: Publish alpha version locally (manual versioning from step output)
+        uses: ./actions/maven-publish-local
+        with:
+          working-directory: 'test-project'
+          pipelines-directory: .
+          expected-packages: '
+            uk.gov.pipelines:android-module,
+            uk.gov.pipelines:pure-kotlin-module'
+          version-name: ${{ steps.versioning-alpha.outputs.new_version }}
+
+      - name: Publish locally (automatic versioning from Git tag)
         uses: ./actions/maven-publish-local
         with:
           working-directory: 'test-project'
