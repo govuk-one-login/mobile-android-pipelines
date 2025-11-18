@@ -1,6 +1,5 @@
 package uk.gov.pipelines.extensions
 
-import com.android.build.api.dsl.ManagedVirtualDevice
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.internal.tasks.ManagedDeviceInstrumentationTestTask
 import com.android.build.gradle.internal.tasks.ManagedDeviceSetupTask
@@ -10,7 +9,6 @@ import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.Exec
 import org.gradle.kotlin.dsl.extra
 import org.gradle.kotlin.dsl.invoke
-import org.gradle.kotlin.dsl.maybeCreate
 import org.gradle.kotlin.dsl.provideDelegate
 import org.gradle.kotlin.dsl.register
 import uk.gov.pipelines.config.ApkConfig
@@ -66,10 +64,8 @@ object BaseExtensions {
             animationsDisabled = true
             execution = "ANDROIDX_TEST_ORCHESTRATOR"
             managedDevices {
-                devices {
-                    maybeCreate<ManagedVirtualDevice>(
-                        managedDeviceName,
-                    ).apply {
+                localDevices {
+                    create(managedDeviceName) {
                         // Use device profiles you typically see in Android Studio.
                         this.device = hardwareProfile
                         // Use only API levels 27 and higher.

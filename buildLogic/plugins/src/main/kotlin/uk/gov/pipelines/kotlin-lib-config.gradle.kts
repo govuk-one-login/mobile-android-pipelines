@@ -1,7 +1,5 @@
 package uk.gov.pipelines
 
-import uk.gov.pipelines.extensions.ProjectExtensions.versionName
-
 listOf(
     "java-library",
     "java-test-fixtures",
@@ -10,8 +8,6 @@ listOf(
 ).forEach {
     project.plugins.apply(it)
 }
-
-version = versionName
 
 configure<JavaPluginExtension> {
     sourceCompatibility = JavaVersion.toVersion(21)
