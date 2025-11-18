@@ -57,7 +57,7 @@ jobs:
       - name: Run test project instrumentation tests
         run: |
           cd test-project
-          ./gradlew allDevicesCheck
+          ./gradlew cleanManagedDevices allDevicesCheck
 
       - name: Upload coverage reports
         uses: ./actions/upload-coverage-reports
