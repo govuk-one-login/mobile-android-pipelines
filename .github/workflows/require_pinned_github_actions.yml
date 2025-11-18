@@ -14,7 +14,7 @@ concurrency:
 jobs:
   harden_security:
     name: Harden Security
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     timeout-minutes: 15
     steps:
       - name: Checkout code

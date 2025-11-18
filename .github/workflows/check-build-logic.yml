@@ -17,7 +17,7 @@ jobs:
 
   check-build-logic:
     name: Check build logic
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     steps:
 
       - name: 'Checkout codebase'
@@ -53,7 +53,7 @@ jobs:
 
   sonar-scan:
     name: Scan with Sonar
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     needs:
       - check-build-logic
     steps:
