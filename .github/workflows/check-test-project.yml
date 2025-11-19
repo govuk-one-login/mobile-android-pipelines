@@ -52,6 +52,9 @@ jobs:
           lfs: 'true'
           fetch-depth: 0
 
+      - name: Clean runner
+        uses: ./actions/clean-runner
+
       - name: Setup runner
         uses: ./actions/setup-runner
         with:
@@ -80,6 +83,9 @@ jobs:
         with:
           lfs: 'true'
           fetch-depth: 0
+
+      - name: Clean runner
+        uses: ./actions/clean-runner
 
       - name: Setup runner
         uses: ./actions/common-prerequisites
