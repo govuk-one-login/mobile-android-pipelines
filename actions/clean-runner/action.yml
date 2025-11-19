@@ -1,0 +1,18 @@
+name: 'Clean runner'
+description: 'Removes unnecessary packages from the runner'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Free Disk Space (Ubuntu)
+      uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be # v1.3.1
+      with:
+        # Keep android-related dependencies
+        android: false
+        # Remove non-android related dependencies from runner
+        tool-cache: true # this might remove tools that are actually needed
+        dotnet: true
+        haskell: true
+        large-packages: true
+        docker-images: true
+        swap-storage: true
