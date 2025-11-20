@@ -19,7 +19,7 @@ jobs:
           fetch-depth: 0
 
       - name: Clean runner
-        uses: ./actions/clean-runner
+        uses: ./actions/clean-runner-fast
 
       - name: Setup runner
         uses: ./actions/common-prerequisites
