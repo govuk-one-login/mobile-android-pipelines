@@ -107,6 +107,12 @@ jobs:
         id: generate-version-code
         uses: ./actions/generate-version-code
 
+      - name: Increment version
+        id: versioning
+        uses: ./actions/increment-version
+        with:
+          pre-release-type: alpha
+
       - name: Build app bundle
         id: bundle-release-app
         uses: ./actions/bundle-release-app
@@ -119,6 +125,7 @@ jobs:
           modules: 'test-app'
           pipelines-directory: ../
           version-code: ${{ steps.generate-version-code.outputs.version-code }}
+          version-name: ${{ steps.versioning.outputs.new_version }}
           working-directory: test-project
 
       - name: Publish to Play Store

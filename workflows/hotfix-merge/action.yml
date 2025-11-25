@@ -65,6 +65,7 @@ runs:
       with:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
         GITHUB_ACTOR: ${{ github.actor }}
+        VERSION_NAME: ${{ steps.verify-version.next-version }}
 
     - name: Delete hotfix branch
       uses: ./mobile-android-pipelines/actions/delete-hotfix-branch
