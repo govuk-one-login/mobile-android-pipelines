@@ -69,7 +69,7 @@ jobs:
             uk.gov.pipelines:pure-kotlin-module'
           version-name: ${{ steps.versioning-alpha.outputs.new_version }}
 
-      - name: Publish locally (automatic versioning from Git tag)
+      - name: Publish locally (default version)
         uses: ./actions/maven-publish-local
         with:
           working-directory: 'test-project'
