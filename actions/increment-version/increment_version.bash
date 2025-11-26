@@ -33,15 +33,15 @@ current_version=$(cog -v get-version "${cog_get_version_flags[@]}")
 # Bump the version
 bump_result=$(cog bump "${cog_bump_flags[@]}")
 
-# Process the output of cog bump because it
-# - outputs an error message after a dry-run for a no-op
-# - may output the new version with a version prefix
-# - returns a success code even when the version isn't bumped
-bump_result=$(printf '%s' "$bump_result" | sed 's/^v//' | grep_version)
-
 if [[ "$dry_run" == "true" ]]; then
   echo "bump_result=$bump_result" >&2
-  new_version=${bump_result:-$current_version}
+
+  # Try to extract the version from the output of cog bump.
+  # Also strip the version prefix if present.
+  # Note that the raw output may contain an error message if the bump is a no-op.
+  new_version=$(printf '%s' "$bump_result" | sed 's/^v//' | grep_version)
+
+  new_version=${new_version:-$current_version}
 else
   # This is needed because bump only outputs the new version for dry-runs.
   new_version=$(cog -v get-version "${cog_get_version_flags[@]}")
