@@ -59,6 +59,7 @@ runs:
       with:
         sonar-token: ${{ inputs.SONAR_TOKEN }}
         pipelines-directory: .
+        version-name: ${{ steps.verify-version.outputs.next-version }}
 
     - name: Delete hotfix branch
       uses: ./actions/delete-hotfix-branch

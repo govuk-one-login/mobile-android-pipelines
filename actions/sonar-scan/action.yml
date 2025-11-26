@@ -12,6 +12,9 @@ inputs:
     description: 'The working directory for steps in this action'
     required: false
     default: '.'
+  version-name:
+    description: 'The version name for the build'
+    required: false
 
 
 runs:
@@ -45,6 +48,8 @@ runs:
       env:
         SONAR_TOKEN: ${{ inputs.sonar-token }}
         PIPELINES_DIRECTORY: ${{ inputs.pipelines-directory }}
+        PR_NUMBER: ${{ github.event.number }}
+        VERSION_NAME: ${{ inputs.version-name }}
       run: |
         case "${ANALYSIS_TYPE}" in
           "PR")
@@ -57,7 +62,11 @@ runs:
             REF=""
             ;;
         esac
-        ${PIPELINES_DIRECTORY}/scripts/sonar/scan "${ANALYSIS_TYPE}" "$REF" ${{ github.event.number }}
+        ${PIPELINES_DIRECTORY}/scripts/sonar/scan \
+          "${ANALYSIS_TYPE}" \
+          "$REF" \
+          "$PR_NUMBER" \
+          "$VERSION_NAME"
       shell: bash
       working-directory: ${{ inputs.working-directory }}
 
