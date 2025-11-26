@@ -8,6 +8,12 @@ description: |
   If there are no releasable changes (e.g. only ci or docs commits) since the
   previous release, this action does nothing.
 inputs:
+  dry-run:
+    type: boolean
+    required: false
+    default: false
+    description: |
+      Run the action without creating a tag.
   pre-release-type:
     type: string
     required: false
@@ -60,7 +66,8 @@ runs:
 
     - name: Increment the release version using Conventional Commits
       id: versioning
-      run: increment_version.bash "$PRE_RELEASE" >> $GITHUB_OUTPUT
+      run: increment_version.bash "$PRE_RELEASE" "$DRY_RUN" >> $GITHUB_OUTPUT
       shell: bash
       env:
         PRE_RELEASE: ${{ steps.pre-release.outputs.version }}
+        DRY_RUN: ${{ inputs.dry-run }}
