@@ -38,13 +38,23 @@ jobs:
         id: versioning-alpha
         uses: ./actions/increment-version
         with:
+          dry-run: true
           pre-release-type: alpha
+
+      - name: Show pre-release versioning outputs
+        run: |
+          echo "Current version is $CURRENT_VERSION"
+          echo "New version is $NEW_VERSION"
+        shell: bash
+        env:
+          CURRENT_VERSION: ${{ steps.versioning-alpha.outputs.current_version }}
+          NEW_VERSION: ${{ steps.versioning-alpha.outputs.new_version }}
 
       - name: Increment the stable version using Conventional Commits
         id: versioning
         uses: ./actions/increment-version
 
-      - name: Show increment-version outputs
+      - name: Show stable versioning outputs
         run: |
           echo "Current version is $CURRENT_VERSION"
           echo "New version is $NEW_VERSION"
