@@ -15,7 +15,7 @@ import org.gradle.process.ExecSpec
 private const val DEFAULT_VERSION_CODE: Int = Integer.MAX_VALUE
 
 /**
- * Default version code if no `versionCode` property is supplied to the build.
+ * Default version name if no `versionName` property is supplied to the build.
  */
 private const val DEFAULT_VERSION_NAME: String = "0.1.0"
 
