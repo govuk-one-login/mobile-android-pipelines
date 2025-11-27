@@ -67,12 +67,15 @@ runs:
 
     - name: Test local publish
       uses: ./mobile-android-pipelines/actions/maven-publish-local
+      with:
+        version-name: ${{ steps.verify-version.outputs.next-version }}
 
     - name: Publish package
       uses: ./mobile-android-pipelines/actions/maven-publish
       with:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
         GITHUB_ACTOR: ${{ github.actor }}
+        VERSION_NAME: ${{ steps.verify-version.outputs.next-version }}
 
     - name: Delete hotfix branch
       uses: ./mobile-android-pipelines/actions/delete-hotfix-branch

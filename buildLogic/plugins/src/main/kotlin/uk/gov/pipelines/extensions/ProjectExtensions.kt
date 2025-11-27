@@ -5,7 +5,6 @@ import org.gradle.api.artifacts.VersionCatalog
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.process.ExecSpec
-import uk.gov.pipelines.config.buildLogicDir
 
 /**
  * Default version code if no `versionCode` property is supplied to the build.
@@ -14,6 +13,11 @@ import uk.gov.pipelines.config.buildLogicDir
  * allowed which is 2100000000.
  */
 private const val DEFAULT_VERSION_CODE: Int = Integer.MAX_VALUE
+
+/**
+ * Default version name if no `versionName` property is supplied to the build.
+ */
+private const val DEFAULT_VERSION_NAME: String = "0.1.0"
 
 object ProjectExtensions {
     fun Project.execWithOutput(spec: ExecSpec.() -> Unit): String =
@@ -31,18 +35,7 @@ object ProjectExtensions {
         get() = prop("versionCode") { DEFAULT_VERSION_CODE }.toInt()
 
     val Project.versionName: String
-        get() =
-            prop("versionName") {
-                val scriptsDir = buildLogicDir.resolve("scripts/")
-                execWithOutput {
-                    workingDir = rootDir
-                    executable = "bash"
-                    args =
-                        listOf(
-                            scriptsDir.resolve("getCurrentVersion").path,
-                        )
-                }
-            }
+        get() = prop("versionName") { DEFAULT_VERSION_NAME }
 
     private fun Project.prop(
         key: String,

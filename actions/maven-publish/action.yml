@@ -10,7 +10,7 @@ inputs:
     required: true
   VERSION_NAME:
     description: 'The version name for the build'
-    required: false
+    required: true
 
 runs:
   using: "composite"
