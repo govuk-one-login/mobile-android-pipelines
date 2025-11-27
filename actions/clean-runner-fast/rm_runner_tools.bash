@@ -7,17 +7,6 @@ formatByteCount() { echo $(numfmt --to=iec-i --suffix=B --padding=7 $1'000'); }
 
 BEFORE=$(getAvailableSpace)
 
-which php
-
-echo "user local:"
-ls /usr/local
-
-echo "user share:"
-ls /usr/share
-
-echo "opt"
-ls /opt/microsoft
-
 UNUSED_TOOLS=(
   "/usr/share/dotnet"      # .NET
   "/usr/share/mercurial"   # Mercurial
@@ -30,10 +19,6 @@ UNUSED_TOOLS=(
 )
 
 rm -rf "${UNUSED_TOOLS[@]}"
-
-sudo swapoff -a
-sudo rm -f /mnt/swapfile
-free -h
 
 AFTER=$(getAvailableSpace)
 SAVED=$((AFTER-BEFORE))
