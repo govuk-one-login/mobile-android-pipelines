@@ -18,7 +18,7 @@ UNUSED_TOOLS=(
   "/usr/local/share/boost" # Boost C++
 )
 
-rm -rf "${UNUSED_TOOLS[@]}"
+rm -rf "${UNUSED_TOOLS[@]: 0:$1}"
 
 AFTER=$(getAvailableSpace)
 SAVED=$((AFTER-BEFORE))
