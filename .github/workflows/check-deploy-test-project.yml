@@ -143,7 +143,7 @@ jobs:
         id: auth
         with:
           project_id: ${{ vars.GCP_PROJECT_ID }}
-          workload_identity_provider: projects/${{ vars.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/deploy-pipelines/providers/github-actions
+          workload_identity_provider: projects/${{ vars.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/deploy-pipelines/providers/github-actions-pipelines
           service_account: deploy-pipelines@${{ vars.GCP_PROJECT_ID }}.iam.gserviceaccount.com
 
       - name: Publish to Play Store
