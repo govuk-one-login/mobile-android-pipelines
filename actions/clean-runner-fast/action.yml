@@ -2,13 +2,26 @@ name: 'Clean runner (fast)'
 description: |
   Free storage space on the GitHub Actions runner by removing unused
   dependencies.
-
+inputs:
+  clean-amount:
+    description: 'Level of cleaning to perform (1 for fast, 8 for deep)'
+    default: 8
+    required: false
+    type: choice
+    options:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
 runs:
   using: "composite"
   steps:
-
     - name: Free storage
-      run: sudo "${ACTION_PATH}/rm_runner_tools.bash"
+      run: sudo "${ACTION_PATH}/rm_runner_tools.bash" ${{ inputs.clean-amount }}
       shell: bash
       env:
         ACTION_PATH: ${{ github.action_path }}
