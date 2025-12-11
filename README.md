@@ -58,6 +58,9 @@ You can use the following command to check the SHA 256 checksum of a file
 ```bash
 shasum -a 256 gradle-8.10.2-bin.zip
 ```
+
+A gradle wrapper validation check is now in place in `.github/workflows/check-build-logic.yml`
+
 ## Hotfix process
 
 There are GitHub actions in the actions folder to facilitate quick fix (hotfix) releases.
