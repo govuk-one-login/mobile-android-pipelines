@@ -7,8 +7,10 @@ The workflow can be called from GitHub actions as a step:
 ```yaml
 steps:
   - name: Run Android workflow
-    uses: govuk-one-login/mobile-android-pipelines@main
+    uses: ./mobile-android-pipelines
 ```
+The above implementation allows for the consumer to always use the same version as the one used locally, rather than pointing to the action form github instead. This resolves issues when breaking changes
+have been introduced and the codebases have not been manually resolved to accommodate those, as well as ensuring consistency, removing the risk of running two different version of the workflows/ config between local and remote.
 
 If used as part of a pull request workflow, the pipeline will:
 - Checkout the code (both scripts and repository)
