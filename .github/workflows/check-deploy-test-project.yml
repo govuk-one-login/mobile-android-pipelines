@@ -111,7 +111,8 @@ jobs:
         uses: ./actions/retrieve-secrets
         with:
           keystore-base64: ${{ secrets.KEYSTORE_BASE64 }}
-          google-service-account-json-base64: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON_BASE64 }}
+          # No service account needed as we are using Workload Identity Federation
+          google-service-account-json-base64: ""
           working-directory: test-project
 
       - name: Generate version code
