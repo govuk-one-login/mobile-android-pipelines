@@ -13,14 +13,15 @@ import java.io.File
 class ValeExtTest {
     @TempDir
     lateinit var tempDir: File
-    
+
     private lateinit var project: Project
-    
+
     @BeforeEach
     fun setUp() {
-        project = ProjectBuilder.builder()
-            .withProjectDir(tempDir)
-            .build()
+        project =
+            ProjectBuilder.builder()
+                .withProjectDir(tempDir)
+                .build()
         project.rootProject.extra.set("buildLogicDir", "buildLogic")
     }
 
