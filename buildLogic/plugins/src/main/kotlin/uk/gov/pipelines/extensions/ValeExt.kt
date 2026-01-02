@@ -8,10 +8,12 @@ import java.io.File
  * Get the custom vale configuration file defined by the project.
  * If a custom vale configuration doesn't exist, get the default file.
  */
-internal fun Project.valeConfigFile(): File {
+internal fun Project.valeConfigFile(): File = valeConfigFile { it.exists() }
+
+internal fun Project.valeConfigFile(fileExists: (File) -> Boolean): File {
     val overrideFile = file("${rootProject.projectDir}/.vale.ini")
 
-    if (overrideFile.exists()) {
+    if (fileExists(overrideFile)) {
         return overrideFile
     }
 
