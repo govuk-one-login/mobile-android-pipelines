@@ -26,3 +26,41 @@ internal fun Project.valeConfigFile(fileExists: (File) -> Boolean): File {
 
     return file("${rootProject.buildLogicDir}/config/vale/.vale.ini")
 }
+
+/**
+ * Resolves the Vale executable path from the system PATH.
+ *
+ * @return The absolute path to the Vale executable
+ * @throws IllegalStateException if Vale executable is not found on PATH
+ */
+internal fun Project.resolveValeExecutable(): String =
+    resolveValeExecutable { command ->
+        providers.exec {
+            commandLine(command)
+        }.standardOutput.asText.map { it.trim() }.get()
+    }
+
+/**
+ * Testable version that accepts a command executor.
+ *
+ * @param executeCommand Function to execute system commands, allowing for testing without actual execution
+ */
+internal fun Project.resolveValeExecutable(executeCommand: (List<String>) -> String): String {
+    val whichCommand =
+        if (System.getProperty("os.name").lowercase().contains("windows")) {
+            listOf("where", "vale")
+        } else {
+            listOf("which", "vale")
+        }
+
+    val result =
+        try {
+            executeCommand(whichCommand).trim()
+        } catch (_: Exception) {
+            "" // Return empty string when command fails
+        }
+
+    return result.ifEmpty {
+        error("Vale executable not found on PATH. Please install Vale or ensure it's available in your PATH.")
+    }
+}
