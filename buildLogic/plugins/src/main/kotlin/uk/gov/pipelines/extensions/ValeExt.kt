@@ -11,7 +11,7 @@ import java.io.File
 internal fun Project.valeConfigFile(): File = valeConfigFile { it.exists() }
 
 internal fun Project.valeConfigFile(fileExists: (File) -> Boolean): File {
-    val overrideFile = file("${rootProject.projectDir}/.vale.ini")
+    val overrideFile = file("${rootProject.rootDir}/.vale.ini")
 
     if (fileExists(overrideFile)) {
         return overrideFile
