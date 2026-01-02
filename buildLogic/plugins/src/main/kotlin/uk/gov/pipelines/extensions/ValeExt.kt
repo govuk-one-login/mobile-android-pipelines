@@ -5,11 +5,18 @@ import uk.gov.pipelines.config.buildLogicDir
 import java.io.File
 
 /**
- * Get the custom vale configuration file defined by the project.
- * If a custom vale configuration doesn't exist, get the default file.
+ * Get the Vale configuration file for the project.
+ *
+ * First checks for a custom .vale.ini file in the root directory.
+ * If not found, returns the default configuration from buildLogic/config/vale/.vale.ini
  */
 internal fun Project.valeConfigFile(): File = valeConfigFile { it.exists() }
 
+/**
+ * Testable version that accepts a file existence checker.
+ *
+ * @param fileExists Function to check if a file exists, allowing for testing without file system dependencies
+ */
 internal fun Project.valeConfigFile(fileExists: (File) -> Boolean): File {
     val overrideFile = file("${rootProject.rootDir}/.vale.ini")
 
