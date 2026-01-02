@@ -32,10 +32,10 @@ val vale =
         dependsOn(valeSync)
 
         args(
+            ".",
             "--no-wrap",
             "--config=${project.valeConfigFile()}",
             "--glob=!**/{build,.gradle}/**",
-            rootProject.rootDir.toString(),
         )
     }
 
