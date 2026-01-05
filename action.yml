@@ -41,6 +41,9 @@ runs:
       
     - name: Lint script files
       uses: ./mobile-android-pipelines/actions/lint
+
+    - name: Clean up runner before running checks
+      uses: ./mobile-android-pipelines/actions/clean-runner-fast
     
     - name: Run gradle testing suite
       uses: ./mobile-android-pipelines/actions/run-testing-suite

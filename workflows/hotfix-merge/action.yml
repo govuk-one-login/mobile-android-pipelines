@@ -44,6 +44,9 @@ runs:
       with:
         version-name: ${{ steps.verify-version.next-version}}
 
+    - name: Clean up runner before running checks
+      uses: ./mobile-android-pipelines/actions/clean-runner-fast
+
     - name: Lint script files
       uses: ./mobile-android-pipelines/actions/lint
 

@@ -33,6 +33,9 @@ runs:
       id: verify-version
       uses: ./mobile-android-pipelines/actions/get-next-version-from-branch
 
+    - name: Clean up runner before running checks
+      uses: ./mobile-android-pipelines/actions/clean-runner-fast
+
     - name: Lint script files
       uses: ./mobile-android-pipelines/actions/lint
 
