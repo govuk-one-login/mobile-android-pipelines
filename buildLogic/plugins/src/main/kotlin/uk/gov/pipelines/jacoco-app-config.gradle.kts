@@ -31,22 +31,24 @@ project.configure<AppExtension> {
 project.configure<ApplicationAndroidComponentsExtension> {
     onVariants(selector().withBuildType("debug")) { variant ->
         project.afterEvaluate {
-            this.tasks.withType<ManagedDeviceInstrumentationTestTask>().filter {
-                it.name.contains(variant.name, ignoreCase = true)
-            }.forEach { instrumentationTestTask ->
-                val coverageReportTaskName =
-                    "createManagedDevice${variant.name.capitaliseFirstCharacter()}AndroidTestCoverageReport"
-                val androidCoverageReportTask =
-                    project.tasks.named(
-                        coverageReportTaskName,
-                        JacocoReportTask::class.java,
-                    )
+            this.tasks
+                .withType<ManagedDeviceInstrumentationTestTask>()
+                .filter {
+                    it.name.contains(variant.name, ignoreCase = true)
+                }.forEach { instrumentationTestTask ->
+                    val coverageReportTaskName =
+                        "createManagedDevice${variant.name.capitaliseFirstCharacter()}AndroidTestCoverageReport"
+                    val androidCoverageReportTask =
+                        project.tasks.named(
+                            coverageReportTaskName,
+                            JacocoReportTask::class.java,
+                        )
 
-                instrumentationTestTask.finalizedBy(androidCoverageReportTask)
-                androidCoverageReportTask.configure {
-                    this.mustRunAfter(instrumentationTestTask)
+                    instrumentationTestTask.finalizedBy(androidCoverageReportTask)
+                    androidCoverageReportTask.configure {
+                        this.mustRunAfter(instrumentationTestTask)
+                    }
                 }
-            }
         }
     }
 

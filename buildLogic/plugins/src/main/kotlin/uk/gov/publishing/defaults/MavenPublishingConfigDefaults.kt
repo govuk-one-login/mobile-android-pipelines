@@ -39,8 +39,8 @@ object MavenPublishingConfigDefaults {
      */
     private val defaultLibConfig =
         PluginConfiguration {
-                project: Project,
-                extension: MavenPublishingConfigExtension,
+            project: Project,
+            extension: MavenPublishingConfigExtension,
             ->
 
             project.configure<LibraryExtension> {
@@ -58,8 +58,8 @@ object MavenPublishingConfigDefaults {
 
     private val javaModuleLibConfig =
         PluginConfiguration {
-                project: Project,
-                extension: MavenPublishingConfigExtension,
+            project: Project,
+            extension: MavenPublishingConfigExtension,
             ->
 
             project.configure<JavaPluginExtension> {
@@ -146,7 +146,11 @@ object MavenPublishingConfigDefaults {
         }
         maven {
             name = "localBuild"
-            url = project.layout.buildDirectory.dir("repo").map { it.asFile.toURI() }.get()
+            url =
+                project.layout.buildDirectory
+                    .dir("repo")
+                    .map { it.asFile.toURI() }
+                    .get()
         }
     }
 

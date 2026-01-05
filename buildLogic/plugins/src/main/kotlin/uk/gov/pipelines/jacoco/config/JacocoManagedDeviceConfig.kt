@@ -37,7 +37,8 @@ class JacocoManagedDeviceConfig(
         val executionDirectory =
             managedDeviceTestTask.flatMap { connectedTask ->
                 project.provider {
-                    connectedTask.getCoverageDirectory()
+                    connectedTask
+                        .getCoverageDirectory()
                         .asFile
                         .get()
                         .absolutePath

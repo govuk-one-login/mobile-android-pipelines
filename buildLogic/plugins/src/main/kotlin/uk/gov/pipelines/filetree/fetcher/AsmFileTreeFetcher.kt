@@ -27,23 +27,23 @@ class AsmFileTreeFetcher(
         variant,
         capitalisedVariantFlavorName,
     ) {
-    override fun getBaseFileTree(): Provider<FileTree> {
-        return project.provider {
-            getAsmClassesFileTree(
-                "transform${capitalisedVariantName}ClassesWithAsm",
-            ) ?: getAsmClassesFileTree(
-                "transform${capitalisedVariantFlavorName}ClassesWithAsm",
-            ) ?: project.fileTree(
-                project.layout.buildDirectory.dir(
-                    "intermediates/asm_instrumented_project_classes/$variant/",
-                ),
-            )
-        }.also {
-            project.debugLog(
-                "AsmFileTreeFetcher: ${it.get().files}",
-            )
-        }
-    }
+    override fun getBaseFileTree(): Provider<FileTree> =
+        project
+            .provider {
+                getAsmClassesFileTree(
+                    "transform${capitalisedVariantName}ClassesWithAsm",
+                ) ?: getAsmClassesFileTree(
+                    "transform${capitalisedVariantFlavorName}ClassesWithAsm",
+                ) ?: project.fileTree(
+                    project.layout.buildDirectory.dir(
+                        "intermediates/asm_instrumented_project_classes/$variant/",
+                    ),
+                )
+            }.also {
+                project.debugLog(
+                    "AsmFileTreeFetcher: ${it.get().files}",
+                )
+            }
 
     private fun getAsmClassesFileTree(name: String): FileTree? =
         performOnFoundTask<TransformClassesWithAsmTask, FileTree>(name) {

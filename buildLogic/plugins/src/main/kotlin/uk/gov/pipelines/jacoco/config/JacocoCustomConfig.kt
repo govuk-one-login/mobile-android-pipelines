@@ -33,13 +33,7 @@ abstract class JacocoCustomConfig(
      * Instance of the created Jacoco task. The architectural pattern is similar to Android
      * ViewModel handling. Updated via [generateCustomJacocoReport].
      */
-    private var _createdTask: TaskProvider<JacocoReport>? = null
-
-    /**
-     * Getter value function for obtaining the internally stored Jacoco task. Throws an exception
-     * if referenced before calling a variant of [generateCustomJacocoReport].
-     */
-    private val createdTask: TaskProvider<JacocoReport> get() = _createdTask!!
+    private var createdTask: TaskProvider<JacocoReport>? = null
 
     /**
      * Create a [JacocoReport] Gradle task. Updates the [created task][createdTask] for future
@@ -65,7 +59,7 @@ abstract class JacocoCustomConfig(
 
         val classDirectoriesTree = classDirectoryFetcher.getProvider(excludes)
 
-        _createdTask =
+        createdTask =
             if (project.tasks.findByName(name) != null) {
                 project.tasks.withType(JacocoReport::class.java).named(name)
             } else {
@@ -77,14 +71,15 @@ abstract class JacocoCustomConfig(
                     this.description = description
                     this.group = group
 
-                    this.additionalSourceDirs.from(
-                        sourceSetFolder.sourceFiles,
-                    ).also {
-                        project.debugLog(
-                            "$name: Configured additional source directories: " +
-                                "${it.files}",
-                        )
-                    }
+                    this.additionalSourceDirs
+                        .from(
+                            sourceSetFolder.sourceFiles,
+                        ).also {
+                            project.debugLog(
+                                "$name: Configured additional source directories: " +
+                                    "${it.files}",
+                            )
+                        }
                     this.classDirectories.from(classDirectoriesTree).also {
                         project.debugLog(
                             "$name: Configured class directories: " +
@@ -112,6 +107,6 @@ abstract class JacocoCustomConfig(
             project.tasks.findByName(it)?.finalizedBy(createdTask)
         }
 
-        return createdTask
+        return createdTask!!
     }
 }

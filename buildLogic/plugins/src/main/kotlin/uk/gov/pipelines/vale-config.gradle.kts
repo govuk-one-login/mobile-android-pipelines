@@ -32,9 +32,9 @@ val vale =
     }
 
 val check =
-    rootProject.tasks.maybeCreate(
-        "check",
-    )
-        .apply {
+    rootProject.tasks
+        .maybeCreate(
+            "check",
+        ).apply {
             dependsOn("vale")
         }

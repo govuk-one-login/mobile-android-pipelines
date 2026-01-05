@@ -33,8 +33,10 @@ class AppSigningConfigPlugin : Plugin<Project> {
                 ?: target.extensions.create<AppSigningConfigExtension>(AppSigningConfigExtension.NAME)
 
         val environment =
-            target.extensions.findByType<EnvironmentExtension>()!!
-                .environmentVariables.get()
+            target.extensions
+                .findByType<EnvironmentExtension>()!!
+                .environmentVariables
+                .get()
 
         with(extension) {
             keystorePassword.convention(environment.get(AppSigningEnvironmentKeys.SIGNING_STORE_PASSWORD))
@@ -43,7 +45,8 @@ class AppSigningConfigPlugin : Plugin<Project> {
             keyPassword.convention(environment.get(AppSigningEnvironmentKeys.SIGNING_KEY_PASSWORD))
         }
 
-        target.extensions.getByType<ApplicationAndroidComponentsExtension>()
+        target.extensions
+            .getByType<ApplicationAndroidComponentsExtension>()
             .finalizeDsl { androidComponentsExtension: ApplicationExtension ->
                 androidComponentsExtension.createSigningConfig(target, extension)
             }

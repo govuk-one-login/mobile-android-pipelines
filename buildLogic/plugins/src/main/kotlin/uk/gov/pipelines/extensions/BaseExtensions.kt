@@ -88,10 +88,11 @@ object BaseExtensions {
         apiLevel: Int,
     ): String {
         val hardwareProfileTaskSegment =
-            hardwareProfile.replace(
-                filter,
-                "",
-            ).proseToUpperCamelCase()
+            hardwareProfile
+                .replace(
+                    filter,
+                    "",
+                ).proseToUpperCamelCase()
 
         val systemImageSourceTaskSegment = source.sanitise()
 
