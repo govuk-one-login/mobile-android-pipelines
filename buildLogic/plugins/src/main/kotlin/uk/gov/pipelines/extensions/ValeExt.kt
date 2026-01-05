@@ -2,6 +2,7 @@ package uk.gov.pipelines.extensions
 
 import org.gradle.api.Project
 import uk.gov.pipelines.config.buildLogicDir
+import uk.gov.pipelines.utils.isWindows
 import java.io.File
 
 /**
@@ -47,7 +48,7 @@ internal fun Project.resolveValeExecutable(): String =
  */
 internal fun Project.resolveValeExecutable(executeCommand: (List<String>) -> String): String {
     val whichCommand =
-        if (System.getProperty("os.name").lowercase().contains("windows")) {
+        if (isWindows()) {
             listOf("where", "vale")
         } else {
             listOf("which", "vale")
