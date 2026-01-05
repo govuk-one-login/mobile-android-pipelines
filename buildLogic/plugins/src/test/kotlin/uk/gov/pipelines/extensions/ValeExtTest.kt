@@ -109,4 +109,40 @@ class ValeExtTest {
 
         assertTrue(exception.message!!.contains("Vale executable not found on PATH"))
     }
+
+    @Test
+    fun `resolveValeExecutable uses where command on Windows`() {
+        // Given
+        var capturedCommand: List<String>? = null
+
+        // When
+        project.resolveValeExecutable(
+            isWindowsOs = { true },
+            executeCommand = { command ->
+                capturedCommand = command
+                "/path/to/vale.exe"
+            },
+        )
+
+        // Then
+        assertEquals(listOf("where", "vale"), capturedCommand)
+    }
+
+    @Test
+    fun `resolveValeExecutable uses which command on non-Windows`() {
+        // Given
+        var capturedCommand: List<String>? = null
+
+        // When
+        project.resolveValeExecutable(
+            isWindowsOs = { false },
+            executeCommand = { command ->
+                capturedCommand = command
+                "/usr/local/bin/vale"
+            },
+        )
+
+        // Then
+        assertEquals(listOf("which", "vale"), capturedCommand)
+    }
 }

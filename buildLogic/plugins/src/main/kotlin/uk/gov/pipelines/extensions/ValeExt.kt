@@ -35,20 +35,26 @@ internal fun Project.valeConfigFile(fileExists: (File) -> Boolean): File {
  * @throws IllegalStateException if Vale executable is not found on PATH
  */
 internal fun Project.resolveValeExecutable(): String =
-    resolveValeExecutable { command ->
-        providers.exec {
-            commandLine(command)
-        }.standardOutput.asText.map { it.trim() }.get()
-    }
+    resolveValeExecutable(
+        executeCommand = { command ->
+            providers.exec {
+                commandLine(command)
+            }.standardOutput.asText.map { it.trim() }.get()
+        },
+    )
 
 /**
- * Testable version that accepts a command executor.
+ * Testable version that accepts a command executor and OS detector.
  *
+ * @param isWindowsOs Function to detect if running on Windows
  * @param executeCommand Function to execute system commands, allowing for testing without actual execution
  */
-internal fun Project.resolveValeExecutable(executeCommand: (List<String>) -> String): String {
+internal fun Project.resolveValeExecutable(
+    isWindowsOs: () -> Boolean = ::isWindows,
+    executeCommand: (List<String>) -> String,
+): String {
     val whichCommand =
-        if (isWindows()) {
+        if (isWindowsOs()) {
             listOf("where", "vale")
         } else {
             listOf("which", "vale")
