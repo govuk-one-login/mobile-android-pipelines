@@ -51,7 +51,7 @@ object MavenPublishingConfigDefaults {
                 configureMavenPublishing(
                     project = project,
                     extension = extension,
-                    component = "default",
+                    component = "release",
                 )
             }
         }
@@ -97,7 +97,7 @@ object MavenPublishingConfigDefaults {
                 this.version = project.versionName
 
                 project.afterEvaluate {
-                    from(project.components["release"])
+                    from(project.components[component])
                     withBuildIdentifier()
                 }
                 pom {
