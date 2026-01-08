@@ -23,6 +23,9 @@ BRANCH_NAME="${2}"
 # The GitHub PR number for the branch getting merged in. Only required for "PR" scans.
 PR_NUMBER="${3}"
 
+# The version name for the build being scanned. Not required.
+VERSION_NAME="${4}"
+
 if [[ "${ANALYSIS_TYPE}" == "PR" ]]
 then
  # PR analysis
@@ -31,7 +34,8 @@ then
    -Dsonar.token="${SONAR_TOKEN}" \
    -Dsonar.pullrequest.key="${PR_NUMBER}" \
    -Dsonar.pullrequest.branch="${BRANCH_NAME}" \
-   -Dsonar.pullrequest.base=main
+   -Dsonar.pullrequest.base=main \
+   -PversionName="${VERSION_NAME}"
 
 elif [[ "${ANALYSIS_TYPE}" == "BRANCH" ]]
 then
@@ -39,7 +43,8 @@ then
   ./gradlew sonar \
     -Dsonar.host.url=https://sonarcloud.io/ \
     -Dsonar.token="${SONAR_TOKEN}" \
-    -Dsonar.branch.name="${BRANCH_NAME}"
+    -Dsonar.branch.name="${BRANCH_NAME}" \
+    -PversionName="${VERSION_NAME}"
 
 elif [[ "${ANALYSIS_TYPE}" == "LOCAL" ]]
 then
@@ -49,6 +54,7 @@ then
   else
     ./gradlew sonar \
       -Dsonar.host.url=http://localhost:9000 \
-      -Dsonar.login="${SONAR_TOKEN}"
+      -Dsonar.login="${SONAR_TOKEN}" \
+      -PversionName="${VERSION_NAME}"
   fi
 fi

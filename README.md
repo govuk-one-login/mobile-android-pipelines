@@ -7,8 +7,10 @@ The workflow can be called from GitHub actions as a step:
 ```yaml
 steps:
   - name: Run Android workflow
-    uses: govuk-one-login/mobile-android-pipelines@main
+    uses: ./mobile-android-pipelines
 ```
+The above implementation allows for the consumer to always use the same version as the one used locally, rather than pointing to the action form github instead. This resolves issues when breaking changes
+have been introduced and the codebases have not been manually resolved to accommodate those, as well as ensuring consistency, removing the risk of running two different version of the workflows/ config between local and remote.
 
 If used as part of a pull request workflow, the pipeline will:
 - Checkout the code (both scripts and repository)
@@ -58,3 +60,23 @@ You can use the following command to check the SHA 256 checksum of a file
 ```bash
 shasum -a 256 gradle-8.10.2-bin.zip
 ```
+
+A gradle wrapper validation check is now in place in `.github/workflows/check-build-logic.yml`
+
+## Hotfix process
+
+There are GitHub actions in the actions folder to facilitate quick fix (hotfix) releases.
+The process is as follows:
+- Create a branch - temp/hotfix - off the release version/ commit required the fix is added to
+- Create a hotfix/M.m.p (e.g. hotfix/1.0.0) branch off the temp/hotfix branch created above
+- Add the fix on the branch from step 2
+- Push the hotfix/M.m.p to remote
+- Create PR for that to be merged into temp/hotfix
+- Run the required workflows and request PR review
+- Once successful, merge PR into temp/hotfix
+- Monitor if packages successfully published - the hotfix branch will be automatically deleted as part of the merge workflow
+- Merge main (or the branch used for development/ most up-to-date) into hotfix/M.m.p
+- Create a PR from the updated hotfix/M.m.p to be merged back into main
+
+For a push to PR workflow, `actions/hotfix-pr` github action can be used. See `.github/workflows/on_hotfix_pull_request.yml` as an example
+For a merge to temp hotfix workflow, `actions/hotfix-merge` github action can be used. See `.github/workflows/on_push_hotfix.yml` as an example

@@ -5,10 +5,6 @@ import org.gradle.api.artifacts.VersionCatalog
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.process.ExecSpec
-import uk.gov.pipelines.config.buildLogicDir
-import uk.gov.pipelines.output.OutputStreamGroup
-import java.io.ByteArrayOutputStream
-import java.io.OutputStream
 
 /**
  * Default version code if no `versionCode` property is supplied to the build.
@@ -18,18 +14,16 @@ import java.io.OutputStream
  */
 private const val DEFAULT_VERSION_CODE: Int = Integer.MAX_VALUE
 
+/**
+ * Default version name if no `versionName` property is supplied to the build.
+ */
+private const val DEFAULT_VERSION_NAME: String = "0.1.0"
+
 object ProjectExtensions {
-    fun Project.execWithOutput(spec: ExecSpec.() -> Unit) =
-        OutputStreamGroup().use { outputStreamGroup ->
-            val byteArrayOutputStream = ByteArrayOutputStream()
-            outputStreamGroup.add(byteArrayOutputStream)
-            exec {
-                this.spec()
-                outputStreamGroup.add(this.standardOutput)
-                this.standardOutput = outputStreamGroup
-            }
-            byteArrayOutputStream.toString().trim()
-        }
+    fun Project.execWithOutput(spec: ExecSpec.() -> Unit): String =
+        providers.exec {
+            this.spec()
+        }.standardOutput.asText.map(String::trim).get()
 
     /**
      * The version code for the application.
@@ -38,27 +32,18 @@ object ProjectExtensions {
      * defaults to [DEFAULT_VERSION_CODE].
      */
     val Project.versionCode
-        get() = prop("versionCode", DEFAULT_VERSION_CODE).toInt()
+        get() = prop("versionCode") { DEFAULT_VERSION_CODE }.toInt()
 
     val Project.versionName: String
-        get() {
-            val scriptsDir = buildLogicDir.resolve("scripts/")
-            return execWithOutput {
-                workingDir = rootDir
-                executable = "bash"
-                standardOutput = OutputStream.nullOutputStream()
-                args =
-                    listOf(
-                        scriptsDir.resolve("getCurrentVersion").path,
-                    )
-            }
-        }
+        get() = prop("versionName") { DEFAULT_VERSION_NAME }
 
     private fun Project.prop(
         key: String,
-        default: Any,
+        default: () -> Any,
     ): String {
-        return providers.gradleProperty(key).getOrElse(default.toString())
+        return providers.gradleProperty(key)
+            .orNull.takeUnless { it.isNullOrEmpty() }
+            ?: default().toString()
     }
 
     fun Project.debugLog(messageSuffix: String) {

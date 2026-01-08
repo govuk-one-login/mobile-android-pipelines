@@ -35,6 +35,7 @@ else
       --no-build-cache \
       --no-configuration-cache \
       "$MODULE_TASK":bundleRelease \
+      -PversionName="${VERSION_NAME}" \
       -PversionCode="${VERSION_CODE}"
   done
 fi

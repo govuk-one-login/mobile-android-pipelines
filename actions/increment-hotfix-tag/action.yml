@@ -1,0 +1,34 @@
+name: 'Increment hotfix tag'
+description: 'Finds the tag matching the provided version and increments it'
+
+inputs:
+  version-name:
+    description: 'Version name'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Create a tag or increment if it already exists then publish it
+      run: |
+        version_tags=()
+        version_name=${{ inputs.version-name }}
+        echo "Search for tags containing version $version_name"
+        tags=$(git tag -l "v$version_name*" | sort -V)
+        version_tags=($tags)
+        echo "version list: $version_tags"
+        tag_name=""
+        version_list_length=${#version_tags[@]}
+        if [[ "$version_list_length" = 0 || "${version_tags[version_list_length-1]}" != *"-fix"* ]];
+        then
+          tag_name="v$version_name-fix1"
+        else
+          latest_tag=${version_tags[version_list_length-1]}
+          current_version=${latest_tag##*fix}
+          latest_tag_without_version=${latest_tag%$current_version}
+          incremented_version=$((current_version+1))
+          tag_name="$latest_tag_without_version$incremented_version"
+        fi
+        git tag $tag_name
+        git push --tags
+      shell: bash

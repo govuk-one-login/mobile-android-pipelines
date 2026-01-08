@@ -8,6 +8,9 @@ inputs:
   GITHUB_ACTOR:
     description: 'Service account username that allows publishing packages'
     required: true
+  VERSION_NAME:
+    description: 'The version name for the build'
+    required: true
 
 runs:
   using: "composite"
@@ -15,8 +18,10 @@ runs:
     - name: Publish API package
       id: maven-publish
       run: |
-        ./gradlew publish
+        ./gradlew publish \
+          -PversionName="$VERSION_NAME"
       shell: bash
       env:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
         GITHUB_ACTOR: ${{ inputs.GITHUB_ACTOR }}
+        VERSION_NAME: ${{ inputs.VERSION_NAME }}

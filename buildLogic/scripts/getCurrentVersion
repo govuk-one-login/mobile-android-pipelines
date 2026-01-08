@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-# This script assumes that the dependencies declared within the https://gist.github.com/BiancaMihaila/6473ba331c185aa8e9551fd51e5da4a9 are installed
-
-# Obtains the current version of the project as designated via git conventional commits.
-cog -v get-version --fallback 0.1.0

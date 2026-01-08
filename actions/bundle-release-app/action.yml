@@ -33,6 +33,9 @@ inputs:
   version-code:
     description: 'A unique version code for the build'
     required: true
+  version-name:
+    description: 'A version name for the build'
+    required: true
   working-directory:
     description: 'The working directory for steps in this action'
     required: false
@@ -61,5 +64,6 @@ runs:
         SIGNING_STORE_FILE_PATH: ${{ inputs.keystore-file-path }}
         SIGNING_STORE_PASSWORD: ${{ inputs.keystore-password }}
         VERSION_CODE: ${{ inputs.version-code }}
+        VERSION_NAME: ${{ inputs.version-name }}
       shell: bash
       working-directory: ${{ inputs.working-directory }}
