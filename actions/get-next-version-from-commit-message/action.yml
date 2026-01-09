@@ -26,15 +26,8 @@ runs:
           echo "Invalid version $commit_version in commit: ($commit_title)"
           exit 1
         fi
-        
-        tag_version=$(cog -v get-version)
-        
-        if [[ "$NEXT_VERSION" < "$tag_version" ]]
-        then
-          echo "Version found in commit message $NEXT_VERSION is smaller than the tagged version $tag_version"
-          exit 1
-        else
-          echo "NEXT_VERSION = $NEXT_VERSION"
-          echo "next-version=${NEXT_VERSION}" >> "$GITHUB_OUTPUT"
-        fi
+                
+        echo "NEXT_VERSION = $NEXT_VERSION"
+        echo "next-version=${NEXT_VERSION}" >> "$GITHUB_OUTPUT"
+
       shell: bash
