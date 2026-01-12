@@ -25,7 +25,7 @@ val vale =
             listOf(
                 "--no-wrap",
                 "--config=${project.valeConfigFile()}",
-                "--glob=!**/{build,.gradle}/**",
+                "--glob=!**/{build,.gradle,mobile-android-pipelines}/**",
                 rootProject.projectDir.toString(),
             ),
         )
