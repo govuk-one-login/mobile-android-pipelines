@@ -3,6 +3,7 @@ package uk.gov.publishing.defaults
 import com.android.build.api.dsl.LibraryExtension
 import org.gradle.api.Project
 import org.gradle.api.artifacts.dsl.RepositoryHandler
+import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPom
 import org.gradle.api.publish.maven.MavenPublication
@@ -47,7 +48,11 @@ object MavenPublishingConfigDefaults {
             }
 
             project.configure<PublishingExtension> {
-                configureMavenPublishing(project, extension)
+                configureMavenPublishing(
+                    project = project,
+                    extension = extension,
+                    component = "default",
+                )
             }
         }
 
@@ -57,36 +62,19 @@ object MavenPublishingConfigDefaults {
                 extension: MavenPublishingConfigExtension,
             ->
 
+            project.configure<JavaPluginExtension> {
+                withJavadocJar()
+                withSourcesJar()
+            }
+
             project.configure<PublishingExtension> {
-                configureJavaModuleMavenPublishing(project, extension)
+                configureMavenPublishing(
+                    project = project,
+                    extension = extension,
+                    component = "java",
+                )
             }
         }
-
-    private fun PublishingExtension.configureJavaModuleMavenPublishing(
-        project: Project,
-        extension: MavenPublishingConfigExtension,
-    ) {
-        repositories {
-            configureMavenRepositoriesToPublishTo(project)
-        }
-        publications {
-            register<MavenPublication>("default") {
-                this.groupId = extension.mavenConfigBlock.artifactGroupId.get()
-                this.artifactId = project.name
-                this.version = project.versionName
-
-                project.afterEvaluate {
-                    from(project.components["java"])
-                    withBuildIdentifier()
-                }
-                pom {
-                    defaultPomSetup(
-                        extension.mavenConfigBlock,
-                    )
-                }
-            }
-        }
-    }
 
     /**
      * Declares the repositories to utilise for the [PublishingExtension.repositories] block.
@@ -97,6 +85,7 @@ object MavenPublishingConfigDefaults {
     private fun PublishingExtension.configureMavenPublishing(
         project: Project,
         extension: MavenPublishingConfigExtension,
+        component: String,
     ) {
         repositories {
             configureMavenRepositoriesToPublishTo(project)
@@ -108,7 +97,7 @@ object MavenPublishingConfigDefaults {
                 this.version = project.versionName
 
                 project.afterEvaluate {
-                    from(project.components["default"])
+                    from(project.components[component])
                     withBuildIdentifier()
                 }
                 pom {
@@ -157,7 +146,7 @@ object MavenPublishingConfigDefaults {
         }
         maven {
             name = "localBuild"
-            url = project.uri("${project.buildDir}/repo")
+            url = project.layout.buildDirectory.dir("repo").map { it.asFile.toURI() }.get()
         }
     }
 

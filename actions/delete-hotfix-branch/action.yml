@@ -1,0 +1,11 @@
+name: 'Delete hotfix branch'
+description: 'Delete the specified hotfix branch'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Delete the hotfix branch
+      run: |
+        echo "Delete branch $GITHUB_REF"
+        git push -d origin $GITHUB_REF
+      shell: bash

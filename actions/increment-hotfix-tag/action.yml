@@ -5,29 +5,38 @@ inputs:
   version-name:
     description: 'Version name'
     required: true
+outputs:
+  incremented-version:
+    description: 'Incremented version'
+    value: ${{ steps.create-tag-and-increment.outputs.incremented-version }}
 
 runs:
   using: "composite"
   steps:
     - name: Create a tag or increment if it already exists then publish it
+      id: create-tag-and-increment
       run: |
         version_tags=()
-        for tag in $(git tag -l '${VERSION-NAME}*')
-        do
-          version_tags+=( $tag )
-        done
+        version_name=${{ inputs.version-name }}
+        echo "Search for tags containing version $version_name"
+        tags=$(git tag -l "v$version_name*" | sort -V)
+        version_tags=($tags)
+        echo "version list: $version_tags"
         tag_name=""
         version_list_length=${#version_tags[@]}
-        if [[ version_list_length==0 ]]
+        if [[ "$version_list_length" = 0 || "${version_tags[version_list_length-1]}" != *"-fix"* ]];
         then
-          tag_name="${VERSION-NAME}-fix1"
+          tag_name="v$version_name-fix1"
         else
-          latest_tag=version_tags[version_list_length-1]
+          latest_tag=${version_tags[version_list_length-1]}
           current_version=${latest_tag##*fix}
           latest_tag_without_version=${latest_tag%$current_version}
           incremented_version=$((current_version+1))
           tag_name="$latest_tag_without_version$incremented_version"
         fi
+        outputVersion = ${tag_name#"v"}
+        echo "incremented-version = $outputVersion"
+        echo "incremented-version=${outputVersion}" >> "$GITHUB_OUTPUT"
         git tag $tag_name
-        git push origin $tag_name
+        git push --tags
       shell: bash

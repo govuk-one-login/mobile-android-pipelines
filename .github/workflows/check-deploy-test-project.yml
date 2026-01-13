@@ -17,23 +17,46 @@ jobs:
   check-deploy-test-library:
     name: Build the test library and publish it locally
     runs-on: ubuntu-latest
-    permissions:
-      # Set permissions for ${{ secrets.GITHUB_TOKEN }}
-      # https://docs.github.com/en/actions/security-guides/automatic-token-authentication
-      contents: read
-      packages: read
     steps:
       - name: 'Checkout codebase'
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           fetch-depth: 0
+
+      - name: Clean runner
+        uses: ./actions/clean-runner-fast
 
       - name: Setup runner
         uses: ./actions/common-prerequisites
 
-      - name: Increment the release version using Conventional Commits
+      - name: Increment the pre-release version using Conventional Commits
+        id: versioning-alpha
+        uses: ./actions/increment-version
+        with:
+          dry-run: true
+          pre-release-type: alpha
+
+      - name: Show pre-release versioning outputs
+        run: |
+          echo "Current version is $CURRENT_VERSION"
+          echo "New version is $NEW_VERSION"
+        shell: bash
+        env:
+          CURRENT_VERSION: ${{ steps.versioning-alpha.outputs.current_version }}
+          NEW_VERSION: ${{ steps.versioning-alpha.outputs.new_version }}
+
+      - name: Increment the stable version using Conventional Commits
         id: versioning
         uses: ./actions/increment-version
+
+      - name: Show stable versioning outputs
+        run: |
+          echo "Current version is $CURRENT_VERSION"
+          echo "New version is $NEW_VERSION"
+        shell: bash
+        env:
+          CURRENT_VERSION: ${{ steps.versioning.outputs.current_version }}
+          NEW_VERSION: ${{ steps.versioning.outputs.new_version }}
 
       - name: Generate Changelog
         uses: ./actions/generate-and-upload-changelog
@@ -41,7 +64,17 @@ jobs:
           current-version: ${{ steps.versioning.outputs.current_version }}
           new-version: ${{ steps.versioning.outputs.new_version }}
 
-      - name: Publish package locally
+      - name: Publish alpha version locally (manual versioning from step output)
+        uses: ./actions/maven-publish-local
+        with:
+          working-directory: 'test-project'
+          pipelines-directory: .
+          expected-packages: '
+            uk.gov.pipelines:android-module,
+            uk.gov.pipelines:pure-kotlin-module'
+          version-name: ${{ steps.versioning-alpha.outputs.new_version }}
+
+      - name: Publish locally (default version)
         uses: ./actions/maven-publish-local
         with:
           working-directory: 'test-project'
@@ -58,9 +91,15 @@ jobs:
   check-deploy-test-app:
     name: Build the test app and upload to Google Play Store
     runs-on: ubuntu-latest
+    permissions:
+      # Set permissions for ${{ secrets.GITHUB_TOKEN }}
+      # https://docs.github.com/en/actions/security-guides/automatic-token-authentication
+      contents: read
+      packages: read
+      id-token: write
     steps:
       - name: 'Checkout codebase'
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           fetch-depth: 0
 
@@ -72,12 +111,19 @@ jobs:
         uses: ./actions/retrieve-secrets
         with:
           keystore-base64: ${{ secrets.KEYSTORE_BASE64 }}
-          google-service-account-json-base64: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON_BASE64 }}
+          # No service account needed as we are using Workload Identity Federation
+          google-service-account-json-base64: ""
           working-directory: test-project
 
       - name: Generate version code
         id: generate-version-code
         uses: ./actions/generate-version-code
+
+      - name: Increment version
+        id: versioning
+        uses: ./actions/increment-version
+        with:
+          pre-release-type: alpha
 
       - name: Build app bundle
         id: bundle-release-app
@@ -91,14 +137,22 @@ jobs:
           modules: 'test-app'
           pipelines-directory: ../
           version-code: ${{ steps.generate-version-code.outputs.version-code }}
+          version-name: ${{ steps.versioning.outputs.new_version }}
           working-directory: test-project
+
+      - uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
+        id: auth
+        with:
+          project_id: ${{ vars.GCP_PROJECT_ID }}
+          workload_identity_provider: projects/${{ vars.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/deploy-pipelines/providers/github-actions-pipelines
+          service_account: deploy-pipelines@${{ vars.GCP_PROJECT_ID }}.iam.gserviceaccount.com
 
       - name: Publish to Play Store
         uses: ./actions/publish-to-play-store
         with:
           aab-paths: ${{ steps.bundle-release-app.outputs.aab-paths }}
           package-name: 'uk.gov.pipelines.testapp'
-          google-service-account-json: ${{ steps.retrieve-secrets.outputs.google-service-account-json-file-path }}
+          google-service-account-json: ${{ steps.auth.outputs.credentials_file_path }}
           track: 'internal'
           working-directory: test-project
 

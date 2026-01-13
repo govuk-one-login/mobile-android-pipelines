@@ -1,28 +1,73 @@
 name: 'Increment version'
-description: 'Increment the release version using Conventional Commits'
+description: |
+  Increment the release version based on Conventional Commits.
+
+  If there are releasable changes (e.g. fix or feature commits) since the
+  previous release then this action will tag a new version.
+
+  If there are no releasable changes (e.g. only ci or docs commits) since the
+  previous release, this action does nothing.
+inputs:
+  dry-run:
+    type: boolean
+    required: false
+    default: false
+    description: |
+      Run the action without creating a tag.
+  pre-release-type:
+    type: string
+    required: false
+    description: |
+      The pre-release version type, for example "alpha".
+
+      A numeric identifier will be appended and incremented automatically.
 
 outputs:
   current_version:
-    description: 'current semantic version'
+    description: |
+      The semantic version, prior to the version increment.
+
+      If a pre-release version is supplied to the action, and the latest
+      version was a pre-release, this will be a pre-release.
     value: ${{ steps.versioning.outputs.current_version }}
   new_version:
-    description: 'new semantic version'
+    description: |
+      If this action bumped the version, this is the new version.
+
+      If this action didn't bump the version, this will be the same as the
+      current version.
+
+      If a pre-release version is supplied to the action, this may be a
+      new pre-release.
     value: ${{ steps.versioning.outputs.new_version }}
 
 runs:
   using: "composite"
   steps:
-    - name: Increment the release version using Conventional Commits
-      id: versioning
+    - name: Configure Git user
       run: |
         git config user.name github-actions
         git config user.email github-actions@github.com
-
-        current_version=$(cog -v get-version)
-        echo "current_version=$current_version" >> $GITHUB_OUTPUT
-
-        cog bump --auto
-
-        new_version=$(cog -v get-version)
-        echo "new_version=$new_version" >> $GITHUB_OUTPUT
       shell: bash
+
+    - name: Set Github Action path
+      run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
+      shell: bash
+      env:
+        GITHUB_ACTION_PATH: ${{ github.action_path }}
+
+    - name: Calculate the pre-release version
+      id: pre-release
+      if: ${{ inputs.pre-release-type != '' }}
+      run: calculate_prerelease.bash "$PRE_RELEASE_TYPE" >> $GITHUB_OUTPUT
+      shell: bash
+      env:
+        PRE_RELEASE_TYPE: ${{ inputs.pre-release-type }}
+
+    - name: Increment the release version using Conventional Commits
+      id: versioning
+      run: increment_version.bash "$PRE_RELEASE" "$DRY_RUN" >> $GITHUB_OUTPUT
+      shell: bash
+      env:
+        PRE_RELEASE: ${{ steps.pre-release.outputs.version }}
+        DRY_RUN: ${{ inputs.dry-run }}

@@ -22,7 +22,7 @@ runs:
   using: "composite"
   steps:
     - name: Checkout codebase
-      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       with:
         lfs: 'true'
         submodules: 'true'
@@ -41,22 +41,26 @@ runs:
       
     - name: Lint script files
       uses: ./mobile-android-pipelines/actions/lint
+
+    - name: Clean up runner before running checks
+      uses: ./mobile-android-pipelines/actions/clean-runner-fast
     
     - name: Run gradle testing suite
       uses: ./mobile-android-pipelines/actions/run-testing-suite
+
+    - name: Increment the release version using Conventional Commits
+      id: versioning
+      if: ${{ github.event_name != 'pull_request' }}
+      uses: ./mobile-android-pipelines/actions/increment-version
       
     - name: Sonar scan
       uses: ./mobile-android-pipelines/actions/sonar-scan
       with:
         sonar-token: ${{ inputs.SONAR_TOKEN }}
+        version-name: ${{ steps.versioning.outputs.new_version }}
         
     - name: Bundle reports folder
       uses: ./mobile-android-pipelines/actions/bundle-reports
-      
-    - name: Increment the release version using Conventional Commits
-      id: versioning
-      if: ${{ github.event_name != 'pull_request' }}
-      uses: ./mobile-android-pipelines/actions/increment-version
       
     - name: Publish release tags
       if: ${{ github.event_name != 'pull_request'
@@ -66,6 +70,8 @@ runs:
     - name: Test local publish
       if: ${{ github.event_name == 'pull_request' }}
       uses: ./mobile-android-pipelines/actions/maven-publish-local
+      with:
+        version-name: ${{ steps.versioning.outputs.new_version }}
 
     - name: Publish package
       if: ${{ github.event_name != 'pull_request'
@@ -74,6 +80,7 @@ runs:
       with:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
         GITHUB_ACTOR: ${{ github.actor }}
+        VERSION_NAME: ${{ steps.versioning.outputs.new_version }}
 
     - name: Generate Changelog
       uses: ./mobile-android-pipelines/actions/generate-and-upload-changelog

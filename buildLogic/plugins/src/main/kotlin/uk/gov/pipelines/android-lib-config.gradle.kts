@@ -4,6 +4,7 @@ import com.android.build.api.dsl.LibraryExtension
 import com.android.build.gradle.BaseExtension
 import uk.gov.pipelines.extensions.BaseExtensions.baseAndroidConfig
 import uk.gov.pipelines.extensions.LintExtensions.configureLintOptions
+import uk.gov.pipelines.extensions.ProjectExtensions.versionName
 
 listOf(
     "com.android.library",
@@ -18,6 +19,8 @@ listOf(
 ).forEach {
     project.plugins.apply(it)
 }
+
+version = versionName
 
 configure<BaseExtension> {
     baseAndroidConfig(project)
