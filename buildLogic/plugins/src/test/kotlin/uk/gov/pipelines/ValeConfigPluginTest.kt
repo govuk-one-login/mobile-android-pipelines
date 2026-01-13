@@ -21,14 +21,13 @@ class ValeConfigPluginTest {
         project.pluginManager.apply("uk.gov.pipelines.vale-config")
 
         val valeTask = project.tasks.getByName("vale") as Exec
-        val projectDir = project.rootProject.projectDir.toString()
         val buildLogicDir = project.rootProject.projectDir.resolve(BUILD_LOGIC_DIR).canonicalPath
         val expectedArgs =
             listOf(
+                ".",
                 "--no-wrap",
                 "--config=$buildLogicDir/config/vale/.vale.ini",
                 "--glob=!**/{build,.gradle,mobile-android-pipelines}/**",
-                projectDir,
             )
 
         assertEquals(expectedArgs, valeTask.args)
