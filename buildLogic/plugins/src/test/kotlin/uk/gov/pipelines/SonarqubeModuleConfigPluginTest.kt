@@ -47,4 +47,21 @@ class SonarqubeModuleConfigPluginTest {
 }
 
 private const val EXCLUSIONS =
-    "**/R.class,**/R$*.class,**/BuildConfig.*,**/Manifest*.*,**/*Test*.*,android/**/*.*,**/*FileManager*,**/*AndroidCamera*,**/*AndroidBiometrics*,**/*ContactsProvider*,**/*IntentProvider*,android/databinding/**/*.class,**/android/databinding/*Binding.class,**/android/databinding/*,**/androidx/databinding/*,**/databinding/*,**/BR.*,**/*_MembersInjector.class,**/Dagger*Component.class,**/Dagger*Component\$Builder.class,**/Dagger*Subcomponent*.class,**/*Subcomponent\$Builder.class,**/*Module_*Factory.class,**/dagger/hilt/internal/**/*.*,**/di/module/*,**/*_Factory*.*,**/*Module*.*,**/*Dagger*.*,**/*Hilt*.*,**/*DependenciesProvider*,**/*_GeneratedInjector.*,**/*Args.class,**/*Directions.*,**/*MapperImpl*.*,**/*\$ViewInjector*.*,**/*\$ViewBinder*.*,**/BuildConfig.*,**/*Component*.*,**/*BR*.*,**/Manifest*.*,**/*\$Lambda$*.*,**/*Companion*.*,**/*MembersInjector*.*,**/*_MembersInjector.class,**/*_Factory*.*,**/*_Provide*Factory*.*,**/*Extensions*.*,**/*Extension*.*,**/*\$Result.*,**/*\$Result$*.*,*.json,**/.gradle/**,**/*.gradle*,**/src/test/java/$,**/src/test*/java/$,**/src/androidTest*/java/$,**/src/androidTest/java/$,**/src/*/java/**/developer/**,**/src/*/kotlin/**/developer/**,**/src/*/java/**/developer/**,**/src/*/kotlin/**/developer/**"
+    "**/R.class,**/R$*.class,**/BuildConfig.*,**/Manifest*.*,**/*Test*.*,android/**/*.*," +
+            "**/*FileManager*,**/*AndroidCamera*,**/*AndroidBiometrics*,**/*ContactsProvider*," +
+            "**/*IntentProvider*,android/databinding/**/*.class," +
+            "**/android/databinding/*Binding.class,**/android/databinding/*," +
+            "**/androidx/databinding/*,**/databinding/*,**/BR.*,**/*_MembersInjector.class," +
+            "**/Dagger*Component.class,**/Dagger*Component\$Builder.class," +
+            "**/Dagger*Subcomponent*.class,**/*Subcomponent\$Builder.class," +
+            "**/*Module_*Factory.class,**/dagger/hilt/internal/**/*.*," +
+            "**/di/module/*,**/*_Factory*.*,**/*Module*.*,**/*Dagger*.*,**/*Hilt*.*," +
+            "**/*DependenciesProvider*,**/*_GeneratedInjector.*,**/*Args.class,**/*Directions.*," +
+            "**/*MapperImpl*.*,**/*\$ViewInjector*.*,**/*\$ViewBinder*.*,**/BuildConfig.*," +
+            "**/*Component*.*,**/*BR*.*,**/Manifest*.*,**/*\$Lambda$*.*,**/*Companion*.*," +
+            "**/*MembersInjector*.*,**/*_MembersInjector.class,**/*_Factory*.*," +
+            "**/*_Provide*Factory*.*,**/*Extensions*.*,**/*Extension*.*,**/*\$Result.*," +
+            "**/*\$Result$*.*,*.json,**/.gradle/**,**/*.gradle*,**/src/test/java/$," +
+            "**/src/test*/java/$,**/src/androidTest*/java/$,**/src/androidTest/java/$," +
+            "**/src/*/java/**/developer/**,**/src/*/kotlin/**/developer/**," +
+            "**/src/*/java/**/developer/**,**/src/*/kotlin/**/developer/**"
