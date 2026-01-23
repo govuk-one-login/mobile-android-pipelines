@@ -127,6 +127,12 @@ object Filters {
             "**/src/*/kotlin/**/developer/**",
         )
 
+    val uiTestWrapper =
+        listOf(
+            "uitestwrapper/src/*/java/**",
+            "uitestwrapper/src/*/kotlin/**",
+        )
+
     /**
      * [FilenameFilter] for filtering out any source set folders that contain "test", such as
      * `main`.
