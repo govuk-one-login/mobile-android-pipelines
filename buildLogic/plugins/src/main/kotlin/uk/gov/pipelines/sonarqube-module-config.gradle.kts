@@ -30,7 +30,7 @@ val jacocoXmlReportFiles by project.extra(
         listOf(
             // unit test reports, split to stop vale reading line
             "**/reports/jacoco" +
-                    "/**/*.xml",
+                "/**/*.xml",
             // android instrumentation test reports
             "**/reports/coverage/**/*.xml",
         ),
