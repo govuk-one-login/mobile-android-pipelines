@@ -16,6 +16,7 @@ listOf(
     "uk.gov.pipelines.ktlint-config",
     "uk.gov.pipelines.sonarqube-module-config",
     "uk.gov.publishing.config",
+    "uk.gov.pipelines.android-security-lint-config",
 ).forEach {
     project.plugins.apply(it)
 }
