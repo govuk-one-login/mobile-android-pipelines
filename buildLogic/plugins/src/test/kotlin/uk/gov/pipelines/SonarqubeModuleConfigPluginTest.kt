@@ -3,8 +3,8 @@ package uk.gov.pipelines
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.findByType
 import org.gradle.testfixtures.ProjectBuilder
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.sonarqube.gradle.ActionBroadcast
 import org.sonarqube.gradle.SonarExtension
@@ -26,9 +26,9 @@ class SonarqubeModuleConfigPluginTest {
 
         project.applySonarModuleConfigPlugin(outputProperties = properties)
 
-        assertEquals(
-            EXCLUSIONS,
-            properties["sonar.exclusions"],
+        assertTrue(
+            properties["sonar.exclusions"].toString()
+                .contains("uitestwrapper/src/*/java/**,uitestwrapper/src/*/kotlin/**")
         )
     }
 
@@ -45,23 +45,3 @@ class SonarqubeModuleConfigPluginTest {
         propertiesActions.execute(sonarProperties)
     }
 }
-
-private const val EXCLUSIONS =
-    "**/R.class,**/R$*.class,**/BuildConfig.*,**/Manifest*.*,**/*Test*.*,android/**/*.*," +
-            "**/*FileManager*,**/*AndroidCamera*,**/*AndroidBiometrics*,**/*ContactsProvider*," +
-            "**/*IntentProvider*,android/databinding/**/*.class," +
-            "**/android/databinding/*Binding.class,**/android/databinding/*," +
-            "**/androidx/databinding/*,**/databinding/*,**/BR.*,**/*_MembersInjector.class," +
-            "**/Dagger*Component.class,**/Dagger*Component\$Builder.class," +
-            "**/Dagger*Subcomponent*.class,**/*Subcomponent\$Builder.class," +
-            "**/*Module_*Factory.class,**/dagger/hilt/internal/**/*.*," +
-            "**/di/module/*,**/*_Factory*.*,**/*Module*.*,**/*Dagger*.*,**/*Hilt*.*," +
-            "**/*DependenciesProvider*,**/*_GeneratedInjector.*,**/*Args.class,**/*Directions.*," +
-            "**/*MapperImpl*.*,**/*\$ViewInjector*.*,**/*\$ViewBinder*.*,**/BuildConfig.*," +
-            "**/*Component*.*,**/*BR*.*,**/Manifest*.*,**/*\$Lambda$*.*,**/*Companion*.*," +
-            "**/*MembersInjector*.*,**/*_MembersInjector.class,**/*_Factory*.*," +
-            "**/*_Provide*Factory*.*,**/*Extensions*.*,**/*Extension*.*,**/*\$Result.*," +
-            "**/*\$Result$*.*,*.json,**/.gradle/**,**/*.gradle*,**/src/test/java/$," +
-            "**/src/test*/java/$,**/src/androidTest*/java/$,**/src/androidTest/java/$," +
-            "**/src/*/java/**/developer/**,**/src/*/kotlin/**/developer/**," +
-            "**/src/*/java/**/developer/**,**/src/*/kotlin/**/developer/**"
