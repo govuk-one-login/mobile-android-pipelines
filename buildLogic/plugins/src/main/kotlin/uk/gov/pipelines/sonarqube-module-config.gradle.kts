@@ -55,6 +55,7 @@ val sonarExclusions by project.extra(
         Filters.sonar,
         Filters.testSourceSets,
         Filters.developer,
+        Filters.uiTestWrapper,
     ).flatten().joinToString(separator = ","),
 )
 
