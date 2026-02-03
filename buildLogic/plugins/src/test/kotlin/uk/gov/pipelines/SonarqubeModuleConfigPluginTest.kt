@@ -29,7 +29,7 @@ class SonarqubeModuleConfigPluginTest {
         assertTrue(
             properties["sonar.exclusions"].toString()
                 .contains(
-                    "**/src/*/java/**/ui/testwrapper/**,**/src/*/kotlin/**/ui/testwrapper/**"
+                    "**/src/*/java/**/ui/testwrapper/**,**/src/*/kotlin/**/ui/testwrapper/**",
                 ),
         )
     }
