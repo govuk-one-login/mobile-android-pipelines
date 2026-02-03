@@ -129,8 +129,7 @@ object Filters {
 
     val uiTestWrapper =
         listOf(
-            "uitestwrapper/src/*/java/**",
-            "uitestwrapper/src/*/kotlin/**",
+            "uitestwrapper/**",
         )
 
     /**
