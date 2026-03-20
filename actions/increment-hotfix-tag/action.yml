@@ -5,11 +5,16 @@ inputs:
   version-name:
     description: 'Version name'
     required: true
+outputs:
+  incremented-version:
+    description: 'Incremented version'
+    value: ${{ steps.create-tag-and-increment.outputs.incremented-version }}
 
 runs:
   using: "composite"
   steps:
     - name: Create a tag or increment if it already exists then publish it
+      id: create-tag-and-increment
       run: |
         version_tags=()
         version_name=${{ inputs.version-name }}
@@ -29,6 +34,9 @@ runs:
           incremented_version=$((current_version+1))
           tag_name="$latest_tag_without_version$incremented_version"
         fi
+        outputVersion = ${tag_name#"v"}
+        echo "incremented-version = $outputVersion"
+        echo "incremented-version=${outputVersion}" >> "$GITHUB_OUTPUT"
         git tag $tag_name
         git push --tags
       shell: bash

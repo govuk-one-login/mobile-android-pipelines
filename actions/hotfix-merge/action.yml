@@ -42,6 +42,7 @@ runs:
       uses: ./mobile-android-pipelines/actions/get-next-version-from-commit-message
 
     - name: Increment and push hotfix git tag
+      id: create-tag-and-increment
       uses: ./mobile-android-pipelines/actions/increment-hotfix-tag
       with:
         version-name: ${{ steps.verify-version.outputs.next-version }}
@@ -60,7 +61,7 @@ runs:
       uses: ./mobile-android-pipelines/actions/sonar-scan
       with:
         sonar-token: ${{ inputs.SONAR_TOKEN }}
-        version-name: ${{ steps.verify-version.outputs.next-version }}
+        version-name: ${{ steps.create-tag-and-increment.outputs.incremented-version }}
 
     - name: Bundle reports folder
       uses: ./mobile-android-pipelines/actions/bundle-reports
@@ -68,14 +69,14 @@ runs:
     - name: Test local publish
       uses: ./mobile-android-pipelines/actions/maven-publish-local
       with:
-        version-name: ${{ steps.verify-version.outputs.next-version }}
+        version-name: ${{ steps.create-tag-and-increment.outputs.incremented-version }}
 
     - name: Publish package
       uses: ./mobile-android-pipelines/actions/maven-publish
       with:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
         GITHUB_ACTOR: ${{ github.actor }}
-        VERSION_NAME: ${{ steps.verify-version.outputs.next-version }}
+        VERSION_NAME: ${{ steps.create-tag-and-increment.outputs.incremented-version }}
 
     - name: Delete hotfix branch
       uses: ./mobile-android-pipelines/actions/delete-hotfix-branch
