@@ -50,13 +50,15 @@ runs:
         PIPELINES_DIRECTORY: ${{ inputs.pipelines-directory }}
         PR_NUMBER: ${{ github.event.number }}
         VERSION_NAME: ${{ inputs.version-name }}
+        GITHUB_HEAD_REF: ${{ github.head_ref }}
+        GITHUB_REF_NAME: ${{ github.ref_name }}
       run: |
         case "${ANALYSIS_TYPE}" in
           "PR")
-            REF=${{ github.head_ref }}
+            REF=$GITHUB_HEAD_REF
             ;;
           "BRANCH")
-            REF=${{ github.ref_name }}
+            REF=$GITHUB_REF_NAME
             ;;
           *)
             REF=""
