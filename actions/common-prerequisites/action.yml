@@ -5,15 +5,20 @@ inputs:
     description: 'The Java Development Kit (JDK) version to use'
     required: false
     default: '21'
+  install-vale:
+    description: 'Install vale prose linter'
+    required: false
+    default: 'true'
 
 runs:
   using: "composite"
   steps:
-    - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
-      with:
-        distribution: 'oracle'
-        java-version: ${{ inputs.jdk-version }}
-        cache: gradle
+    - name: Set up JDK ${{ inputs.jdk-version }}
+      shell: bash
+      run: |
+        JAVA_HOME_VAR="JAVA_HOME_${{ inputs.jdk-version }}_X64"
+        echo "JAVA_HOME=${!JAVA_HOME_VAR}" >> $GITHUB_ENV
+        echo "${!JAVA_HOME_VAR}/bin" >> $GITHUB_PATH
 
     - name: Install Cocogitto
       uses: cocogitto/cocogitto-action@52d0023b4396897f1815648e553db2ab8d782f3a # v4.2.0
@@ -21,9 +26,12 @@ runs:
         command: help # A no-op command
 
     - name: Set up Homebrew
-      id: set-up-homebrew
-      uses: Homebrew/actions/setup-homebrew@master
+      shell: bash
+      run: |
+        echo "/home/linuxbrew/.linuxbrew/bin" >> $GITHUB_PATH
+        echo "/home/linuxbrew/.linuxbrew/sbin" >> $GITHUB_PATH
 
     - name: Install Vale
+      if: inputs.install-vale == 'true'
       run: brew install vale
       shell: bash
