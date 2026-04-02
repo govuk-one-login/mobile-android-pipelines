@@ -20,26 +20,18 @@ runs:
       shell: bash
       run: echo "/usr/local/bin" >> $GITHUB_PATH
 
-    - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
-      with:
-        distribution: 'oracle'
-        java-version: ${{ inputs.jdk-version }}
-
-    - name: Add JAVA_HOME globally
-      env:
-        JDK_VERSION: ${{ inputs.jdk-version }}
-      run: |
-        echo "JAVA_HOME=$(/usr/libexec/java_home --version ${JDK_VERSION})" >> $GITHUB_ENV
+    - name: Set up JDK ${{ inputs.jdk-version }}
       shell: bash
+      run: |
+        JAVA_HOME_VAR="JAVA_HOME_${{ inputs.jdk-version }}_X64"
+        echo "JAVA_HOME=${!JAVA_HOME_VAR}" >> $GITHUB_ENV
+        echo "${!JAVA_HOME_VAR}/bin" >> $GITHUB_PATH
 
     - name: Set up Homebrew
-      id: set-up-homebrew
-      # Didn't appear to use versioning!
-      uses: Homebrew/actions/setup-homebrew@a7a36215df86859f163fbb774ebe0cecf9ec8547
-
-    - name: Install vale
-      run: brew install vale
       shell: bash
+      run: |
+        echo "/home/linuxbrew/.linuxbrew/bin" >> $GITHUB_PATH
+        echo "/home/linuxbrew/.linuxbrew/sbin" >> $GITHUB_PATH
 
     - name: Install cocogitto
       uses: cocogitto/cocogitto-action@52d0023b4396897f1815648e553db2ab8d782f3a # v4.2.0
@@ -90,8 +82,3 @@ runs:
 
     - name: Setup Android SDK
       uses: android-actions/setup-android@651bceb6f9ca583f16b8d75b62c36ded2ae6fc9c # v4.0.0
-
-    - name: Update Android SDK Manager
-      run: |
-        sdkmanager --update
-      shell: bash
