@@ -8,7 +8,6 @@ updates:
     directories:
       - "/buildLogic/"
       - "/test-project/"
-    open-pull-requests-limit: 5
     schedule:
       interval: "weekly"
 
