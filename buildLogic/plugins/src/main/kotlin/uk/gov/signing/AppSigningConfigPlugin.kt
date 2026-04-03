@@ -30,20 +30,29 @@ class AppSigningConfigPlugin : Plugin<Project> {
 
         val extension =
             target.extensions.findByType<AppSigningConfigExtension>()
-                ?: target.extensions.create<AppSigningConfigExtension>(AppSigningConfigExtension.NAME)
+                ?: target.extensions.create<AppSigningConfigExtension>(
+                    AppSigningConfigExtension.NAME,
+                )
 
         val environment =
-            target.extensions.findByType<EnvironmentExtension>()!!
-                .environmentVariables.get()
+            target.extensions
+                .findByType<EnvironmentExtension>()!!
+                .environmentVariables
+                .get()
 
         with(extension) {
-            keystorePassword.convention(environment.get(AppSigningEnvironmentKeys.SIGNING_STORE_PASSWORD))
-            keystoreFilePath.convention(environment.get(AppSigningEnvironmentKeys.SIGNING_STORE_FILE_PATH))
+            keystorePassword.convention(
+                environment.get(AppSigningEnvironmentKeys.SIGNING_STORE_PASSWORD),
+            )
+            keystoreFilePath.convention(
+                environment.get(AppSigningEnvironmentKeys.SIGNING_STORE_FILE_PATH),
+            )
             keyAlias.convention(environment.get(AppSigningEnvironmentKeys.SIGNING_KEY_ALIAS))
             keyPassword.convention(environment.get(AppSigningEnvironmentKeys.SIGNING_KEY_PASSWORD))
         }
 
-        target.extensions.getByType<ApplicationAndroidComponentsExtension>()
+        target.extensions
+            .getByType<ApplicationAndroidComponentsExtension>()
             .finalizeDsl { androidComponentsExtension: ApplicationExtension ->
                 androidComponentsExtension.createSigningConfig(target, extension)
             }
@@ -55,7 +64,9 @@ class AppSigningConfigPlugin : Plugin<Project> {
         extension: AppSigningConfigExtension,
     ) {
         if (!extension.keystoreFilePath.isPresent) {
-            target.logger.warn("Signing plugin has been applied but keystore file path not provided")
+            target.logger.warn(
+                "Signing plugin has been applied but keystore file path not provided",
+            )
             return
         }
 
