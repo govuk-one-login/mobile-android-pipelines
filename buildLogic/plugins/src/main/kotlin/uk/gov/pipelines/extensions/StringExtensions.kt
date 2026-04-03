@@ -9,23 +9,27 @@ object StringExtensions {
 
     fun String.kebabToLowerCamelCase(): String =
         kebabRegex.replace(this) {
-            it.value.replace("-", "")
+            it.value
+                .replace("-", "")
                 .capitaliseFirstCharacter()
         }
 
     private fun String.proseToLowerCamelCase(): String =
         proseRegex.replace(this) {
-            it.value.replace(" ", "")
+            it.value
+                .replace(" ", "")
                 .capitaliseFirstCharacter()
         }
 
     fun String.proseToUpperCamelCase(): String =
-        this.proseToLowerCamelCase()
+        this
+            .proseToLowerCamelCase()
             .capitaliseFirstCharacter()
 
     fun String.snakeToLowerCamelCase(): String =
         snakeRegex.replace(this) {
-            it.value.replace("_", "")
+            it.value
+                .replace("_", "")
                 .capitaliseFirstCharacter()
         }
 

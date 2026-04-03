@@ -21,9 +21,11 @@ abstract class BaseJacocoTaskGenerator(
     protected val variant: String,
     val configuration: JacocoCustomConfig,
     protected val reportsDirectoryPrefix: String =
-        project.layout.buildDirectory.dir(
-            "reports/jacoco",
-        ).map { it.asFile.absolutePath }.get(),
+        project.layout.buildDirectory
+            .dir(
+                "reports/jacoco",
+            ).map { it.asFile.absolutePath }
+            .get(),
 ) : JacocoTaskGenerator {
     /**
      * TitleCase representation of the Android app or library's build variant.

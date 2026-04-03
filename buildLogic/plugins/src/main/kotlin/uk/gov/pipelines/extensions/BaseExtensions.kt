@@ -67,16 +67,17 @@ object BaseExtensions {
             animationsDisabled = true
             execution = "ANDROIDX_TEST_ORCHESTRATOR"
             managedDevices.apply {
-                allDevices.maybeCreate<ManagedVirtualDevice>(
-                    managedDeviceName,
-                ).apply {
-                    // Use device profiles you typically see in Android Studio.
-                    this.device = hardwareProfile
-                    // Use only API levels 27 and higher.
-                    this.apiLevel = apiLevel
-                    // To include Google services, use "google"
-                    this.systemImageSource = source.image
-                }
+                allDevices
+                    .maybeCreate<ManagedVirtualDevice>(
+                        managedDeviceName,
+                    ).apply {
+                        // Use device profiles you typically see in Android Studio.
+                        this.device = hardwareProfile
+                        // Use only API levels 27 and higher.
+                        this.apiLevel = apiLevel
+                        // To include Google services, use "google"
+                        this.systemImageSource = source.image
+                    }
             }
         }
     }
@@ -87,10 +88,11 @@ object BaseExtensions {
         apiLevel: Int,
     ): String {
         val hardwareProfileTaskSegment =
-            hardwareProfile.replace(
-                filter,
-                "",
-            ).proseToUpperCamelCase()
+            hardwareProfile
+                .replace(
+                    filter,
+                    "",
+                ).proseToUpperCamelCase()
 
         val systemImageSourceTaskSegment = source.sanitise()
 
