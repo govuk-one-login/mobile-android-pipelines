@@ -25,23 +25,23 @@ class JavaCompileFileTreeFetcher(
         variant,
         capitalisedVariantFlavorName,
     ) {
-    override fun getBaseFileTree(): Provider<FileTree> {
-        return project.provider {
-            getJavaCompileFileTree(
-                "compile${capitalisedVariantName}JavaWithJavac",
-            ) ?: getJavaCompileFileTree(
-                "compile${capitalisedVariantFlavorName}JavaWithJavac",
-            ) ?: project.fileTree(
-                project.layout.buildDirectory.dir(
-                    "intermediates/javac/$variant/classes",
-                ),
-            )
-        }.also {
-            project.debugLog(
-                "JavaCompileFileTreeFetcher: ${it.get().files}",
-            )
-        }
-    }
+    override fun getBaseFileTree(): Provider<FileTree> =
+        project
+            .provider {
+                getJavaCompileFileTree(
+                    "compile${capitalisedVariantName}JavaWithJavac",
+                ) ?: getJavaCompileFileTree(
+                    "compile${capitalisedVariantFlavorName}JavaWithJavac",
+                ) ?: project.fileTree(
+                    project.layout.buildDirectory.dir(
+                        "intermediates/javac/$variant/classes",
+                    ),
+                )
+            }.also {
+                project.debugLog(
+                    "JavaCompileFileTreeFetcher: ${it.get().files}",
+                )
+            }
 
     private fun getJavaCompileFileTree(name: String): FileTree? =
         performOnFoundTask<JavaCompile, FileTree>(name) {

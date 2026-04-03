@@ -27,7 +27,8 @@ class SonarqubeModuleConfigPluginTest {
         project.applySonarModuleConfigPlugin(outputProperties = properties)
 
         assertTrue(
-            properties["sonar.exclusions"].toString()
+            properties["sonar.exclusions"]
+                .toString()
                 .contains(
                     "**/src/*/java/**/ui/testwrapper/**,**/src/*/kotlin/**/ui/testwrapper/**",
                 ),
