@@ -91,7 +91,7 @@ jobs:
       - name: Generate and submit dependency graph
         uses: ./actions/dependency-submission
         with:
-          additional-arguments: --project-dir test-project
+          build-root-directory: test-project
 
   sonar-scan:
     name: Scan with Sonar
