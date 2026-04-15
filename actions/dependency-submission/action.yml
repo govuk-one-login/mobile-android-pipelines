@@ -10,20 +10,17 @@ inputs:
     description: 'Additional arguments to pass to the Gradle dependency submission action'
     required: false
     default: ''
-  clear-existing:
-    description: 'Clear existing dependency graph before submitting. Defaults to true.'
+  dependency-graph:
+    description: 'Specifies how the dependency graph is generated and submitted. Defaults to clear-and-submit.'
     required: false
-    default: 'true'
+    default: 'clear-and-submit'
 
 runs:
   using: "composite"
   steps:
-    - name: Clear existing dependency graph
-      if: inputs.clear-existing == 'true'
-      uses: gradle/actions/dependency-submission/clear@0723195856401067f7a2779048b490ace7a47d7c # v5.0.2
-
     - name: Generate and submit dependency graph
-      uses: gradle/actions/dependency-submission@0723195856401067f7a2779048b490ace7a47d7c # v5.0.2
+      uses: gradle/actions/dependency-submission@50e97c2cd7a37755bbfafc9c5b7cafaece252f6e # v6.1.0
       with:
         build-root-directory: ${{ inputs.build-root-directory }}
         additional-arguments: ${{ inputs.additional-arguments }}
+        dependency-graph: ${{ inputs.dependency-graph }}
