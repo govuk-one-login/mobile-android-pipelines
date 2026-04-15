@@ -70,6 +70,29 @@ jobs:
         with:
           artifact-name: test-project-instrumentation-test-coverage
 
+  dependency-submission:
+    name: Dependency submission
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+
+      - name: 'Checkout codebase'
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Clean runner
+        uses: ./actions/clean-runner-fast
+
+      - name: Setup runner
+        uses: ./actions/common-prerequisites
+
+      - name: Generate and submit dependency graph
+        uses: ./actions/dependency-submission
+        with:
+          additional-arguments: --project-dir test-project
+
   sonar-scan:
     name: Scan with Sonar
     runs-on: ubuntu-latest
