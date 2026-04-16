@@ -58,11 +58,12 @@ open class MavenPublishingConfigExtension
              * returns that instance instead.
              */
             fun Project.mavenPublishingConfig(): MavenPublishingConfigExtension =
-                this.extensions.findByType(
-                    MavenPublishingConfigExtension::class.java,
-                )?.also {
-                    project.infoLog("Found custom publishing configuration extension: $it")
-                } ?: this.extensions.create(
+                this.extensions
+                    .findByType(
+                        MavenPublishingConfigExtension::class.java,
+                    )?.also {
+                        project.infoLog("Found custom publishing configuration extension: $it")
+                    } ?: this.extensions.create(
                     "mavenPublishingConfig",
                     MavenPublishingConfigExtension::class.java,
                     githubRepositoryName,

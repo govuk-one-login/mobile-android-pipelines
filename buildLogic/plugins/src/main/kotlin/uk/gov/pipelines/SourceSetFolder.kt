@@ -10,7 +10,9 @@ import java.io.File
  *
  * @param project The Gradle [Project] that contain source set folders within `./src`.
  */
-class SourceSetFolder(private val project: Project) {
+class SourceSetFolder(
+    private val project: Project,
+) {
     /**
      * The expected location of a Gradle module's source code folder.
      */
@@ -22,7 +24,8 @@ class SourceSetFolder(private val project: Project) {
     val sourceFolders: String
         get() =
             (
-                src.listFiles(Filters.sourceFilenameFilter)
+                src
+                    .listFiles(Filters.sourceFilenameFilter)
                     ?.filterNotNull()
                     ?.joinToString(separator = ",") { it.absolutePath }
                     ?: ""
@@ -46,7 +49,8 @@ class SourceSetFolder(private val project: Project) {
     val testFolders: String
         get() =
             (
-                src.listFiles(Filters.testFilenameFilter)
+                src
+                    .listFiles(Filters.testFilenameFilter)
                     ?.filterNotNull()
                     ?.joinToString(separator = ",") { it.absolutePath }
                     ?: ""

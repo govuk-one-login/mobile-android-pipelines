@@ -34,17 +34,19 @@ configure<BaseExtension> {
          * Call the hardware profiles task within the gradle configuration stage for the sake of
          * building out the various hardware profiles.
          */
-        providers.exec {
-            commandLine = hardwareProfilesTask.get().commandLine
-            args = hardwareProfilesTask.get().args
-        }.result.get().exitValue
+        providers
+            .exec {
+                commandLine = hardwareProfilesTask.get().commandLine
+                args = hardwareProfilesTask.get().args
+            }.result
+            .get()
+            .exitValue
     }
 
     val hardwareProfileStrings: List<String> =
         BufferedReader(
             hardwareProfilesList.map { FileReader(it.asFile) }.get(),
-        )
-            .readLines()
+        ).readLines()
             .filter { profile ->
                 emulatorConfig.deviceFilters.any { filter ->
                     profile.contains(filter, ignoreCase = true)

@@ -22,7 +22,8 @@ import java.nio.file.Paths
 
 class AppSigningConfigPluginTest {
     private val project =
-        ProjectBuilder.builder()
+        ProjectBuilder
+            .builder()
             .build()
 
     private val environment = FakeEnvironment(mutableMapOf())

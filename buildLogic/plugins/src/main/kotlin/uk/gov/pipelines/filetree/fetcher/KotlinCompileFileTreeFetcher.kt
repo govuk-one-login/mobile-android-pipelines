@@ -25,23 +25,23 @@ class KotlinCompileFileTreeFetcher(
         variant,
         capitalisedVariantFlavorName,
     ) {
-    override fun getBaseFileTree(): Provider<FileTree> {
-        return project.provider {
-            getKotlinCompileFileTree(
-                "compile${capitalisedVariantName}Kotlin",
-            ) ?: getKotlinCompileFileTree(
-                "compile${capitalisedVariantFlavorName}Kotlin",
-            ) ?: project.fileTree(
-                project.layout.buildDirectory.dir(
-                    "tmp/kotlin-classes/$variant",
-                ),
-            )
-        }.also {
-            project.debugLog(
-                "KotlinCompileFileTreeFetcher: ${it.get().files}",
-            )
-        }
-    }
+    override fun getBaseFileTree(): Provider<FileTree> =
+        project
+            .provider {
+                getKotlinCompileFileTree(
+                    "compile${capitalisedVariantName}Kotlin",
+                ) ?: getKotlinCompileFileTree(
+                    "compile${capitalisedVariantFlavorName}Kotlin",
+                ) ?: project.fileTree(
+                    project.layout.buildDirectory.dir(
+                        "tmp/kotlin-classes/$variant",
+                    ),
+                )
+            }.also {
+                project.debugLog(
+                    "KotlinCompileFileTreeFetcher: ${it.get().files}",
+                )
+            }
 
     private fun getKotlinCompileFileTree(name: String): FileTree? =
         performOnFoundTask<KotlinCompile, FileTree>(name) {

@@ -21,9 +21,12 @@ private const val DEFAULT_VERSION_NAME: String = "0.1.0"
 
 object ProjectExtensions {
     fun Project.execWithOutput(spec: ExecSpec.() -> Unit): String =
-        providers.exec {
-            this.spec()
-        }.standardOutput.asText.map(String::trim).get()
+        providers
+            .exec {
+                this.spec()
+            }.standardOutput.asText
+            .map(String::trim)
+            .get()
 
     /**
      * The version code for the application.
@@ -40,11 +43,12 @@ object ProjectExtensions {
     private fun Project.prop(
         key: String,
         default: () -> Any,
-    ): String {
-        return providers.gradleProperty(key)
-            .orNull.takeUnless { it.isNullOrEmpty() }
+    ): String =
+        providers
+            .gradleProperty(key)
+            .orNull
+            .takeUnless { it.isNullOrEmpty() }
             ?: default().toString()
-    }
 
     fun Project.debugLog(messageSuffix: String) {
         logger.debug("${project.path}: $messageSuffix")
