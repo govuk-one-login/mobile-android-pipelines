@@ -19,6 +19,9 @@ sonarqube-gradle = "7.2.3.7755" # https://github.com/SonarSource/sonar-scanner-g
 netty = "4.1.132.Final"
 logback = "1.5.25"
 bouncycastle = "1.83"
+jdom2 = "2.0.6.1"
+jose4j = "0.9.6"
+httpclient = "4.5.13"
 
 [libraries]
 

@@ -16,6 +16,11 @@ configurations.configureEach {
             "io.netty" -> useVersion(libs.versions.netty.get())
             "ch.qos.logback" -> useVersion(libs.versions.logback.get())
             "org.bouncycastle" -> useVersion(libs.versions.bouncycastle.get())
+            "org.jdom" -> useVersion(libs.versions.jdom2.get())
+            "org.bitbucket.b_c" -> useVersion(libs.versions.jose4j.get())
+            "org.apache.httpcomponents" -> if (requested.name == "httpclient") {
+                useVersion(libs.versions.httpclient.get())
+            }
         }
     }
 }
