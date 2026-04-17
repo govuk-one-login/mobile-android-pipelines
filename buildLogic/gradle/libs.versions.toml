@@ -15,6 +15,11 @@ ktlint-cli = "1.5.0" # https://github.com/pinterest/ktlint/releases
 kotlin-general = "2.3.20" # https://kotlinlang.org/docs/releases.html#release-details
 sonarqube-gradle = "7.2.3.7755" # https://github.com/SonarSource/sonar-scanner-gradle/releases
 
+# Minimum safe versions for vulnerable transitive dependencies
+netty = "4.1.132.Final"
+logback = "1.5.25"
+bouncycastle = "1.83"
+
 [libraries]
 
 android-build-tool = { group = "com.android.tools.build", name = "gradle", version.ref = "android-gradle" }
