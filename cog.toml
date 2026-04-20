@@ -1,3 +1,6 @@
 tag_prefix = "v"
 ignore_merge_commits = true
 disable_bump_commit = true
+
+[commit_types]
+build = { changelog_title = "Build", bump_patch = true }
