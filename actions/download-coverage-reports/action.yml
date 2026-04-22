@@ -1,4 +1,4 @@
-name: 'Restore coverage reports'
+name: 'Download and restore coverage reports'
 description: 'Download coverage report artifacts and restore them into the correct build directories for sonar analysis'
 
 runs:
