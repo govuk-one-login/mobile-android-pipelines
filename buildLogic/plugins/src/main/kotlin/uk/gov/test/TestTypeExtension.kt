@@ -1,4 +1,4 @@
-package uk.gov.pipelines.plugin.test
+package uk.gov.test
 
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.ListProperty

@@ -1,4 +1,4 @@
-package uk.gov.pipelines.plugin.test
+package uk.gov.test
 
 import com.android.build.gradle.LibraryExtension
 import org.gradle.testing.jacoco.tasks.JacocoReport
@@ -71,7 +71,11 @@ project.afterEvaluate {
 
                 // Log a summary of passed, failed, and skipped tests after completion
                 addTestListener(object : TestListener {
-                    override fun beforeSuite(suite: TestDescriptor) {}
+                    override fun beforeSuite(suite: TestDescriptor) {
+                        logger.lifecycle(
+                            "Tests for $variantName are starting"
+                        )
+                    }
                     override fun afterSuite(suite: TestDescriptor, result: TestResult) {
                         // Only log for the root suite (the overall run)
                         if (suite.parent == null) {
@@ -84,11 +88,14 @@ project.afterEvaluate {
                             )
                         }
                     }
-                    override fun beforeTest(testDescriptor: TestDescriptor) {}
+                    override fun beforeTest(testDescriptor: TestDescriptor) {
+                        // Nothing to override
+                    }
                     override fun afterTest(testDescriptor: TestDescriptor, result: TestResult) {
                         // Log each individual test with its result
                         logger.lifecycle(
-                            "  ${testDescriptor.className}.${testDescriptor.name}: ${result.resultType}",
+                            "  ${testDescriptor.className}.${testDescriptor.name}: " +
+                                    "${result.resultType}",
                         )
                     }
                 })
@@ -97,7 +104,8 @@ project.afterEvaluate {
             // Only generate JaCoCo coverage reports for debug variants
             if (isDebug) {
                 // e.g. "jacocoBuildDebugComponentTestReport"
-                // This is required to allow for creating a specific unit test task as the jacoco report acocoBuildDebugUnitTestReport is automatically generated
+                // This is required to allow for creating a specific unit test task as the jacoco
+                // report acocoBuildDebugUnitTestReport is automatically generated
                 val jacocoReportTaskName = if (testType == "unit") {
                     "jacoco${variantName}Custom${testTypeCapitalised}TestReport"
                 } else {
