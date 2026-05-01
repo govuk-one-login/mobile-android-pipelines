@@ -21,7 +21,8 @@ class ValeExtTest {
     @BeforeEach
     fun setUp() {
         project =
-            ProjectBuilder.builder()
+            ProjectBuilder
+                .builder()
                 .withProjectDir(tempDir)
                 .build()
         project.rootProject.extra.set("buildLogicDir", "buildLogic")
@@ -42,7 +43,10 @@ class ValeExtTest {
     @Test
     fun `valeConfigFile returns default file when override does not exist`() {
         // Given
-        val expectedDefault = project.file("${project.rootProject.buildLogicDir}/config/vale/.vale.ini")
+        val expectedDefault =
+            project.file(
+                "${project.rootProject.buildLogicDir}/config/vale/.vale.ini",
+            )
 
         // When
         val result = project.valeConfigFile { false }

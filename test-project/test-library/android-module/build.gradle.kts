@@ -23,5 +23,5 @@ dependencies {
 }
 
 ktlint {
-    this.version = "0.50.0"
+    this.version = "1.5.0"
 }

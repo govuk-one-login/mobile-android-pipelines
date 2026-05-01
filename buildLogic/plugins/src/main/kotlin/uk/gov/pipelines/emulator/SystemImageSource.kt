@@ -10,7 +10,9 @@ import uk.gov.pipelines.extensions.StringExtensions.snakeToLowerCamelCase
  *
  * @see ManagedVirtualDevice.systemImageSource
  */
-enum class SystemImageSource(val image: String) {
+enum class SystemImageSource(
+    val image: String,
+) {
     /**
      * Android Open Source Project (AOSP) system image. Doesn't contain google services.
      */
