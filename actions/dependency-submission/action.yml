@@ -10,6 +10,10 @@ inputs:
     description: 'Additional arguments to pass to the Gradle dependency submission action'
     required: false
     default: ''
+  dependency-graph:
+    description: 'Specifies how the dependency graph is generated and submitted. Defaults to clear-and-submit.'
+    required: false
+    default: 'clear-and-submit'
 
 runs:
   using: "composite"
@@ -19,3 +23,4 @@ runs:
       with:
         build-root-directory: ${{ inputs.build-root-directory }}
         additional-arguments: ${{ inputs.additional-arguments }}
+        dependency-graph: ${{ inputs.dependency-graph }}
