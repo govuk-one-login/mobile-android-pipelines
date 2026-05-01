@@ -9,6 +9,22 @@ plugins {
     alias(libs.plugins.buildconfig)
 }
 
+// Force safe versions for vulnerable transitive dependencies
+configurations.configureEach {
+    resolutionStrategy.eachDependency {
+        when (requested.group) {
+            "io.netty" -> useVersion(libs.versions.netty.get())
+            "ch.qos.logback" -> useVersion(libs.versions.logback.get())
+            "org.bouncycastle" -> useVersion(libs.versions.bouncycastle.get())
+            "org.jdom" -> useVersion(libs.versions.jdom2.get())
+            "org.bitbucket.b_c" -> useVersion(libs.versions.jose4j.get())
+            "org.apache.httpcomponents" -> if (requested.name == "httpclient") {
+                useVersion(libs.versions.httpclient.get())
+            }
+        }
+    }
+}
+
 group = "uk.gov.pipelines"
 
 gradlePlugin {
