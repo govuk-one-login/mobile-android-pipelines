@@ -19,8 +19,10 @@ class MavenPublishingConfigExtensionTest {
         )
         val expectedUrl = "https://github.com/govuk-one-login/$GITHUB_REPOSITORY_NAME"
         val expectedUrlInsecure = "http://github.com/govuk-one-login/$GITHUB_REPOSITORY_NAME"
-        val expectedConnectionGit = "scm:git:git://github.com/govuk-one-login/$GITHUB_REPOSITORY_NAME.git"
-        val expectedConnectionSsh = "scm:git:ssh://github.com/govuk-one-login/$GITHUB_REPOSITORY_NAME.git"
+        val expectedConnectionGit =
+            "scm:git:git://github.com/govuk-one-login/$GITHUB_REPOSITORY_NAME.git"
+        val expectedConnectionSsh =
+            "scm:git:ssh://github.com/govuk-one-login/$GITHUB_REPOSITORY_NAME.git"
 
         val result = project.mavenPublishingConfig().mavenConfigBlock
 

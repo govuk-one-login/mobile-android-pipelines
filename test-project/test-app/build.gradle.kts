@@ -32,5 +32,5 @@ dependencies {
 }
 
 ktlint {
-    version = "0.50.0"
+    version = "1.5.0"
 }

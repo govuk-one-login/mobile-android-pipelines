@@ -51,7 +51,8 @@ class EmulatorConfigPluginTest {
         val deviceName = "unknownDevice"
         val exception: UnknownDomainObjectException =
             assertThrows {
-                project.extensions.findByType<BaseExtension>()
+                project.extensions
+                    .findByType<BaseExtension>()
                     ?.testOptions
                     ?.managedDevices
                     ?.devices

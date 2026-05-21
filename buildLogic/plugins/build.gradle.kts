@@ -46,7 +46,8 @@ dependencies {
 
     listOf(
         platform(libs.org.junit.bom),
-        libs.org.junit.jupiter.asProvider(),
+        libs.org.junit.jupiter
+            .asProvider(),
         libs.org.junit.jupiter.params,
         libs.org.hamcrest,
     ).forEach { dep: Provider<MinimalExternalModuleDependency> ->
@@ -62,7 +63,10 @@ dependencies {
 
 ktlint {
     filter {
-        exclude { it.file.absolutePath.contains("/build/") }
+        exclude {
+            it.file.absolutePath
+                .contains("/build/")
+        }
     }
 }
 
@@ -74,7 +78,9 @@ tasks.test {
 }
 
 project.configure<JacocoPluginExtension> {
-    toolVersion = libs.versions.jacoco.tool.get()
+    toolVersion =
+        libs.versions.jacoco.tool
+            .get()
 }
 
 tasks.test {
@@ -87,8 +93,20 @@ tasks.jacocoTestReport {
 }
 
 buildConfig {
-    buildConfigField("ANDROID_SECURITY_LINT_VERSION", libs.versions.android.security.lint.get())
+    buildConfigField(
+        "ANDROID_SECURITY_LINT_VERSION",
+        libs.versions.android.security.lint
+            .get(),
+    )
     buildConfigField("DETEKT_TOOL_VERSION", libs.versions.detekt.get())
-    buildConfigField("JACOCO_TOOL_VERSION", libs.versions.jacoco.tool.get())
-    buildConfigField("KTLINT_CLI_VERSION", libs.versions.ktlint.cli.get())
+    buildConfigField(
+        "JACOCO_TOOL_VERSION",
+        libs.versions.jacoco.tool
+            .get(),
+    )
+    buildConfigField(
+        "KTLINT_CLI_VERSION",
+        libs.versions.ktlint.cli
+            .get(),
+    )
 }

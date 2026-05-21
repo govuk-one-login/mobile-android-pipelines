@@ -40,7 +40,9 @@ class JacocoUnitTestConfig(
         val unitTestExecutionDataFile =
             unitTestTask.flatMap { utTask ->
                 project.provider {
-                    utTask.jacocoCoverageOutputFile.get().asFile
+                    utTask.jacocoCoverageOutputFile
+                        .get()
+                        .asFile
                         .parentFile
                         .absolutePath
                 }
