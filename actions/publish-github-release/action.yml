@@ -1,0 +1,28 @@
+name: 'Publish GitHub release'
+description: 'Create a GitHub release with changelog as release notes'
+inputs:
+  version:
+    description: 'The version to create a release for'
+    required: true
+  version-prefix:
+    description: 'A prefix added to the Git tag before the version number'
+    default: 'v'
+    required: false
+  changelog-path:
+    description: 'Path to the changelog file'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Publish GitHub Release
+      run: |
+        gh release create "${VERSION_PREFIX}${VERSION}" \
+          --title "${VERSION_PREFIX}${VERSION}" \
+          --notes-file "${CHANGELOG_PATH}"
+      env:
+        CHANGELOG_PATH: ${{ inputs.changelog-path }}
+        GH_TOKEN: ${{ github.token }}
+        VERSION: ${{ inputs.version }}
+        VERSION_PREFIX: ${{ inputs.version-prefix }}
+      shell: bash
