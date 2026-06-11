@@ -33,10 +33,18 @@ jobs:
         uses: ./actions/publish-release-tag
 
       - name: Generate Changelog
+        id: changelog
         uses: ./actions/generate-and-upload-changelog
         with:
           current-version: ${{ steps.versioning.outputs.current_version }}
           new-version: ${{ steps.versioning.outputs.new_version }}
+
+      - name: Publish GitHub Release
+        if: ${{ steps.versioning.outputs.current_version != steps.versioning.outputs.new_version }}
+        uses: ./actions/publish-github-release
+        with:
+          version: ${{ steps.versioning.outputs.new_version }}
+          changelog-path: ${{ steps.changelog.outputs.path }}
 
       - name: Clean workspace
         uses: ./actions/clean-workspace
