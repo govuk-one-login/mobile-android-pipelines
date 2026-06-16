@@ -31,13 +31,3 @@ runs:
       if: steps.cache-vale.outputs.cache-hit != 'true'
       run: brew install vale
       shell: bash
-
-    - name: Debug cache paths
-      if: steps.cache-vale.outputs.cache-hit != 'true'
-      run: |
-        ls -la /home/linuxbrew/.linuxbrew/Cellar/vale || echo "Cellar missing"
-        ls -la /home/linuxbrew/.linuxbrew/bin/vale || echo "bin missing"
-        ls -la /home/linuxbrew/.linuxbrew/opt/vale || echo "opt missing"
-      shell: bash
-      env:
-        BREW_PATH: ${{ steps.brew-path.outputs.prefix }}
