@@ -17,14 +17,6 @@ runs:
         echo "version=$version" >> "$GITHUB_OUTPUT"
       shell: bash
 
-    - name: Get Homebrew path prefix
-      id: brew-path
-      run: |
-        prefix=$(brew --prefix)
-        echo "Homebrew path prefix: $prefix" >&2
-        echo "prefix=$prefix" >> "$GITHUB_OUTPUT"
-      shell: bash
-
     - name: Cache Vale
       id: cache-vale
       uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
