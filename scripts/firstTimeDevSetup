@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 BASH_CONFIG_FILE=~/.bash_profile
-GIT_ROOT=$(git rev-parse --show-toplevel)
 ZSH_CONFIG_FILE=~/.zshrc
 
 # Checks the provided file for provided EVAL_STRING. If not, appends to the config file if it exists.
