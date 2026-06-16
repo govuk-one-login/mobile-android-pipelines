@@ -41,8 +41,8 @@ runs:
 
     - name: Install Vale
       if: inputs.install-vale == 'true'
-      shell: bash
       run: brew install vale
+      shell: bash
 
     - name: Install KVM hardware acceleration Dependencies
       # see docs: https://help.ubuntu.com/community/KVM/Installation
