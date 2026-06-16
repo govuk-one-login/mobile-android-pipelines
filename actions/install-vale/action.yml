@@ -30,9 +30,9 @@ runs:
       uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
       with:
         path: |
-          ${{ steps.brew-path.outputs.prefix }}/Cellar/vale
-          ${{ steps.brew-path.outputs.prefix }}/bin/vale
-          ${{ steps.brew-path.outputs.prefix }}/opt/vale
+          /home/linuxbrew/.linuxbrew/Cellar/vale
+          /home/linuxbrew/.linuxbrew/bin/vale
+          /home/linuxbrew/.linuxbrew/opt/vale
         key: vale-${{ runner.os }}-${{ steps.vale-version.outputs.version }}
 
     - name: Install Vale
@@ -43,9 +43,9 @@ runs:
     - name: Debug cache paths
       if: steps.cache-vale.outputs.cache-hit != 'true'
       run: |
-        ls -la $BREW_PATH/Cellar/vale || echo "Cellar missing"
-        ls -la $BREW_PATH/bin/vale || echo "bin missing"
-        ls -la $BREW_PATH/opt/vale || echo "opt missing"
+        ls -la /home/linuxbrew/.linuxbrew/Cellar/vale || echo "Cellar missing"
+        ls -la /home/linuxbrew/.linuxbrew/bin/vale || echo "bin missing"
+        ls -la /home/linuxbrew/.linuxbrew/opt/vale || echo "opt missing"
       shell: bash
       env:
         BREW_PATH: ${{ steps.brew-path.outputs.prefix }}
