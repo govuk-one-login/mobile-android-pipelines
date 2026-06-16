@@ -13,6 +13,10 @@ inputs:
     description: 'Allowing for gradle cache on the runner'
     required: false
     default: 'false'
+  install-vale:
+    description: 'Install vale prose linter'
+    required: false
+    default: 'false'
 runs:
   using: "composite"
   steps:
@@ -37,6 +41,10 @@ runs:
       uses: cocogitto/cocogitto-action@52d0023b4396897f1815648e553db2ab8d782f3a # v4.2.0
       with:
         command: help # A no-op command
+
+    - name: Install Vale
+      if: inputs.install-vale == 'true'
+      uses: ./actions/install-vale
 
     - name: Install KVM hardware acceleration Dependencies
       # see docs: https://help.ubuntu.com/community/KVM/Installation
