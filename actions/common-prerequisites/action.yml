@@ -33,4 +33,5 @@ runs:
 
     - name: Install Vale
       if: inputs.install-vale == 'true'
-      uses: ./actions/install-vale
+      run: brew install vale
+      shell: bash
