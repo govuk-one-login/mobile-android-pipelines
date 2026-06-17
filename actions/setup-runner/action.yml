@@ -13,6 +13,10 @@ inputs:
     description: 'Allowing for gradle cache on the runner'
     required: false
     default: 'false'
+  install-vale:
+    description: 'Install vale prose linter'
+    required: false
+    default: 'false'
 runs:
   using: "composite"
   steps:
@@ -28,15 +32,17 @@ runs:
         echo "${!JAVA_HOME_VAR}/bin" >> $GITHUB_PATH
 
     - name: Set up Homebrew
-      shell: bash
-      run: |
-        echo "/home/linuxbrew/.linuxbrew/bin" >> $GITHUB_PATH
-        echo "/home/linuxbrew/.linuxbrew/sbin" >> $GITHUB_PATH
+      uses: ./actions/setup-homebrew
 
     - name: Install cocogitto
       uses: cocogitto/cocogitto-action@52d0023b4396897f1815648e553db2ab8d782f3a # v4.2.0
       with:
         command: help # A no-op command
+
+    - name: Install Vale
+      if: inputs.install-vale == 'true'
+      run: brew install vale
+      shell: bash
 
     - name: Install KVM hardware acceleration Dependencies
       # see docs: https://help.ubuntu.com/community/KVM/Installation
