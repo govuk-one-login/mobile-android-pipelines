@@ -32,7 +32,21 @@ runs:
         echo "${!JAVA_HOME_VAR}/bin" >> $GITHUB_PATH
 
     - name: Set up Homebrew
-      uses: ./actions/setup-homebrew
+      shell: bash
+      run: |
+        echo "/home/linuxbrew/.linuxbrew/bin" >> $GITHUB_PATH
+        echo "/home/linuxbrew/.linuxbrew/sbin" >> $GITHUB_PATH
+
+    - name: Get weekly cache key
+      id: homebrew-cache-key
+      shell: bash
+      run: echo "week=$(date +%Y-%U)" >> "$GITHUB_OUTPUT"
+
+    - name: Cache Homebrew
+      uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+      with:
+        path: /home/linuxbrew/.linuxbrew
+        key: homebrew-${{ runner.os }}-${{ steps.homebrew-cache-key.outputs.week }}
 
     - name: Install cocogitto
       uses: cocogitto/cocogitto-action@52d0023b4396897f1815648e553db2ab8d782f3a # v4.2.0
