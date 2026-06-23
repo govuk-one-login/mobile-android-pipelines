@@ -53,14 +53,14 @@ function installHomebrewIfNecessary {
 # Installs all dependencies declared within the code base.
 function installProjectDependencies {
   echo "## Installing Brewfile dependencies... ##"
-  if [ ! -f brewfile ]; then
-    echo "/scripts/brewfile not found - copy from https://govukverify.atlassian.net/wiki/spaces/DCMAW/pages/6697615438/Android+Development+Setup and re-run the script"
+  if [ ! -f Brewfile ]; then
+    echo "/scripts/Brewfile not found - copy from https://govukverify.atlassian.net/wiki/spaces/DCMAW/pages/6697615438/Android+Development+Setup and re-run the script"
     exit 1
   fi
   brew bundle
 #  cd ../
-  echo "## Deleting brewfile after installations:... ##"
-  rm -rf "brewfile" 2> /dev/null
+  echo "## Deleting Brewfile after installations:... ##"
+  rm -rf "Brewfile" 2> /dev/null
 }
 
 ## SCRIPT STARTS HERE ##
