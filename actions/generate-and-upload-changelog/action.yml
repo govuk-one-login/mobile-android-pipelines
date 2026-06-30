@@ -11,16 +11,28 @@ inputs:
     description: 'A prefix added to the Git tag before the version number'
     default: 'v'
     required: false
+outputs:
+  path:
+    description: 'Path to the generated changelog file'
+    value: ${{ steps.path.outputs.path }}
 
 runs:
   using: "composite"
   steps:
+    - name: Set Changelog path
+      id: path
+      if: ${{ inputs.current-version != inputs.new-version }}
+      run: echo "path=CHANGELOG.md" >> "$GITHUB_OUTPUT"
+      shell: bash
+
     - name: Generate Changelog
+      id: generate
       if: ${{ inputs.current-version != inputs.new-version }}
       env:
+        CHANGELOG_PATH: ${{ steps.path.outputs.path }}
         VERSION_PREFIX: ${{ inputs.version-prefix }}
       run: |
-        cog changelog --at ${VERSION_PREFIX}$(cog -v get-version) > CHANGELOG.md
+        cog changelog --at ${VERSION_PREFIX}$(cog -v get-version) > "${CHANGELOG_PATH}"
       shell: bash
 
     - name: Upload Changelog
@@ -28,5 +40,5 @@ runs:
       id: uploadBuildReports
       uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
       with:
-        name: CHANGELOG.md
-        path: CHANGELOG.md
+        name: ${{ steps.path.outputs.path }}
+        path: ${{ steps.path.outputs.path }}

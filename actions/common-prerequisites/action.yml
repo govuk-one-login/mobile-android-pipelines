@@ -31,6 +31,17 @@ runs:
         echo "/home/linuxbrew/.linuxbrew/bin" >> $GITHUB_PATH
         echo "/home/linuxbrew/.linuxbrew/sbin" >> $GITHUB_PATH
 
+    - name: Get weekly cache key
+      id: homebrew-cache-key
+      shell: bash
+      run: echo "week=$(date +%Y-%U)" >> "$GITHUB_OUTPUT"
+
+    - name: Cache Homebrew
+      uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+      with:
+        path: /home/linuxbrew/.linuxbrew
+        key: homebrew-${{ runner.os }}-${{ steps.homebrew-cache-key.outputs.week }}
+
     - name: Install Vale
       if: inputs.install-vale == 'true'
       run: brew install vale
