@@ -1,27 +1,23 @@
 package uk.gov.pipelines
 
-import com.android.build.gradle.BaseExtension
+import com.android.build.api.dsl.CommonExtension
 import uk.gov.pipelines.emulator.EmulatorConfig
 import uk.gov.pipelines.extensions.BaseExtensions.generateDeviceConfigurations
 import uk.gov.pipelines.extensions.BaseExtensions.generateGetHardwareProfilesTask
 import java.io.BufferedReader
 import java.io.FileReader
 
-plugins {
-    id("kotlin-android")
-}
-
 val emulatorConfig: EmulatorConfig by rootProject.extra
 
 /**
- * Configure both app and library modules via the [BaseExtension].
+ * Configure both app and library modules via the android extension.
  *
  * Generates applicable Android Virtual Device (AVD) configurations via
  * [generateGetHardwareProfilesTask] output. These configuration act as Gradle managed devices
  * within a given Gradle module, generating instrumentation test tasks based on the device profiles
  * made.
  */
-configure<BaseExtension> {
+configure<CommonExtension> {
     val hardwareProfilesList =
         rootProject.layout.buildDirectory.file(
             "outputs/managedDeviceHardwareProfiles.txt",

@@ -1,29 +1,22 @@
 package uk.gov.pipelines
 
-import com.android.build.gradle.LibraryExtension
+import com.android.build.api.dsl.CommonExtension
+import com.android.build.api.variant.LibraryAndroidComponentsExtension
+import org.gradle.kotlin.dsl.configure
 import uk.gov.pipelines.extensions.LibraryExtensionExt.decorateExtensionWithJacoco
 import uk.gov.pipelines.extensions.ProjectExtensions.debugLog
 import uk.gov.pipelines.extensions.generateDebugJacocoTasks
-import com.android.build.api.dsl.LibraryExtension as DslLibraryExtension
 
 project.plugins.apply("uk.gov.pipelines.jacoco-common-config")
 
-project.configure<DslLibraryExtension> {
+project.configure<CommonExtension> {
     decorateExtensionWithJacoco().also {
         project.debugLog("Applied jacoco properties to Library")
     }
 }
 
-project.configure<LibraryExtension> {
-    decorateExtensionWithJacoco().also {
-        project.debugLog("Applied jacoco properties to Library")
-    }
-}
-
-project.afterEvaluate {
-    (this.findProperty("android") as? LibraryExtension)?.let { extension ->
-        extension.libraryVariants.all {
-            generateDebugJacocoTasks(project)
-        }
+project.extensions.configure<LibraryAndroidComponentsExtension> {
+    onVariants(selector().withBuildType("debug")) { variant ->
+        variant.generateDebugJacocoTasks(project)
     }
 }
