@@ -1,7 +1,9 @@
 package uk.gov.pipelines.extensions
 
+import com.android.build.api.dsl.ApplicationExtension
+import com.android.build.api.dsl.CommonExtension
+import com.android.build.api.dsl.LibraryExtension
 import com.android.build.api.dsl.ManagedVirtualDevice
-import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.internal.tasks.ManagedDeviceInstrumentationTestTask
 import com.android.build.gradle.internal.tasks.ManagedDeviceSetupTask
 import org.gradle.api.Project
@@ -9,7 +11,6 @@ import org.gradle.api.file.RegularFile
 import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.Exec
 import org.gradle.kotlin.dsl.extra
-import org.gradle.kotlin.dsl.invoke
 import org.gradle.kotlin.dsl.maybeCreate
 import org.gradle.kotlin.dsl.provideDelegate
 import org.gradle.kotlin.dsl.register
@@ -30,7 +31,7 @@ object BaseExtensions {
      *
      * Outputs all applicable hardware profiles available on the machine running this task.
      */
-    fun BaseExtension.generateGetHardwareProfilesTask(
+    internal fun generateGetHardwareProfilesTask(
         project: Project,
         hardwareProfilesOutput: Provider<RegularFile>,
     ) = project.tasks.register("getHardwareProfiles", Exec::class) {
@@ -51,32 +52,30 @@ object BaseExtensions {
      * state of a new emulator. There is also a [ManagedDeviceInstrumentationTestTask] created,
      * respecting `${flavor}${buildType}AndroidTest` naming conventions.
      */
-    private fun BaseExtension.generateManagedDeviceConfiguration(
+    private fun CommonExtension.generateManagedDeviceConfiguration(
         hardwareProfile: String,
         apiLevel: Int,
         source: SystemImageSource,
     ) {
         val managedDeviceName = generateDeviceName(hardwareProfile, source, apiLevel)
 
-        defaultConfig {
+        defaultConfig.apply {
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
 
-        testOptions {
+        testOptions.apply {
             animationsDisabled = true
             execution = "ANDROIDX_TEST_ORCHESTRATOR"
-            managedDevices {
-                devices {
-                    maybeCreate<ManagedVirtualDevice>(
-                        managedDeviceName,
-                    ).apply {
-                        // Use device profiles you typically see in Android Studio.
-                        this.device = hardwareProfile
-                        // Use only API levels 27 and higher.
-                        this.apiLevel = apiLevel
-                        // To include Google services, use "google"
-                        this.systemImageSource = source.image
-                    }
+            managedDevices.apply {
+                allDevices.maybeCreate<ManagedVirtualDevice>(
+                    managedDeviceName,
+                ).apply {
+                    // Use device profiles you typically see in Android Studio.
+                    this.device = hardwareProfile
+                    // Use only API levels 27 and higher.
+                    this.apiLevel = apiLevel
+                    // To include Google services, use "google"
+                    this.systemImageSource = source.image
                 }
             }
         }
@@ -103,7 +102,7 @@ object BaseExtensions {
      * Loops through the provided parameters, deferring each entry to the
      * [generateManagedDeviceConfiguration] function.
      */
-    fun BaseExtension.generateDeviceConfigurations(
+    fun CommonExtension.generateDeviceConfigurations(
         hardwareProfileStrings: Collection<String>,
         androidApiLevels: Collection<Int>,
         systemImageSources: Collection<SystemImageSource> = SystemImageSource.values().asList(),
@@ -121,34 +120,39 @@ object BaseExtensions {
         }
     }
 
-    fun BaseExtension.baseAndroidConfig(project: Project) {
-        val apkConfig: ApkConfig by project.rootProject.extra
+    fun ApplicationExtension.baseAndroidConfig(project: Project) {
+        commonBaseAndroidConfig(project)
 
-        compileSdkVersion(apkConfig.sdkVersions.compile)
-        defaultConfig {
-            minSdk = apkConfig.sdkVersions.minimum
+        val apkConfig: ApkConfig by project.rootProject.extra
+        defaultConfig.apply {
             targetSdk = apkConfig.sdkVersions.target
             versionCode = project.versionCode
             versionName = project.versionName
+        }
+    }
 
-            consumerProguardFiles(
-                "consumer-rules.pro",
-            )
+    fun LibraryExtension.baseAndroidConfig(project: Project) = commonBaseAndroidConfig(project)
 
-            packagingOptions {
-                resources.excludes += "META-INF/LICENSE-LGPL-2.1.txt"
-                resources.excludes += "META-INF/LICENSE-LGPL-3.txt"
-                resources.excludes += "META-INF/LICENSE-W3C-TEST"
-                resources.excludes += "META-INF/DEPENDENCIES"
-                resources.excludes += "*.proto"
-                resources.excludes += "META-INF/versions/9/OSGI-INF/MANIFEST.MF"
-            }
+    private fun CommonExtension.commonBaseAndroidConfig(project: Project) {
+        val apkConfig: ApkConfig by project.rootProject.extra
 
-            testOptions {
-                unitTests {
+        compileSdk = apkConfig.sdkVersions.compile
+        defaultConfig.apply {
+            minSdk = apkConfig.sdkVersions.minimum
+            testOptions.apply {
+                unitTests.apply {
                     isIncludeAndroidResources = true
                 }
             }
+        }
+
+        packaging.apply {
+            resources.excludes += "META-INF/LICENSE-LGPL-2.1.txt"
+            resources.excludes += "META-INF/LICENSE-LGPL-3.txt"
+            resources.excludes += "META-INF/LICENSE-W3C-TEST"
+            resources.excludes += "META-INF/DEPENDENCIES"
+            resources.excludes += "*.proto"
+            resources.excludes += "META-INF/versions/9/OSGI-INF/MANIFEST.MF"
         }
     }
 }

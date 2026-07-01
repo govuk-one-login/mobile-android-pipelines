@@ -19,9 +19,9 @@ object ManagedDevicesMatchers {
                 item: ManagedDevices?,
                 mismatchDescription: Description?,
             ) {
-                matcher.describeMismatch(item?.devices?.size, mismatchDescription)
+                matcher.describeMismatch(item?.allDevices?.size, mismatchDescription)
             }
 
-            override fun matchesSafely(p0: ManagedDevices?): Boolean = matcher.matches(p0?.devices?.size)
+            override fun matchesSafely(p0: ManagedDevices?): Boolean = matcher.matches(p0?.allDevices?.size)
         }
 }

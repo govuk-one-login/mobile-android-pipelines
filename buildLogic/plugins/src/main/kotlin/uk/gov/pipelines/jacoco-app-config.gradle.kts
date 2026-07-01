@@ -1,9 +1,8 @@
 package uk.gov.pipelines
 
+import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
-import com.android.build.gradle.AppExtension
 import com.android.build.gradle.internal.coverage.JacocoReportTask
-import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import com.android.build.gradle.internal.tasks.ManagedDeviceInstrumentationTestTask
 import uk.gov.pipelines.extensions.LibraryExtensionExt.decorateExtensionWithJacoco
 import uk.gov.pipelines.extensions.ProjectExtensions.debugLog
@@ -12,15 +11,9 @@ import uk.gov.pipelines.extensions.generateDebugJacocoTasks
 
 project.plugins.apply("uk.gov.pipelines.jacoco-common-config")
 
-project.configure<AppExtension> {
+project.configure<ApplicationExtension> {
     this.decorateExtensionWithJacoco().also {
         project.debugLog("Applied jacoco properties to application")
-    }
-
-    project.afterEvaluate {
-        this@configure.applicationVariants.forEach {
-            it.generateDebugJacocoTasks(project)
-        }
     }
 }
 
@@ -57,10 +50,8 @@ project.configure<ApplicationAndroidComponentsExtension> {
     }
 }
 
-project.afterEvaluate {
-    (this.findProperty("android") as? BaseAppModuleExtension)?.let { extension ->
-        extension.applicationVariants.forEach {
-            it.generateDebugJacocoTasks(project)
-        }
+project.configure<ApplicationAndroidComponentsExtension> {
+    onVariants(selector().withBuildType("debug")) { variant ->
+        variant.generateDebugJacocoTasks(project)
     }
 }
