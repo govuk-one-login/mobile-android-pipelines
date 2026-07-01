@@ -2,15 +2,12 @@ package uk.gov.signing
 
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
-import com.android.build.gradle.BaseExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.findByType
 import org.gradle.kotlin.dsl.getByType
 import uk.gov.pipelines.environment.EnvironmentExtension
-import uk.gov.pipelines.extensions.BaseExtensions.baseAndroidConfig
 
 /**
  * Configures app signing for release builds.
@@ -82,9 +79,6 @@ class AppSigningConfigPlugin : Plugin<Project> {
         }
 
         target.project.logger.info("Signing keystore found: $signingKeystoreFile")
-        target.project.configure<BaseExtension> {
-            baseAndroidConfig(target)
-        }
 
         signingConfigs {
             register("release") {

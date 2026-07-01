@@ -1,13 +1,8 @@
 package uk.gov.pipelines
 
-import com.android.build.gradle.BaseExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
+import com.android.build.api.dsl.CommonExtension
 
 val jvmVersion by extra(17)
-
-plugins {
-    id("kotlin-android")
-}
 
 configure<JavaPluginExtension> {
     toolchain {
@@ -15,12 +10,8 @@ configure<JavaPluginExtension> {
     }
 }
 
-configure<KotlinAndroidProjectExtension> {
-    jvmToolchain(jvmVersion)
-}
-
-configure<BaseExtension> {
-    compileOptions {
+configure<CommonExtension> {
+    compileOptions.apply {
         sourceCompatibility = JavaVersion.toVersion(jvmVersion)
         targetCompatibility = JavaVersion.toVersion(jvmVersion)
     }
