@@ -140,6 +140,9 @@ object BaseExtensions {
         defaultConfig.apply {
             minSdk = apkConfig.sdkVersions.minimum
             testOptions.apply {
+                if (this@commonBaseAndroidConfig is LibraryExtension) {
+                    targetSdk = apkConfig.sdkVersions.target
+                }
                 unitTests.apply {
                     isIncludeAndroidResources = true
                 }
