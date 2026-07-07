@@ -4,14 +4,6 @@
 # https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
 version: 2
 updates:
-  - package-ecosystem: "gradle"
-    directories:
-      - "/buildLogic/"
-      - "/test-project/"
-    open-pull-requests-limit: 10
-    schedule:
-      interval: "weekly"
-
   - package-ecosystem: "github-actions"
     directories:
       - "/"
@@ -23,3 +15,25 @@ updates:
         applies-to: version-updates
         patterns:
           - "*"
+
+  - package-ecosystem: "bundler"
+    directory: "/"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "gradle"
+    directories:
+      - "/buildLogic/"
+      - "/test-project/"
+    open-pull-requests-limit: 10
+    schedule:
+      interval: "weekly"
+    # TODO: Remove ignore once AGP9 work is complete (DCMAW-18212)
+    ignore:
+      - dependency-name: "org.jetbrains.kotlin:*"
+      - dependency-name: "com.google.devtools.ksp:*"
+    groups:
+      kotlin:
+        patterns:
+          - "org.jetbrains.kotlin*"
+          - "com.google.devtools.ksp*"
