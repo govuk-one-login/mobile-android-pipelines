@@ -59,24 +59,13 @@ val sonarExclusions by project.extra(
     ).flatten().joinToString(separator = ","),
 )
 
-val moduleSourceFolder = SourceSetFolder(project)
-var sourceFolders by project.extra("")
-var testFolders by project.extra("")
-
 var projectSonarProperties by project.extra(
     mapOf<String, Any>(),
 )
 
 configure<SonarExtension> {
-    if (moduleSourceFolder.srcExists()) {
-        sourceFolders = moduleSourceFolder.sourceFolders
-        testFolders = moduleSourceFolder.testFolders
-    }
-
     projectSonarProperties =
         mapOf<String, Any>(
-            "sonar.sources" to sourceFolders,
-            "sonar.tests" to testFolders,
             "sonar.exclusions" to sonarExclusions,
             "sonar.androidLint.reportPaths" to androidLintReportFiles,
             "sonar.coverage.jacoco.xmlReportPaths" to jacocoXmlReportFiles,
