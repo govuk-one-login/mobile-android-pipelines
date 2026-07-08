@@ -150,9 +150,7 @@ object BaseExtensions {
         }
 
         packaging.apply {
-            resources.excludes += "META-INF/LICENSE-LGPL-2.1.txt"
-            resources.excludes += "META-INF/LICENSE-LGPL-3.txt"
-            resources.excludes += "META-INF/LICENSE-W3C-TEST"
+            resources.excludes += "META-INF/LICENSE*"
             resources.excludes += "META-INF/DEPENDENCIES"
             resources.excludes += "*.proto"
             resources.excludes += "META-INF/versions/9/OSGI-INF/MANIFEST.MF"
