@@ -17,6 +17,8 @@ project.configure<CommonExtension> {
 
 project.extensions.configure<LibraryAndroidComponentsExtension> {
     onVariants(selector().withBuildType("debug")) { variant ->
-        variant.generateDebugJacocoTasks(project)
+        afterEvaluate {
+            variant.generateDebugJacocoTasks(project)
+        }
     }
 }
