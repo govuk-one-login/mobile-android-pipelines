@@ -8,6 +8,10 @@ inputs:
     description: "Path for the reports"
     required: false
     default: "**/reports/jacoco/**/*.xml"
+  if-no-files-found:
+    description: "Behaviour if no coverage reports are found. Options: warn, error, ignore."
+    required: false
+    default: "warn"
 
 runs:
   using: "composite"
@@ -17,3 +21,4 @@ runs:
       with:
         name: ${{ inputs.artifact-name }}
         path: ${{ inputs.path }}
+        if-no-files-found: ${{ inputs.if-no-files-found }}
