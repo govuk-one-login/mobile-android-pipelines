@@ -40,6 +40,7 @@ jobs:
         uses: ./actions/upload-coverage-reports
         with:
           artifact-name: test-project-unit-test-coverage
+          if-no-files-found: error
 
   instrumentation-test:
     name: Instrumentation test
@@ -69,6 +70,7 @@ jobs:
         uses: ./actions/upload-coverage-reports
         with:
           artifact-name: test-project-instrumentation-test-coverage
+          if-no-files-found: error
 
   dependency-submission:
     name: Dependency submission
