@@ -1,6 +1,6 @@
 package uk.gov.pipelines
 
-import com.android.build.gradle.BaseExtension
+import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.UnknownDomainObjectException
 import org.gradle.kotlin.dsl.findByType
 import org.gradle.testfixtures.ProjectBuilder
@@ -37,7 +37,7 @@ class EmulatorConfigPluginTest {
             "uk.gov.pipelines.emulator-config",
         ).forEach(project.pluginManager::apply)
 
-        val options = project.extensions.findByType<BaseExtension>()?.testOptions
+        val options = project.extensions.findByType<CommonExtension>()?.testOptions
         assertNotNull(options)
     }
 
@@ -51,10 +51,10 @@ class EmulatorConfigPluginTest {
         val deviceName = "unknownDevice"
         val exception: UnknownDomainObjectException =
             assertThrows {
-                project.extensions.findByType<BaseExtension>()
+                project.extensions.findByType<CommonExtension>()
                     ?.testOptions
                     ?.managedDevices
-                    ?.devices
+                    ?.allDevices
                     ?.named(deviceName)
             }
 
