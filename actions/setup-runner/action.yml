@@ -82,3 +82,7 @@ runs:
     - name: Add Android SDK command-line tools to path
       run: echo "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin" >> "$GITHUB_PATH"
       shell: bash
+
+    - name: Accept Android SDK licences
+      run: yes | sdkmanager --licenses || true
+      shell: bash
