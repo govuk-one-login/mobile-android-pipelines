@@ -40,8 +40,8 @@ val emulatorConfig by rootProject.extra(
     EmulatorConfig(
         systemImageSources = setOf(SystemImageSource.AOSP_ATD),
         androidApiLevels = setOf(
-            // The emulator would not start in the Github Actions runner when using API 34
-            33,
+            34,
+            37,
         ),
         deviceFilters = setOf("Pixel XL"),
     )
