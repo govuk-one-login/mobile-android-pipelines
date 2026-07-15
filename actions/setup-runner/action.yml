@@ -93,5 +93,5 @@ runs:
 
     - name: Accept Android licences
       if: ${{ inputs.accept-android-licences == 'true' }}
-      run: yes | sdkmanager --licenses
+      run: yes | sdkmanager --licenses || true
       shell: bash
