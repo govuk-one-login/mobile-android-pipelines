@@ -17,6 +17,10 @@ inputs:
     description: 'Install vale prose linter'
     required: false
     default: 'false'
+  accept-android-licences:
+    description: 'Accept Android SDK licences. This may be needed if you need to use Google ATDs.'
+    required: false
+    default: 'false'
 runs:
   using: "composite"
   steps:
@@ -85,4 +89,9 @@ runs:
 
     - name: List available AOSP ATD devices
       run: sdkmanager --list | grep aosp_atd
+      shell: bash
+
+    - name: Accept Android licences
+      if: ${{ inputs.accept-android-licences == 'true' }}
+      run: yes | sdkmanager --licences
       shell: bash
