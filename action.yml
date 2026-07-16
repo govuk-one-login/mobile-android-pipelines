@@ -17,6 +17,10 @@ inputs:
     description: 'Allowing for gradle cache on the runner'
     required: false
     default: 'false'
+  ACCEPT_ANDROID_LICENCES:
+    description: 'Accept Android SDK licences. This may be needed if you need to use Google ATDs.'
+    required: false
+    default: 'false'
 
 runs:
   using: "composite"
@@ -34,6 +38,7 @@ runs:
     - name: Setup GitHub Runner workflow
       uses: ./mobile-android-pipelines/actions/setup-runner
       with:
+        accept-android-licences: ${{ inputs.ACCEPT_ANDROID_LICENCES }}
         gradle-cache-disabled: ${{ inputs.GRADLE_CACHE_DISABLED }}
         install-vale: true
       
