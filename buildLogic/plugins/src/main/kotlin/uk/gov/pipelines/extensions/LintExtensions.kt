@@ -30,15 +30,12 @@ object LintExtensions {
                 ),
             )
             explainIssues = true
-            htmlReport = true
             ignoreTestSources = true
             ignoreWarnings = false
             lintConfig = File("$configDir/android/lint.xml")
             noLines = false
             quiet = false
             showAll = true
-            textReport = true
             warningsAsErrors = true
-            xmlReport = true
         }
 }
