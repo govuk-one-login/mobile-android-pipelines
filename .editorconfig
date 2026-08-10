@@ -1,5 +1,11 @@
+# https://editorconfig.org
 root = true
 
+[*]
+insert_final_newline = true
+
 [*.{kt,kts}]
-ktlint_code_style = ktlint_official
-ktlint_function_naming_ignore_when_annotated_with = Composable
+ktlint_standard_no-wildcard-imports = enabled
+ktlint_standard_annotation = disabled
+ktlint_function_naming_ignore_when_annotated_with=Composable
+max_line_length = 120   # Align with detekt line length
