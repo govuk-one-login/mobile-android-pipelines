@@ -21,7 +21,10 @@ class ValeConfigPluginTest {
         project.pluginManager.apply("uk.gov.pipelines.vale-config")
 
         val valeTask = project.tasks.getByName("vale") as Exec
-        val buildLogicDir = project.rootProject.projectDir.resolve(BUILD_LOGIC_DIR).canonicalPath
+        val buildLogicDir =
+            project.rootProject.projectDir
+                .resolve(BUILD_LOGIC_DIR)
+                .canonicalPath
         val expectedArgs =
             listOf(
                 ".",

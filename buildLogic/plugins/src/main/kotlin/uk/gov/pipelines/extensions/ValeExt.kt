@@ -37,9 +37,12 @@ internal fun Project.valeConfigFile(fileExists: (File) -> Boolean): File {
 internal fun Project.resolveValeExecutable(): String =
     resolveValeExecutable(
         executeCommand = { command ->
-            providers.exec {
-                commandLine(command)
-            }.standardOutput.asText.map { it.trim() }.get()
+            providers
+                .exec {
+                    commandLine(command)
+                }.standardOutput.asText
+                .map { it.trim() }
+                .get()
         },
     )
 
@@ -68,6 +71,8 @@ internal fun Project.resolveValeExecutable(
         }
 
     return result.ifEmpty {
-        error("Vale executable not found on PATH. Please install Vale or ensure it's available in your PATH.")
+        error(
+            "Vale executable not found on PATH. Please install Vale or ensure it's available in your PATH.",
+        )
     }
 }
