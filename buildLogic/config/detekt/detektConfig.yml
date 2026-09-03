@@ -6,3 +6,11 @@ naming:
   FunctionNaming:
     # https://detekt.dev/docs/introduction/compose/#functionnaming-for-compose
     functionPattern: '[a-zA-Z][a-zA-Z0-9]*'
+
+style:
+  MaxLineLength:
+    maxLineLength: 100 # The same as Android Studio's formatter
+    ignoreAnnotated:
+      # Exclude long backticked test names from the maximum line length rule
+      # https://github.com/detekt/detekt/issues/2745#issuecomment-932718515
+      - 'Test'
