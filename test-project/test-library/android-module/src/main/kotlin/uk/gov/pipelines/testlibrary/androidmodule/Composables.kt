@@ -11,6 +11,6 @@ import androidx.compose.ui.Modifier
 fun HelloWorld(modifier: Modifier = Modifier) {
     BasicText(
         modifier = modifier,
-        text = "Hello, world",
+        text = "Hello, world"
     )
 }
