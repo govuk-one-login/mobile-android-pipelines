@@ -17,6 +17,13 @@ configure<KtlintExtension> {
     outputColorName.set("RED")
     ignoreFailures.set(false)
     enableExperimentalRules.set(false)
+    additionalEditorconfig.set(
+        mapOf(
+            // Align with Detekt's max line length
+            "max_line_length" to "120",
+            "ktlint_function_naming_ignore_when_annotated_with" to "Composable",
+        ),
+    )
     reporters {
         reporter(ReporterType.PLAIN)
         reporter(ReporterType.JSON)
