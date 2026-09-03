@@ -20,6 +20,9 @@ configure<KtlintExtension> {
         mapOf(
             // The android_studio style is compatible with Android Studio's formatter
             "ktlint_code_style" to "android_studio",
+            // Exclude backticked test names from the maximum line length rule
+            // See https://ktlint.github.io/ktlint/1.8.0/rules/standard/#max-line-length
+            "ktlint_ignore_back_ticked_identifier" to "true",
             "ktlint_function_naming_ignore_when_annotated_with" to "Composable",
         ),
     )
