@@ -20,8 +20,6 @@ configure<KtlintExtension> {
         mapOf(
             // The android_studio style is compatible with Android Studio's formatter
             "ktlint_code_style" to "android_studio",
-            // Align with Detekt's max line length
-            "max_line_length" to "120",
             "ktlint_function_naming_ignore_when_annotated_with" to "Composable",
         ),
     )
