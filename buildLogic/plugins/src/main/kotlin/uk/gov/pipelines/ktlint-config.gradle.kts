@@ -12,13 +12,14 @@ configure<KtlintExtension> {
     version.set(BuildConfig.KTLINT_CLI_VERSION)
     debug.set(true)
     verbose.set(true)
-    android.set(true)
     outputToConsole.set(true)
     outputColorName.set("RED")
     ignoreFailures.set(false)
     enableExperimentalRules.set(false)
     additionalEditorconfig.set(
         mapOf(
+            // The android_studio style is compatible with Android Studio's formatter
+            "ktlint_code_style" to "android_studio",
             // Align with Detekt's max line length
             "max_line_length" to "120",
             "ktlint_function_naming_ignore_when_annotated_with" to "Composable",
