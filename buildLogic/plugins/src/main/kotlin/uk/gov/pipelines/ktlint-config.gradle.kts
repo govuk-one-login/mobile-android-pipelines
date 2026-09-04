@@ -24,6 +24,10 @@ configure<KtlintExtension> {
             // See https://ktlint.github.io/ktlint/1.8.0/rules/standard/#max-line-length
             "ktlint_ignore_back_ticked_identifier" to "true",
             "ktlint_function_naming_ignore_when_annotated_with" to "Composable",
+            // Enforce trailing commas. This rule doesn't conflict with Android Studio
+            // which allows trailing commas by default
+            "ij_kotlin_allow_trailing_comma" to "true",
+            "ij_kotlin_allow_trailing_comma_on_call_site" to "true",
         ),
     )
     reporters {
