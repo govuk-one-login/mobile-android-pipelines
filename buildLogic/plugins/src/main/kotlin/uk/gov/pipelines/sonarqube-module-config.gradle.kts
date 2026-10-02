@@ -15,17 +15,15 @@ fun generateCommaSeparatedFiles(iterator: Iterable<String>) =
         transform = File::getAbsolutePath,
     )
 
-val androidLintReportFiles by project.extra(
-    generateCommaSeparatedFiles(listOf("**/reports/lint-results-*.xml")),
-)
-val detektReportFiles by project.extra(
+val androidLintReportFiles =
+    generateCommaSeparatedFiles(listOf("**/reports/lint-results-*.xml"))
+val detektReportFiles =
     generateCommaSeparatedFiles(
         listOf(
             "**/reports/detekt/*.xml",
         ),
-    ),
-)
-val jacocoXmlReportFiles by project.extra(
+    )
+val jacocoXmlReportFiles =
     generateCommaSeparatedFiles(
         listOf(
             // unit test reports, split to stop vale reading line
@@ -34,9 +32,8 @@ val jacocoXmlReportFiles by project.extra(
             // android instrumentation test reports
             "**/reports/coverage/**/*.xml",
         ),
-    ),
-)
-val junitReportFiles by project.extra(
+    )
+val junitReportFiles =
     generateCommaSeparatedFiles(
         listOf(
             // instrumentation
@@ -44,36 +41,39 @@ val junitReportFiles by project.extra(
             // unit tests
             "**/test-results",
         ),
-    ),
-)
-val ktLintReportFiles by project.extra(
-    generateCommaSeparatedFiles(listOf("**/reports/ktlint/**/*.xml")),
-)
-val sonarExclusions by project.extra(
+    )
+
+val ktLintReportFiles =
+    generateCommaSeparatedFiles(listOf("**/reports/ktlint/**/*.xml"))
+val sonarExclusions =
     listOf(
         Filters.androidInstrumentationTests,
         Filters.sonar,
         Filters.testSourceSets,
         Filters.developer,
         Filters.uiTestWrapper,
-    ).flatten().joinToString(separator = ","),
-)
+    ).flatten().joinToString(separator = ",")
 
-var projectSonarProperties by project.extra(
-    mapOf<String, Any>(),
-)
+val projectSonarProperties =
+    mapOf<String, Any>(
+        "sonar.exclusions" to sonarExclusions,
+        "sonar.androidLint.reportPaths" to androidLintReportFiles,
+        "sonar.coverage.jacoco.xmlReportPaths" to jacocoXmlReportFiles,
+        "sonar.kotlin.detekt.reportPaths" to detektReportFiles,
+        "sonar.kotlin.ktlint.reportPaths" to ktLintReportFiles,
+        "sonar.junit.reportPaths" to junitReportFiles,
+    )
+
+project.extra.apply {
+    set("androidLintReportFiles", androidLintReportFiles)
+    set("detektReportFiles", detektReportFiles)
+    set("jacocoXmlReportFiles", jacocoXmlReportFiles)
+    set("junitReportFiles", junitReportFiles)
+    set("ktLintReportFiles", ktLintReportFiles)
+    set("projectSonarProperties", projectSonarProperties)
+}
 
 configure<SonarExtension> {
-    projectSonarProperties =
-        mapOf<String, Any>(
-            "sonar.exclusions" to sonarExclusions,
-            "sonar.androidLint.reportPaths" to androidLintReportFiles,
-            "sonar.coverage.jacoco.xmlReportPaths" to jacocoXmlReportFiles,
-            "sonar.kotlin.detekt.reportPaths" to detektReportFiles,
-            "sonar.kotlin.ktlint.reportPaths" to ktLintReportFiles,
-            "sonar.junit.reportPaths" to junitReportFiles,
-        )
-
     properties {
         projectSonarProperties.forEach { (key: String, value: Any) ->
             property(key, value)
