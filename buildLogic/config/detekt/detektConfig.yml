@@ -8,6 +8,8 @@ naming:
     functionPattern: '[a-zA-Z][a-zA-Z0-9]*'
 
 style:
+  ForbiddenComment:
+    active: false
   MaxLineLength:
     maxLineLength: 100 # The same as Android Studio's formatter
     ignoreAnnotated:
