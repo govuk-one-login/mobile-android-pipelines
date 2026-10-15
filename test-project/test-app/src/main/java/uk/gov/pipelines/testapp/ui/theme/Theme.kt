@@ -25,6 +25,7 @@ fun TestProjectTheme(
             }
 
             darkTheme -> darkColorScheme()
+
             else -> lightColorScheme()
         }
 

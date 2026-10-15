@@ -62,6 +62,10 @@ dependencies {
 }
 
 ktlint {
+    version =
+        libs.versions.ktlint.cli
+            .get()
+
     filter {
         exclude {
             it.file.absolutePath
