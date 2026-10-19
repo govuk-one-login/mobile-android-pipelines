@@ -17,10 +17,8 @@ project.configure<ApplicationExtension> {
     }
 }
 
-/**
- * Configure managed device test tasks to also run the managed device coverage report task created
- * by Google.
- */
+// Configure managed device test tasks to also run the managed device coverage report task created
+// by Google.
 project.configure<ApplicationAndroidComponentsExtension> {
     onVariants(selector().withBuildType("debug")) { variant ->
         project.afterEvaluate {

@@ -24,12 +24,17 @@ data class AgpAwarePluginConfiguration<ExtensionConfig : Any>(
         extension: ExtensionConfig,
     ) {
         when {
-            project.pluginManager.hasPlugin("com.android.application") ->
+            project.pluginManager.hasPlugin("com.android.application") -> {
                 appPluginConfiguration.applyConfig(project, extension)
-            project.pluginManager.hasPlugin("com.android.library") ->
+            }
+
+            project.pluginManager.hasPlugin("com.android.library") -> {
                 libraryPluginConfiguration.applyConfig(project, extension)
-            project.pluginManager.hasPlugin("java-library") ->
+            }
+
+            project.pluginManager.hasPlugin("java-library") -> {
                 javaModulePluginConfiguration.applyConfig(project, extension)
+            }
         }
     }
 }

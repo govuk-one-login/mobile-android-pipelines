@@ -7,14 +7,12 @@ import uk.gov.pipelines.extensions.BaseExtensions.generateGetHardwareProfilesTas
 
 val emulatorConfig: EmulatorConfig by rootProject.extra
 
-/**
- * Configure both app and library modules via the android extension.
- *
- * Generates applicable Android Virtual Device (AVD) configurations via
- * [generateGetHardwareProfilesTask] output. These configuration act as Gradle managed devices
- * within a given Gradle module, generating instrumentation test tasks based on the device profiles
- * made.
- */
+// Configure both app and library modules via the android extension.
+//
+// Generates applicable Android Virtual Device (AVD) configurations via
+// [generateGetHardwareProfilesTask] output. These configuration act as Gradle managed devices
+// within a given Gradle module, generating instrumentation test tasks based on the device profiles
+// made.
 configure<CommonExtension> {
     generateDeviceConfigurations(
         androidApiLevels = emulatorConfig.androidApiLevels,
