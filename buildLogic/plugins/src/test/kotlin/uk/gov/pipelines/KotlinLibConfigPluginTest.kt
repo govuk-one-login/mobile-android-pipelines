@@ -15,7 +15,7 @@ class KotlinLibConfigPluginTest {
     }
 
     companion object {
-        private const val CURRENTLY_APPLIED_PLUGINS = 18
+        private const val CURRENTLY_APPLIED_PLUGINS = 19
         private val project = ProjectBuilder.builder().build()
     }
 }

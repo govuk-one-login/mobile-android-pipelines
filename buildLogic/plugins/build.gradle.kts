@@ -35,6 +35,23 @@ dependencies {
         implementation(dependency)
     }
 
+    // Transitive dependencies of the plugin classpath (AGP, Kotlin Gradle plugin, sonarqube)
+    // flagged by Dependabot. These exist only on the build/plugin classpath, never in any
+    // shipped app, but are constrained here to patched versions to clear the alerts.
+    constraints {
+        implementation(libs.patch.guava) {
+            because("Earlier versions contain known vulnerabilities (GHSA-xxph-c9ww-hj94)")
+        }
+        implementation(libs.patch.logback.core) {
+            because("Earlier versions contain known vulnerabilities (GHSA-jhq6-gfmj-v8fx)")
+        }
+        // The bouncycastle modules must move together — mixing bcprov with older
+        // bcutil/bcpkix causes a NoSuchFieldError at runtime.
+        implementation(libs.bundles.tooling.security.bouncycastle) {
+            because("Earlier versions contain known vulnerabilities (GHSA-9pwp-9qqc-pr26, GHSA-qp49-qgx5-5m26)")
+        }
+    }
+
     listOf(
         libs.android.build.tool,
         libs.org.hamcrest,
