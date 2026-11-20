@@ -4,21 +4,18 @@ description: 'Lint files'
 runs:
   using: "composite"
   steps:
-    - name: Lint
-      run: |
-        echo "::group::Lint documentation with vale"
-        ./gradlew vale
-        echo "::endgroup::"
+    - name: Lint documentation with vale
+      run: ./gradlew vale
+      shell: bash
 
-        echo "::group::Lint Kotlin with ktlint"
-        ./gradlew ktlintCheck
-        echo "::endgroup::"
+    - name: Lint Kotlin with ktlint
+      run: ./gradlew ktlintCheck
+      shell: bash
 
-        echo "::group::Lint Kotlin with detekt"
-        ./gradlew detekt
-        echo "::endgroup::"
+    - name: Lint Kotlin with detekt
+      run: ./gradlew detekt
+      shell: bash
 
-        echo "::group::Lint Android"
-        ./gradlew lint
-        echo "::endgroup::"
+    - name: Lint Android
+      run: ./gradlew lint
       shell: bash
