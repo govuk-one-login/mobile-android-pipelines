@@ -20,8 +20,25 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Check if Sonar should run
+      id: check-enabled
+      env:
+        GITHUB_ACTOR: ${{ github.actor }}
+        SONAR_TOKEN: ${{ inputs.sonar-token }}
+      run: |
+        if [ "${GITHUB_ACTOR}" = "dependabot[bot]" ]; then
+          echo "enabled=false" >> "$GITHUB_OUTPUT"
+          MESSAGE="Sonar scan skipped for Dependabot PR due to limited access to secrets."
+          echo "$MESSAGE" >> "$GITHUB_STEP_SUMMARY"
+          echo "::notice::$MESSAGE"
+        else
+          echo "enabled=true" >> "$GITHUB_OUTPUT"
+        fi
+      shell: bash
+
     - name: Determine analysis type
       id: analysis
+      if: steps.check-enabled.outputs.enabled == 'true'
       run: |
         if [ "${EVENT_NAME}" = "pull_request" ]; then
           echo "analysis-type=PR" >> "$GITHUB_OUTPUT"
@@ -34,6 +51,7 @@ runs:
       working-directory: ${{ inputs.working-directory }}
 
     - name: Sonar scan
+      if: steps.check-enabled.outputs.enabled == 'true'
       env:
         SONAR_TOKEN: ${{ inputs.sonar-token }}
         PIPELINES_DIRECTORY: ${{ inputs.pipelines-directory }}
@@ -65,7 +83,7 @@ runs:
     - name: SonarQube Quality Gate check
       id: sonarqube-quality-gate-check
       uses: sonarsource/sonarqube-quality-gate-action@7a5fffe8e523c40e0c740b6bc2712ab503e52efa # pin@v1.2.1
-      if: steps.analysis.outputs.analysis-type == 'PR'
+      if: steps.check-enabled.outputs.enabled == 'true' && steps.analysis.outputs.analysis-type == 'PR'
       env:
         SONAR_TOKEN: ${{ inputs.sonar-token }}
       with:
