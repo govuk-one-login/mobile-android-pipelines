@@ -15,6 +15,21 @@ concurrency:
 
 jobs:
 
+  lint:
+      - name: 'Checkout codebase'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Clean runner
+        uses: ./actions/clean-runner-fast
+
+      - name: Setup runner
+        uses: ./actions/common-prerequisites
+
+      - name: Lint
+        uses: ./actions/lint
+
   unit-test:
     name: Unit test
     runs-on: ubuntu-latest
