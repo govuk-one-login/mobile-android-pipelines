@@ -26,7 +26,7 @@ runs:
         GITHUB_ACTOR: ${{ github.actor }}
         SONAR_TOKEN: ${{ inputs.sonar-token }}
       run: |
-        if [ "${GITHUB_ACTOR}" = "jonnyandrew" ]; then
+        if [ "${GITHUB_ACTOR}" = "dependabot[bot]" ]; then
           echo "enabled=false" >> "$GITHUB_OUTPUT"
           MESSAGE="Sonar scan skipped for Dependabot PR due to limited access to secrets."
           echo "$MESSAGE" >> "$GITHUB_STEP_SUMMARY"
