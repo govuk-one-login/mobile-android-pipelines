@@ -54,6 +54,7 @@ runs:
         VERSION_NAME: ${{ inputs.version-name }}
         GITHUB_HEAD_REF: ${{ github.head_ref }}
         GITHUB_REF_NAME: ${{ github.ref_name }}
+        GITHUB_BASE_REF: ${{ github.base_ref }}
       run: |
         case "${ANALYSIS_TYPE}" in
           "PR")
