@@ -15,6 +15,9 @@ inputs:
   version-name:
     description: 'The version name for the build'
     required: false
+  version-code:
+    description: 'The version code for the build'
+    required: false
 
 
 runs:
@@ -52,8 +55,10 @@ runs:
         PIPELINES_DIRECTORY: ${{ inputs.pipelines-directory }}
         PR_NUMBER: ${{ github.event.number }}
         VERSION_NAME: ${{ inputs.version-name }}
+        VERSION_CODE: ${{ inputs.version-code }}
         GITHUB_HEAD_REF: ${{ github.head_ref }}
         GITHUB_REF_NAME: ${{ github.ref_name }}
+        GITHUB_BASE_REF: ${{ github.base_ref }}
       run: |
         case "${ANALYSIS_TYPE}" in
           "PR")
@@ -70,7 +75,8 @@ runs:
           "${ANALYSIS_TYPE}" \
           "$REF" \
           "$PR_NUMBER" \
-          "$VERSION_NAME"
+          "$VERSION_NAME" \
+          "$VERSION_CODE"
       shell: bash
       working-directory: ${{ inputs.working-directory }}
 
